@@ -15,16 +15,14 @@ $factory->define(Question::class, function (Faker $faker) {
 	$title = $faker->bs() . '?';
 	$description = $faker->realText(rand(20, 1000));
 	
-	$is_published = rand(1, 5) > 1;
 	$created_at = $faker->dateTimeBetween('-3 weeks', '-1 week');
 
     return [
     	'user_id' => $user_id,
         'title' => $title,
         'description' => $description,
-        'is_published' => $is_published,
-        'published_at' => $is_published ? 
-        	$faker->dateTimeBetween('-1 week') : null,
+        'is_published' => true,
+        'published_at' => $faker->dateTimeBetween('-1 week'),
         'created_at' => $created_at,
         'updated_at' => $created_at,
     ];

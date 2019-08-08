@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\Answer;
@@ -19,7 +20,12 @@ class Question extends Model
 
 
 
-/** Relationships **/
+/**** Relationships ****/
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function tags()
     {

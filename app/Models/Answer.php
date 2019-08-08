@@ -13,7 +13,7 @@ class Answer extends Model
     	'body',
     ];
 
-    /** Relationships **/
+    /**** Relationships ****/
 
     public function comments()
     {

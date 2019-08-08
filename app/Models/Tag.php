@@ -11,7 +11,7 @@ class Tag extends Model
 
 
 
-    /** Relationships **/
+    /**** Relationships ****/
 
     public function questions()
     {

@@ -18,3 +18,27 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/** Admin **/
+
+Route::group(
+	[
+		'prefix' => 'admin',
+		'namespace' => 'Admin',
+		'middleware' => 'auth',
+	],
+	function () {
+
+		Route::resource('users', 'UserController')
+			->names('admin.users');
+
+		Route::resource('tags', 'TagController')
+			->names('admin.tags');
+
+		Route::resource('questions', 'QuestionController')
+			->names('admin.questions');
+});
+
+
+
+
