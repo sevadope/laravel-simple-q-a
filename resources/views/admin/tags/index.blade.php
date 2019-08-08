@@ -24,6 +24,7 @@
           <th scope="col">Updated at</th>
     	</tr>
   	</thead>
+    
 	<tbody>
 	@foreach($tags as $item)
         <tr>

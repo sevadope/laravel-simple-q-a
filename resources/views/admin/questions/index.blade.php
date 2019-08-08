@@ -15,7 +15,7 @@
 
 @section('content')
 <table class="table">
-    
+
   	<thead>
     	<tr>
 	      <th scope="col">#</th>
@@ -25,6 +25,7 @@
 	      <th scope="col">Completed</th>
     	</tr>
   	</thead>
+    
 	<tbody>
 	@foreach($questions as $item)
 	
