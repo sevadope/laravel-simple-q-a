@@ -7,9 +7,12 @@ use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\Answer;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
     	'user_id',
     	'title',

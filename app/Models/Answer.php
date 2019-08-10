@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Question;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,11 @@ class Answer extends Model
     ];
 
     /**** Relationships ****/
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
 
     public function comments()
     {

@@ -8,7 +8,8 @@ body {
 }
 
 #sidebar-wrapper {
-  min-height: 100vh;
+
+  min-width: 20vw;
   margin-left: -15rem;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
@@ -29,8 +30,13 @@ body {
   min-width: 100vw;
 }
 
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
+.hover-slide {
+  position: fixed;
+  min-height: 100vh;
+}
+
+.list-wrapper {
+  height: 100%;
 }
 
 @media (min-width: 768px) {

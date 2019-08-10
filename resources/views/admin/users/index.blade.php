@@ -19,7 +19,7 @@
         <tr>
         	<th scope="row">{{ $item->id }}</th>
         	<td>
-                <a href="{{ route('admin.users.show', $item->id) }}">
+                <a href="{{ route('admin.users.info', $item->id) }}">
                     {{ $item->name }}
                 </a>
             </td>
@@ -29,4 +29,5 @@
 	@endforeach
     </tbody>
 </table>
+{{ $users->links() }}
 @endsection

@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -14,18 +13,20 @@
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- Scripts -->
+  <script src="{{ asset('js/app.js') }}" defer></script>
   <!-- Custom styles for this template -->
   <link href="{{ asset('css/base.css') }}" rel="stylesheet">
 </head>
 
 <body>
   
-<div class="d-flex">
+<div id="" class="d-flex">
 
-  <div class="" id="wrapper">
+  <div class="" id="sidebar-wrapper">
 
     <!-- Sidebar -->
-      <div class="bg-dark border-right text-light" id="sidebar-wrapper">
+      <div class="bg-dark border-right text-light hover-slide" id="">
 
         <div class="sidebar-heading">
           @yield('brand_title', 'Toster')
@@ -89,7 +90,7 @@
       <div class="container">
         <h3 class="mt-3">@yield('content_header', 'There is no content!')</h3>  
         @section('content')
-          
+        
         @show
       </div>
   </div>
@@ -97,7 +98,7 @@
   <div class="" id="wrapper">
 
     <!-- Sidebar -->
-      <div class="bg-light border-left text-light" id="sidebar-wrapper">
+      <div class="bg-light border-left text-light list-wrapper" id="sidebar-wrapper">
 
         <div class="bg-dark sidebar-heading">
           <a class="btn btn-success" href="">

@@ -26,17 +26,27 @@ Route::group(
 		'prefix' => 'admin',
 		'namespace' => 'Admin',
 		'middleware' => 'auth',
+		'as' => 'admin.',
 	],
 	function () {
 
 		Route::resource('users', 'UserController')
-			->names('admin.users');
+			->except('show')
+			->names('users');
+
+		Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
+
+			Route::get('{id}/info', 'UserController@info')->name('info');
+			Route::get('{id}/questions', 'UserController@questions')->name('questions');
+			Route::get('{id}/answers', 'UserController@answers')->name('answers');
+			Route::get('{id}/comments', 'UserController@comments')->name('comments');
+		});
 
 		Route::resource('tags', 'TagController')
-			->names('admin.tags');
+			->names('tags');
 
 		Route::resource('questions', 'QuestionController')
-			->names('admin.questions');
+			->names('questions');
 });
 
 
