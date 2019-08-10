@@ -36,10 +36,10 @@ Route::group(
 
 		Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
 
-			Route::get('{id}/info', 'UserController@info')->name('info');
-			Route::get('{id}/questions', 'UserController@questions')->name('questions');
-			Route::get('{id}/answers', 'UserController@answers')->name('answers');
-			Route::get('{id}/comments', 'UserController@comments')->name('comments');
+			Route::get('{user}/info', 'UserController@info')->name('info');
+			Route::get('{user}/questions', 'UserController@questions')->name('questions');
+			Route::get('{user}/answers', 'UserController@answers')->name('answers');
+			Route::get('{user}/comments', 'UserController@comments')->name('comments');
 		});
 
 		Route::resource('tags', 'TagController')

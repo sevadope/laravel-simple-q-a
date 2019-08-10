@@ -18,7 +18,8 @@
 </div>
 @endif
 
-<form action="{{ route('admin.users.update', $user->id) }}"  method="post">
+<form action="{{ route('admin.users.update', $user->name) }}"
+method="post">
 	@method('PATCH')
 	@csrf
 	<label for="name"></label>

@@ -48,6 +48,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Redifinition default route key
+     *
+     * @param void
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
     /**** Relationships ****/
 
     public function answers()
@@ -76,14 +87,18 @@ class User extends Authenticatable
             ->paginate($per_page, $columns);
     }
 
-    public function scopeGetForShow($query, int $id)    
+    public function scopeGetForShow($query, string $name)    
     {
-        return $this->find($id);
+        return $query
+            ->where('name', $name)
+            ->first();
     }
 
-    public function scopeGetForEdit($query, int $id)
+    public function scopeGetForEdit($query, string $name)
     {
-        return $this->find($id);
+        return $query
+            ->where('name', $name)
+            ->first();
     }
     /**** Accessors ****/
 
@@ -97,4 +112,5 @@ class User extends Authenticatable
     {
         return $this->first_name . " " . $this->last_name ?? $this->name;
     }
+
 }

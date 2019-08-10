@@ -24,34 +24,33 @@ class UserController extends Controller
 
     /**** Profile ****/
 
-    public function info($id)
+    public function info($name)
     {
-        $user = User::getForShow($id);
+        $user = User::getForShow($name);
 
         return view('admin.users.show.info', compact('user'));
     }
 
-    public function questions($id)
+    public function questions($name)
     {
-        $user = User::getForShow($id);
+        $user = User::getForShow($name);
 
         return view('admin.users.show.questions', compact('user'));
     }
 
-    public function answers($id)
+    public function answers($name)
     {
-        $user = User::getForShow($id);
+        $user = User::getForShow($name);
 
         return view('admin.users.show.answers', compact('user'));
     }
 
-    public function comments($id)
+    public function comments($name)
     {
-        $user = User::getForShow($id);
+        $user = User::getForShow($name);
 
         return view('admin.users.show.comments', compact('user'));
-    }    
-
+    }
     /************/
 
     /**
@@ -60,9 +59,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($name)
     {
-        $user = User::getForEdit($id);
+        $user = User::getForEdit($name);
 
         return view('admin.users.edit', compact('user'));
     }

@@ -9,7 +9,7 @@
   	<thead>
     	<tr>
 	      <th scope="col">#</th>
-	      <th scope="col">Name</th>
+	      <th scope="col">Namdsfdsfe</th>
 	      <th scope="col">Email</th>
 	      <th scope="col">Signed up at</th>
     	</tr>
@@ -19,7 +19,7 @@
         <tr>
         	<th scope="row">{{ $item->id }}</th>
         	<td>
-                <a href="{{ route('admin.users.info', $item->id) }}">
+                <a href="{{ route('admin.users.info', $item->name) }}">
                     {{ $item->name }}
                 </a>
             </td>

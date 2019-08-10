@@ -2,7 +2,7 @@
 
 @section('content_header')
 <div class="d-inline">{{ $user->profileName }}</div>
-<small class="d-inline"><a href="{{ route('admin.users.edit', $user->id) }}">Edit</a></small>
+<small class="d-inline"><a href="{{ route('admin.users.edit', $user->name) }}">Edit</a></small>
 
 @endsection
 
@@ -16,22 +16,22 @@
 
 <ul class="nav nav-tabs">
 	<li class="nav-item">
-		<a href="{{ route('admin.users.info', $user->id) }}" class="nav-link @yield('info')">
+		<a href="{{ route('admin.users.info', $user->name) }}" class="nav-link @yield('info')">
 			Information
 		</a>
 	</li>
 	<li class="nav-item">
-		<a href="{{ route('admin.users.questions', $user->id) }}" class="nav-link @yield('questions')">
+		<a href="{{ route('admin.users.questions', $user->name) }}" class="nav-link @yield('questions')">
 			Questions
 		</a>
 	</li>
 	<li class="nav-item">
-		<a href="{{ route('admin.users.answers', $user->id) }}" class="nav-link @yield('answers')">
+		<a href="{{ route('admin.users.answers', $user->name) }}" class="nav-link @yield('answers')">
 			Answers
 		</a>
 	</li>
 	<li class="nav-item">
-		<a href="{{ route('admin.users.comments', $user->id) }}" class="nav-link @yield('comments')">
+		<a href="{{ route('admin.users.comments', $user->name) }}" class="nav-link @yield('comments')">
 			Comments
 		</a>
 	</li>
