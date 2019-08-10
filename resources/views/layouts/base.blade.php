@@ -145,7 +145,7 @@
         </ul>
 
 --}}
-{{-- left sidebar
+{{-- right sidebar
 
           <li class="list-group-item">
             <a class="d-block" href="">Post #1</a>

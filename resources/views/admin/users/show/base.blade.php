@@ -2,11 +2,10 @@
 
 @section('content_header')
 <div class="d-inline">{{ $user->profileName }}</div>
-<small class="d-inline"><a href="{{ route('admin.users.edit', $user->name) }}">Edit</a></small>
-
 @endsection
 
 @section('content')
+
 <h5 class="text-muted">{{ $user->briefly_about_myself }}</h6>
 
 <div class="">
@@ -14,7 +13,7 @@
 	<h5 class="d-inline"> Answers: {{ $user->answers()->count() }}</h5>
 </div>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs mb-2">
 	<li class="nav-item">
 		<a href="{{ route('admin.users.info', $user->name) }}" class="nav-link @yield('info')">
 			Information
@@ -41,5 +40,14 @@
 
 @endsection
 
+@section('right_panel')
+	@component('admin.includes.right_panel_show')
+		@slot('edit')
+			{{ route('admin.users.edit', $user->name) }}			
+		@endslot
 
-
+		@slot('destroy')
+			{{ route('admin.users.destroy', $user->name) }}
+		@endslot
+	@endcomponent
+@endsection

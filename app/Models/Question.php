@@ -23,7 +23,7 @@ class Question extends Model
 
 
 
-/**** Relationships ****/
+    /**** Relationships ****/
 
     public function user()
     {
@@ -44,4 +44,15 @@ class Question extends Model
     {
     	return $this->morphMany(Comment::class, 'commentable');
     }
+
+    /**** Accessors ****/
+
+    public function getTagsTitleAttribute()
+    {
+        return ($this->tags->count() > 1) ?
+            $this->tags->first()->title . ' + ' . ($this->tags->count() - 1)
+            :
+            $this->tags->first()->title;
+    }
 }
+

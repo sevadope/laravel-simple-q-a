@@ -67,3 +67,15 @@ method="post">
 	<button type="submit" class="btn btn-success">Save</button>
 </form>
 @endsection
+
+@section('right_panel')
+	@component('admin.includes.right_panel_edit')
+		@slot('show')
+			{{ route('admin.users.info', $user->name) }}			
+		@endslot
+
+		@slot('destroy')
+			{{ route('admin.users.destroy', $user->name) }}
+		@endslot
+	@endcomponent
+@endsection
