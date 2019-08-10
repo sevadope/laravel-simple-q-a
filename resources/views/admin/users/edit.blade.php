@@ -8,16 +8,6 @@
 <h4 class="d-inline">{{ $user->first_name }}</h4>
 <h4 class="d-inline">{{ $user->last_name }}</h4>
 
-@if($errors->any())
-<div class="alert alert-danger">
-	<ul>
-	@foreach($errors->all() as $error)
-		<li>{{ $error }}</li>
-	@endforeach
-	</ul>
-</div>
-@endif
-
 <form action="{{ route('admin.users.update', $user->name) }}"
 method="post">
 	@method('PATCH')
@@ -28,29 +18,50 @@ method="post">
 	<div class="form-row">
 		<div class="col">
 			<label for="first_name">First name</label>
-			<input type="text" name="first_name" id="first_name" class="form-control"
+			<input class="form-control @error('first_name') is_invalid @enderror"
+			type="text" name="first_name" id="first_name" 
 			value="{{ $user->first_name }}">
+
+			@error('first_name')
+				<div class="alert alert-danger">{{ $message }}</div>
+			@enderror
 		</div>
 		<div class="col">
 			<label for="last_name">Last name</label>
-			<input type="text" name="last_name" id="last_name" class="form-control"
-			 value="{{ $user->last_name }}">
+			<input class="form-control @error('last_name') is_invalid @enderror"
+			type="text" name="last_name" id="last_name" 
+			value="{{ $user->last_name }}">
+
+			@error('last_name')
+				<div class="alert alert-danger">{{ $message }}</div>
+			@enderror
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label for="briefly_about_myself">Briefly about myself</label>
 
-		<input class="form-control" type="text" name="briefly_about_myself"
+		<input class="form-control 
+		@error('briefly_about_myself') is_invalid @enderror"
+		type="text" name="briefly_about_myself"
 		id="briefly_about_myself" 
 		value="{{ $user->briefly_about_myself }}">
+
+		@error('briefly_about_myself')
+			<div class="alert alert-danger">{{ $message }}</div>
+		@enderror
 	</div>
 
 	<div class="form-group">
 		<label for="about_myself">About myself</label>
 
-		<textarea class="form-control" name="about_myself" id="about_myself" cols="30" rows="10"
+		<textarea class="form-control @error('about_myself') is_invalid @enderror"
+		name="about_myself" id="about_myself" cols="30" rows="10"
 		>{{ old('about_myself', $user->about_myself) }}</textarea>
+
+		@error('about_myself')
+			<div class="alert alert-danger">{{ $message }}</div>
+		@enderror
 	</div>
 
 	<button type="submit" class="btn btn-success">Save</button>

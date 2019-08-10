@@ -2,9 +2,13 @@
 
 
 
+
 @section('content_header', 'Users')
 
 @section('content')
+
+@include('admin.includes.messages.index')
+
 <table class="table">
   	<thead>
     	<tr>
