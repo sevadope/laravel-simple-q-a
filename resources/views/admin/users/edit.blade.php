@@ -1,8 +1,12 @@
 @extends('admin.base')
 
+
+
 @section('content_header', 'User Edit')
 
 @section('content')
+
+@include('admin.includes.messages.base')
 
 <h3>{{ $user->name }}</h3>
 <h4 class="d-inline">{{ $user->first_name }}</h4>

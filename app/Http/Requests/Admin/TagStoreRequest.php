@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagCreateRequest extends FormRequest
+class TagStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class TagCreateRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:3|max:50',
-            'slug' => 'max:50|unique:tags,slug',
+            'slug' => 'required|max:50|unique:tags,slug',
             'description' => 'max:500',
         ];
     }

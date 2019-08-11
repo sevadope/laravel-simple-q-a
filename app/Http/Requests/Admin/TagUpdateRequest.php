@@ -25,7 +25,7 @@ class TagUpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:3|max:50',
-            'slug' => 'max:50|unique:tags,slug',
+            'slug' => 'required|max:50|unique:tags,slug,' . $this->tag->id,
             'description' => 'max:500',
         ];
     }

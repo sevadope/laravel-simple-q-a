@@ -13,7 +13,12 @@
 </div>
 @endsection
 
+
+
 @section('content')
+
+@include('admin.includes.messages.base')
+
 <table class="table">
   	<thead>
     	<tr>
@@ -30,7 +35,7 @@
         <tr>
         	<th scope="row">{{ $item->id }}</th>
         	<td>
-                <a href="{{ route('admin.tags.show', $item->id) }}">
+                <a href="{{ route('admin.tags.questions', $item->slug) }}">
                     {{ $item->title }}
                 </a>
             </td>
@@ -41,4 +46,6 @@
 	@endforeach
     </tbody>
 </table>
+
+{{ $tags->links() }}
 @endsection

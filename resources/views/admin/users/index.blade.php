@@ -2,12 +2,11 @@
 
 
 
-
 @section('content_header', 'Users')
 
 @section('content')
 
-@include('admin.includes.messages.index')
+@include('admin.includes.messages.base')
 
 <table class="table">
   	<thead>

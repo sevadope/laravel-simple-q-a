@@ -43,7 +43,14 @@ Route::group(
 		});
 
 		Route::resource('tags', 'TagController')
+			->except('show')
 			->names('tags');
+
+		Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
+
+			Route::get('{tag}/info', 'TagController@info')->name('info');
+			Route::get('{tag}/questions', 'TagController@questions')->name('questions');
+		});
 
 		Route::resource('questions', 'QuestionController')
 			->names('questions');
