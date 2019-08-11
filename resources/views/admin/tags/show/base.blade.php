@@ -31,14 +31,18 @@
 
 @endsection
 
-@section('right_panel')
-	@component('admin.includes.right_panel_show')
-		@slot('edit')
-			{{ route('admin.tags.edit', $tag->slug) }}			
-		@endslot
+@section('right_sidebar')
+	<li class="list-group-item">
+	  <a class="btn btn-info" href="{{ route('admin.tags.edit', $tag->slug) }}">Edit</a>
+	</li>
 
-		@slot('destroy')
-			{{ route('admin.tags.destroy', $tag->slug) }}
-		@endslot
-	@endcomponent
+	<form action="{{ route('admin.tags.destroy', $tag->slug) }}" method="POST">
+		@method('DELETE')
+		@csrf
+
+		<li class="list-group-item">
+		  <button type="submit" class="btn btn-danger">Delete</button>
+		</li>  	  
+
+	</form>
 @endsection

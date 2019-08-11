@@ -72,14 +72,8 @@ method="post">
 </form>
 @endsection
 
-@section('right_panel')
-	@component('admin.includes.right_panel_edit')
-		@slot('show')
-			{{ route('admin.users.info', $user->name) }}			
-		@endslot
-
-		@slot('destroy')
-			{{ route('admin.users.destroy', $user->name) }}
-		@endslot
-	@endcomponent
+@section('right_sidebar')
+	<li class="list-group-item">
+	  <a class="btn btn-info" href="{{ route('admin.users.info', $user->name) }}">Show</a>
+	</li>
 @endsection

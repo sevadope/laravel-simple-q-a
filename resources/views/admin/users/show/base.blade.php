@@ -40,14 +40,8 @@
 
 @endsection
 
-@section('right_panel')
-	@component('admin.includes.right_panel_show')
-		@slot('edit')
-			{{ route('admin.users.edit', $user->name) }}			
-		@endslot
-
-		@slot('destroy')
-			{{ route('admin.users.destroy', $user->name) }}
-		@endslot
-	@endcomponent
+@section('right_sidebar')
+	<li class="list-group-item">
+	  <a class="btn btn-info" href="{{ route('admin.users.edit', $user->name) }}">Edit</a>
+	</li>
 @endsection

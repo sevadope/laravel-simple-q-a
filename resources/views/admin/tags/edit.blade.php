@@ -56,14 +56,18 @@
 
 @endsection
 
-@section('right_panel')
-	@component('admin.includes.right_panel_edit')
-		@slot('show')
-			{{ route('admin.tags.info', $tag->slug) }}			
-		@endslot
+@section('right_sidebar')
+	<li class="list-group-item">
+	  <a class="btn btn-info" href="{{ route('admin.tags.questions', $tag->slug) }}">Show</a>
+	</li>
 
-		@slot('destroy')
-			{{ route('admin.tags.destroy', $tag->slug) }}
-		@endslot
-	@endcomponent
+	<form action="{{ route('admin.tags.destroy', $tag->slug) }}" method="POST">
+		@method('DELETE')
+		@csrf
+
+		<li class="list-group-item">
+		  <button type="submit" class="btn btn-danger">Delete</button>
+		</li>  	  
+
+	</form>
 @endsection
