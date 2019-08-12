@@ -23,7 +23,6 @@ class CreateQuestionsTable extends Migration
 
             $table->boolean('is_completed')->default(false);
             $table->boolean('is_published')->default(false);
-            $table->timestamp('published_at')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -14,7 +14,9 @@
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Scripts -->
+
   <script src="{{ asset('js/app.js') }}" defer></script>
+  <script src="{{ asset('js/custom.js') }}" defer></script>
   <!-- Custom styles for this template -->
   <link href="{{ asset('css/base.css') }}" rel="stylesheet">
 </head>

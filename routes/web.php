@@ -19,8 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-/** Admin **/
-
+/**** Admin Panel ****/
 Route::group(
 	[
 		'prefix' => 'admin',
@@ -30,32 +29,44 @@ Route::group(
 	],
 	function () {
 
+		/**** Users ****/
 		Route::resource('users', 'UserController')
 			->except('show')
 			->names('users');
 
 		Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
 
-			Route::get('{user}/info', 'UserController@info')->name('info');
-			Route::get('{user}/questions', 'UserController@questions')->name('questions');
-			Route::get('{user}/answers', 'UserController@answers')->name('answers');
-			Route::get('{user}/comments', 'UserController@comments')->name('comments');
+			Route::get('{user}/info', 'UserController@info')
+				->name('info');
+
+			Route::get('{user}/questions', 'UserController@questions')
+				->name('questions');
+
+			Route::get('{user}/answers', 'UserController@answers')
+				->name('answers');
+
+			Route::get('{user}/comments', 'UserController@comments')
+				->name('comments');
 		});
 
+		/**** Tags ****/
 		Route::resource('tags', 'TagController')
 			->except('show')
 			->names('tags');
 
 		Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
 
-			Route::get('{tag}/info', 'TagController@info')->name('info');
-			Route::get('{tag}/questions', 'TagController@questions')->name('questions');
+			Route::get('{tag}/info', 'TagController@info')
+				->name('info');
+
+			Route::get('{tag}/questions', 'TagController@questions')
+				->name('questions');
 		});
 
-		Route::resource('questions', 'QuestionController')
-			->names('questions');
+		/**** Questions ****/
+		Route::resource('questions', 'QuestionController');
+		
 });
-
 
 
 

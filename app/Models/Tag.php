@@ -30,6 +30,7 @@ class Tag extends Model
     	return $this->belongsToMany(Question::class);
     }
 
+
     /**** Scopes ****/
 
     public function scopeGetPaginatedIndex($query, $per_page)

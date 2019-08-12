@@ -2,15 +2,11 @@
 
 
 
-@section('content_header', 'User Edit')
+@section('content_header', "Edit user $user->name")
 
 @section('content')
 
 @include('admin.includes.messages.base')
-
-<h3>{{ $user->name }}</h3>
-<h4 class="d-inline">{{ $user->first_name }}</h4>
-<h4 class="d-inline">{{ $user->last_name }}</h4>
 
 <form action="{{ route('admin.users.update', $user->name) }}"
 method="post">

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Question;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,10 @@ class Answer extends Model
     ];
 
     /**** Relationships ****/
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function question()
     {
@@ -25,4 +30,6 @@ class Answer extends Model
     {
     	return $this->morphMany(Comment::class, 'commentable');
     }
+
+
 }

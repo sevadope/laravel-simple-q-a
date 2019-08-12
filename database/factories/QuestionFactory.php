@@ -22,7 +22,6 @@ $factory->define(Question::class, function (Faker $faker) {
         'title' => $title,
         'description' => $description,
         'is_published' => true,
-        'published_at' => $faker->dateTimeBetween('-1 week'),
         'created_at' => $created_at,
         'updated_at' => $created_at,
     ];

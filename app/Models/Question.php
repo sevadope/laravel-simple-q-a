@@ -54,5 +54,15 @@ class Question extends Model
             :
             $this->tags->first()->title;
     }
+
+    /**** Scopes ****/
+
+    public function scopeGetPaginatedIndex($query, int $per_page = 20)
+    {
+        $columns = ['id', 'user_id', 'title', 'created_at', 'is_completed'];
+
+        return $query
+            ->paginate($per_page, $columns);
+    }
 }
 

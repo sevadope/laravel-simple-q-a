@@ -14,6 +14,9 @@
 @endsection
 
 @section('content')
+
+@include('admin.includes.messages.base')
+
 <table class="table">
 
   	<thead>
@@ -37,7 +40,7 @@
     			{{ $item->title }}
     		</a>
     	</td>
-    	<td>{{ $item->published_at }}</td>
+    	<td>{{ $item->created_at }}</td>
     	<td>
             @if($item->is_completed)
                 <div class="text-success">Yes</div>
@@ -50,4 +53,7 @@
 	@endforeach
   </tbody>
 </table>
+
+{{ $questions->links() }}
+
 @endsection

@@ -127,8 +127,7 @@ class TagController extends Controller
                 ->with(['success' => "Tag '$tag->title' deleted"]); 
         } else {
             return back()
-                ->withErrors(['msg' => 'Delete Error. Pleast try again.'])
-                ->withInput();
+                ->withErrors(['msg' => 'Delete Error. Pleast try again.']);
         }
     }
 }
