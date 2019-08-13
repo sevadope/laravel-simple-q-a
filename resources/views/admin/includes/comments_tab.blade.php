@@ -1,47 +1,30 @@
-<div class="comments-container">
-	@if($item->comments->count() > 0)
-		<button class="btn btn-link">{{ $item->comments->count() }} comments</button>
-	@else
-		<button class="btn btn-link">Comment this</button>
-	@endif
-		
-	<div class="comments-tab ml-4">
+
+	<div class="comments-tab">
 		<ul class="list-group list-group-flush">
 
 			@foreach($item->comments as $comment)
-				<li class="list-group-item comment">
-					<h6 class="d-inline">
-						<a href="{{ route('admin.users.info', $comment->user->name) }}">
-							{{ $comment->user->profileName }}
-						</a>
-					</h6>
-					<h6 class="d-inline text-muted">{{ '@' . $comment->user->name }}</h6>
+				<li class="list-group-item">
+					{{ $title ?? '' }}
+					<div class="d-flex justify-content-between">
+						<h6 class="">
+							<a class="d-inline" href="{{ route('admin.users.info', $comment->user->name) }}">
+								{{ $comment->user->profileName }}
+							</a>
+							<div class="d-inline text-muted">{{ '@' . $comment->user->name }}</div>
+						</h6>
+
+						<form class="" method="POST" action="{{ route('admin.comments.destroy', $comment->id) }}">
+							@method('DELETE')
+							@csrf
+							<button class="btn btn-link" type="submit">Delete</button>
+						</form>							
+					</div>
 
 					<p>{{ $comment->body }}</p>
 					<small class="text-muted">{{ $comment->created_at }}</small>
 				</li>
 			@endforeach
 			
-
 		</ul>
 	</div>
-</div>
-{{--
-			<li class="list-group-item comment">
-				<li class="list-group-item comment">
 
-					<h6 class="d-inline">
-						<a href="#">
-							{{ auth()->user()->profileName }}
-						</a>
-					</h6>
-					<h6 class="d-inline text-muted">{{ '@' . auth()->user()->name }}</h6>	
-								
-				<form method="POST" action="{{ $form_action }}" class="comment-form p-2">
-					<input type="hidden" name="{{ $type_id }}" value="{{ $item->id }}">
-					<textarea class="form-control mb-2"  name="body" id="" cols="" rows="2"></textarea>
-					<button type="submit" class="btn btn-outline-success">Send</button>
-				</form>					
-			</li>
-
---}}

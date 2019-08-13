@@ -81,6 +81,14 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $destroyed = $comment->delete();
+
+        if ($destroyed) {
+            return back()
+                ->with(['success' => "Comment with ID '$comment->id' deleted"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Delete error. Please try again.']);
+        }
     }
 }

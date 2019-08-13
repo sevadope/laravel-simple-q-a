@@ -39,8 +39,13 @@ body {
   height: 100%;
 }
 
-.comment {
+.list-group > .list-group-item {
+  background-color: transparent;
+}
+
+.comments-container .comments-tab > .list-group > .list-group-item {
   background-color: #efefef;
+  margin-left: 1.5rem;
 }
 
 .answer {

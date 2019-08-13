@@ -2,20 +2,26 @@
 <div class="answers-tab ml-2">
 	<ul class="list-group list-group-flush">
 		<h3>Answers:</h3>
-		@foreach($question->answers as $answer)
+		@foreach($item->answers as $answer)
 			<li class="list-group-item answer">
-				<h6 class="d-inline">
-					<a href="{{ route('admin.users.info', $answer->user->name) }}">
-						{{ $answer->user->profileName }}
-					</a>
-				</h6>
-				<h6 class="d-inline text-muted">{{ '@' . $answer->user->name }}</h6>
+				{{ $title ?? '' }}
+				<div class="d-flex justify-content-between">
+					<h6 class="">
+						<a class="d-inline" href="{{ route('admin.users.info', $answer->user->name) }}">
+							{{ $answer->user->profileName }}
+						</a>
+						<div class="d-inline text-muted">{{ '@' . $answer->user->name }}</div>
+					</h6>
+
+					<form class="" method="POST" action="{{ route('admin.answers.destroy', $answer->id) }}">
+						@method('DELETE')
+						@csrf
+						<button class="btn" type="submit">Delete</button>
+					</form>							
+				</div>
+				
 				<p>{{ $answer->body }}</p>
 				<small class="d-inline text-muted">{{ $answer->created_at }}</small>
-
-				@component('admin.includes.comments_tab')
-					@slot('item', $answer)
-				@endcomponent
 			</li>
 		@endforeach
 		

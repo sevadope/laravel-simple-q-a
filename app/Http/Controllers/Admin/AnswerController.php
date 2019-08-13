@@ -81,6 +81,15 @@ class AnswerController extends Controller
      */
     public function destroy(Answer $answer)
     {
-        //
+        $destroyed = $answer->delete();
+
+        if ($destroyed) {
+            return back()
+                ->with(['success' => 
+                    "Answer with ID '$answer->id' successfuly deleted"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Delete error. Please try again."]);
+        }
     }
 }

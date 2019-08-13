@@ -65,7 +65,14 @@ Route::group(
 
 		/**** Questions ****/
 		Route::resource('questions', 'QuestionController');
-		
+
+		/**** Answers ****/
+		Route::delete('answers/{answer}', 'AnswerController@destroy')
+			->name('answers.destroy');
+
+		/**** Comments ****/
+		Route::delete('comments/{comment}', 'CommentController@destroy')
+			->name('comments.destroy');
 });
 
 
