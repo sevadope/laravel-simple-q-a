@@ -5,7 +5,7 @@
 		@foreach($question->answers as $answer)
 			<li class="list-group-item answer">
 				<h6 class="d-inline">
-					<a href="#">
+					<a href="{{ route('admin.users.info', $answer->user->name) }}">
 						{{ $answer->user->profileName }}
 					</a>
 				</h6>

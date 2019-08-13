@@ -25,7 +25,6 @@
 	      <th scope="col">Author</th>
 	      <th scope="col">Title</th>
 	      <th scope="col">Published at</th>
-	      <th scope="col">Completed</th>
     	</tr>
   	</thead>
     
@@ -41,13 +40,6 @@
     		</a>
     	</td>
     	<td>{{ $item->created_at }}</td>
-    	<td>
-            @if($item->is_completed)
-                <div class="text-success">Yes</div>
-            @else
-                <div class="text-danger">No</div>
-            @endif
-        </td>
     </tr>
 
 	@endforeach

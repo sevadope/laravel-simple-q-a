@@ -21,17 +21,12 @@ class CreateQuestionsTable extends Migration
             $table->string('title');
             $table->text('description');
 
-            $table->boolean('is_completed')->default(false);
-            $table->boolean('is_published')->default(false);
-
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
-
-            $table->index('is_published');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

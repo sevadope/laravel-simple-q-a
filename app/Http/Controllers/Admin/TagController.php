@@ -117,9 +117,11 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy($slug)
     {
-        $deleted = Tag::destroy($tag->id);
+        $tag = Tag::getForDestroy($slug);
+
+        $deleted = $tag->delete();
 
         if ($deleted) {
             return redirect()

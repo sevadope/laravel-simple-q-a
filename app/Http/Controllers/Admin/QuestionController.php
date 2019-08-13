@@ -22,7 +22,7 @@ class QuestionController extends Controller
 
         return view('admin.questions.index', compact('questions'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -117,7 +117,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        $destroyed = Question::destroy($question->id);
+        $destroyed = $question->delete();
 
         if ($destroyed) {
             return redirect()

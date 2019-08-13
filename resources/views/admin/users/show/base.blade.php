@@ -44,4 +44,14 @@
 	<li class="list-group-item">
 	  <a class="btn btn-info" href="{{ route('admin.users.edit', $user->name) }}">Edit</a>
 	</li>
+
+	<form action="{{ route('admin.users.destroy', $user->name) }}" method="POST">
+		@method('DELETE')
+		@csrf
+
+		<li class="list-group-item">
+		  <button type="submit" class="btn btn-danger">Delete user</button>
+		</li>  	  
+		
+	</form>	
 @endsection

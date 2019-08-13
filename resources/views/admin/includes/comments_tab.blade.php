@@ -11,7 +11,7 @@
 			@foreach($item->comments as $comment)
 				<li class="list-group-item comment">
 					<h6 class="d-inline">
-						<a href="#">
+						<a href="{{ route('admin.users.info', $comment->user->name) }}">
 							{{ $comment->user->profileName }}
 						</a>
 					</h6>

@@ -45,6 +45,6 @@
 		<li class="list-group-item">
 		  <button type="submit" class="btn btn-danger">Delete</button>
 		</li>  	  
-
+		
 	</form>	
 @endsection

@@ -21,7 +21,6 @@ $factory->define(Question::class, function (Faker $faker) {
     	'user_id' => $user_id,
         'title' => $title,
         'description' => $description,
-        'is_published' => true,
         'created_at' => $created_at,
         'updated_at' => $created_at,
     ];

@@ -13,6 +13,8 @@ class Question extends Model
 {
     use SoftDeletes;
     
+    protected $dates = ['deleted_at'];
+    
     protected $fillable = [
     	'user_id',
     	'title',
@@ -59,7 +61,7 @@ class Question extends Model
 
     public function scopeGetPaginatedIndex($query, int $per_page = 20)
     {
-        $columns = ['id', 'user_id', 'title', 'created_at', 'is_completed'];
+        $columns = ['id', 'user_id', 'title', 'created_at'];
 
         return $query
             ->paginate($per_page, $columns);

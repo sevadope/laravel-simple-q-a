@@ -20,19 +20,21 @@ class QuestionTagRelationSeeder extends Seeder
 
     	for ($i = 0; $i < $questions_count; $i++) {
     		
-    		$tag_id = rand(1, $tags_count);
+    		$tag_id = random_int(1, $tags_count);
 
-    		list($relations[], $relations[]) = [
-    			[
-    				'question_id' => $i,
-    				'tag_id' => $tag_id,
-    			],
+            $has2tags = random_int(1,2) > 1;
 
-    			[
-    				'question_id' => $i,
-    				'tag_id' => $tag_id == 10 ? 1 : 10,
-    			]
-    		];
+            $relations[] = [
+                    'question_id' => $i,
+                    'tag_id' => $tag_id,
+            ];
+
+            if ($has2tags) {
+                $relations[] = [
+                    'question_id' => $i,
+                    'tag_id' => $tag_id == 10 ? 2 : 10,
+                ];
+            }
     	}
 
     	\DB::table('question_tag')->insert($relations);

@@ -10,6 +10,8 @@ class Tag extends Model
 {
 	use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = ['title', 'slug', 'description'];
 
     /**
@@ -29,7 +31,6 @@ class Tag extends Model
     {
     	return $this->belongsToMany(Question::class);
     }
-
 
     /**** Scopes ****/
 
@@ -53,5 +54,15 @@ class Tag extends Model
     	return $query
     		->where('slug', $slug)
     		->first();
+    }
+
+    public function scopeGetForDestroy($query, $slug)
+    {
+        return $query
+            ->with(['questions' => function ($query) {
+                $query->withCount('tags');
+            }])
+            ->where('slug', $slug)
+            ->first();
     }
 }

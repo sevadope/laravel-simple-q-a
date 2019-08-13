@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
     	$this->call(QuestionTagRelationSeeder::class);
     	factory(\App\Models\Answer::class, 100)->create();
     	factory(\App\Models\Comment::class, 200)->create();
+        $this->call(AdminUserSeeder::class);
     }
 }

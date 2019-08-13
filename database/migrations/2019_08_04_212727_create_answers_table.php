@@ -19,16 +19,19 @@ class CreateAnswersTable extends Migration
             $table->bigInteger('question_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
 
+            $table->boolean('is_solution')->default(false);
             $table->text('body');
+            
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('question_id')
-                ->references('id')
-                ->on('questions');
+                ->references('id')->on('questions')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

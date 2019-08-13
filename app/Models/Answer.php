@@ -6,9 +6,14 @@ use App\Models\User;
 use App\Models\Question;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Answer extends Model
 {
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+
     protected $fillable = [
     	'question_id',
     	'user_id',
