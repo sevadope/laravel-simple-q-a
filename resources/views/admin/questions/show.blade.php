@@ -19,23 +19,29 @@
 	</div>
 	<p class="card-subtitle mt-2 ml-2 text-muted">{{ $question->created_at }}</p>
 
-	<div class="comments-container">
-		@if($question->comments->count() > 0)
-			<button class="btn btn-link">{{ $question->comments->count() }} comments</button>
-		@else
-			<button class="btn btn-link">Comment this</button>
-		@endif
-	
-		@component('admin.includes.comments_tab')
+	@component('admin.includes.comments_tab')
 		@slot('item', $question)
-		@endcomponent
+	@endcomponent
 
-	</div>	
 </div>
 
-@component('admin.includes.answers_comments_tab')
-	@slot('item', $question)
-@endcomponent	
+<ul class="answers-tab list-group list-group-flush">
+	<h3>Answers:</h3>
+	@foreach($question->answers as $answer)
+
+		@component('admin.includes.answer')
+			@slot('answer', $answer)
+
+			@slot('comments')
+				@component('admin.includes.comments_tab')
+					@slot('item', $answer)
+				@endcomponent
+			@endslot
+
+		@endcomponent	
+
+	@endforeach
+</ul>
 
 @endsection
 

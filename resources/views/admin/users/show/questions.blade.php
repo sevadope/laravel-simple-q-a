@@ -4,21 +4,12 @@
 
 @section('tab_content')
 
-	@foreach($user->questions as $question)
-		<div class="card">
-			<div class="card-body">
-		  		<h6 class="card-subtitle mb-2 text-muted">
-		  			{{ $question->tagsTitle }}
-		  		</h6>
-		    	<h3 class="card-title">
-		    		<a href="{{ route('admin.questions.show', $question->id) }}">
-		    			{{ $question->title }}
-		    		</a>
-		    	</h3>
-		    	<h6 class="card-subtitle mb-2 text-muted">Answers: {{ $question->answers->count() }}</h6>
-		    	<h6 class="card-subtitle mb-2 text-muted">{{ $question->created_at }}</h6>
-		  	</div>
-		</div>
-	@endforeach
+	<h3>Questions:</h3>
+
+	<ul class="list-group list-group-flush">
+		@foreach($user->questions as $question)
+			@include('admin.includes.question')
+		@endforeach
+	</ul>
 
 @endsection

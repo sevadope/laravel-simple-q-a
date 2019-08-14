@@ -39,11 +39,12 @@ body {
   height: 100%;
 }
 
-.list-group > .list-group-item {
+.list-group-item {
+  border-top: 0;
   background-color: transparent;
 }
 
-.comments-container .comments-tab > .list-group > .list-group-item {
+.comments-tab > .list-group-item {
   background-color: #efefef;
   margin-left: 1.5rem;
 }

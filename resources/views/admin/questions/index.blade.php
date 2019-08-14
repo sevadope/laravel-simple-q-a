@@ -15,34 +15,11 @@
 
 @section('content')
 
-<table class="table">
-
-  	<thead>
-    	<tr>
-	      <th scope="col">#</th>
-	      <th scope="col">Author</th>
-	      <th scope="col">Title</th>
-	      <th scope="col">Published at</th>
-    	</tr>
-  	</thead>
-    
-	<tbody>
-	@foreach($questions as $item)
-	
-    <tr>
-    	<th scope="row">{{ $item->id }}</th>
-    	<td>{{ $item->user->name }}</td>
-    	<td>
-    		<a href="{{ route('admin.questions.show', $item->id) }}">
-    			{{ $item->title }}
-    		</a>
-    	</td>
-    	<td>{{ $item->created_at }}</td>
-    </tr>
-
-	@endforeach
-  </tbody>
-</table>
+    <ul class="list-group list-group-flush">
+        @foreach($questions as $question)
+            @include('admin.includes.question')
+        @endforeach
+    </ul>
 
 {{ $questions->links() }}
 
