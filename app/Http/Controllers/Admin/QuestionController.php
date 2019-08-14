@@ -110,6 +110,28 @@ class QuestionController extends Controller
     }
 
     /**
+     * Restore with answers and comments
+     *
+     * @param string $slug
+     * @return void
+     */
+    public function restore($id)
+    {
+        $question = Question::withTrashed()->find($id);
+
+        $restored = $question->restore();
+
+        if ($restored) {
+            return redirect()
+                ->route('admin.questions.show', $question->id)
+                ->with(['success' => "Question restored!"]);
+        } else {
+            return back()
+                ->withErors(['msg' => 'Restore error. Please try again.']);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Question  $question
@@ -118,11 +140,13 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $destroyed = $question->delete();
+        $restore_route = route('admin.questions.restore', $question->id);
 
         if ($destroyed) {
             return redirect()
                 ->route('admin.questions.index')
-                ->with(['success' => "Question with ID '$question->id' deleted"]);
+                ->with(['success' => "Question with ID '$question->id' deleted",
+                        'restore_route' => $restore_route]);
         } else {
             return back()
                 ->withErors(['msg' => 'Delete error. Please try again.']);

@@ -91,7 +91,7 @@
 
       <div class="container">
         <h3 class="mt-3">@yield('content_header', 'There is no content!')</h3>  
-        @section('content')
+        @section('base_content')
         
         @show
       </div>

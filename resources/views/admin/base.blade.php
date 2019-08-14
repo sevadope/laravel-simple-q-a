@@ -17,3 +17,9 @@ Admin Panel
 		Users
 	</a>
 @endsection
+
+
+@section('base_content')
+@include('admin.includes.messages.base')
+@yield('content')
+@endsection

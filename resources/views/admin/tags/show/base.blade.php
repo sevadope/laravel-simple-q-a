@@ -6,8 +6,6 @@
 
 @section('content')
 
-@include('admin.includes.messages.base')
-
 <h5 class="text-muted">{{ $tag->slug }}</h6>
 
 <div class="">

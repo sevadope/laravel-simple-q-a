@@ -1,6 +1,14 @@
 @if(session()->has('success'))
 	<div class="alert alert-success">
 		{{ session('success') }}
+		
+		@if(session()->has('restore_route'))
+			<form method="POST" action="{{ session('restore_route') }}">
+				@csrf
+				<button class="btn btn-link" type="submit">Click to restore</button>	
+			</form>
+		@endif
+
 	</div>
 @endif
 

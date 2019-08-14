@@ -65,4 +65,12 @@ class Tag extends Model
             ->where('slug', $slug)
             ->first();
     }
+
+    public function scopeGetTrashed($query, $slug)
+    {
+        return $query
+            ->onlyTrashed()
+            ->where('slug', $slug)
+            ->first();
+    }
 }

@@ -74,6 +74,27 @@ class CommentController extends Controller
     }
 
     /**
+     * Restore comment
+     *
+     * @param int $id
+     * @return void
+     */
+    public function restore(int $id)
+    {
+        $comment = Comment::withTrashed()->find($id);
+        $restored = $comment->restore();
+
+        if ($restored) {
+            return redirect()
+                ->route('admin.questions.show', $comment->question->id)
+                ->with(['success' => "Comment with ID '$comment->id' restored!"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Restore error. Please try again.']);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Comment  $comment
@@ -82,10 +103,12 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $destroyed = $comment->delete();
+        $restore_route = route('admin.comments.restore', $comment->id);
 
         if ($destroyed) {
             return back()
-                ->with(['success' => "Comment with ID '$comment->id' deleted"]);
+                ->with(['success' => "Comment with ID '$comment->id' deleted",
+                        'restore_route' => $restore_route]);
         } else {
             return back()
                 ->withErrors(['msg' => 'Delete error. Please try again.']);

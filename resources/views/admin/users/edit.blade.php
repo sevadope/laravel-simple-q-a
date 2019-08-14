@@ -6,8 +6,6 @@
 
 @section('content')
 
-@include('admin.includes.messages.base')
-
 <form action="{{ route('admin.users.update', $user->name) }}"
 method="post">
 	@method('PATCH')

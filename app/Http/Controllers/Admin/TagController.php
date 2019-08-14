@@ -112,6 +112,21 @@ class TagController extends Controller
     }
 
     /**
+     * Restore tag with questions
+     *
+     * @param string $slug
+     * @return void
+     */
+    public function restore($slug)
+    {
+        $tag = Tag::getTrashed($slug);
+
+        $tag->restore();
+
+        return view('admin.tags.show.info', compact('tag'));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Tag  $tag
@@ -120,13 +135,15 @@ class TagController extends Controller
     public function destroy($slug)
     {
         $tag = Tag::getForDestroy($slug);
+        $restore_route = route('admin.tags.restore', $tag->slug);
 
         $deleted = $tag->delete();
 
         if ($deleted) {
             return redirect()
                 ->route('admin.tags.index')
-                ->with(['success' => "Tag '$tag->title' deleted"]); 
+                ->with(['success' => "Tag '$tag->title' deleted",
+                        'restore_route' => $restore_route]); 
         } else {
             return back()
                 ->withErrors(['msg' => 'Delete Error. Pleast try again.']);

@@ -13,8 +13,6 @@
 
 @section('content')
 
-@include('admin.includes.messages.base')
-
 <div class="question">
 	<div class="ml-2">
 		{{ $question->description }}

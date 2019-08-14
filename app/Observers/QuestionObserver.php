@@ -41,6 +41,7 @@ class QuestionObserver
         $question->answers()->each(function ($item) {
             $item->delete();
         });
+
         $question->comments()->delete();
     }
 
@@ -63,7 +64,11 @@ class QuestionObserver
      */
     public function restored(Question $question)
     {
-        //
+        $question->answers()->withTrashed()->each(function ($item) {
+            $item->restore();
+        });
+  
+        $question->comments()->restore();
     }
 
     /**

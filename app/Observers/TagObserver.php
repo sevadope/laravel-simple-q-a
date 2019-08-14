@@ -55,6 +55,15 @@ class TagObserver
         //
     }
 
+    public function restoring(Tag $tag)
+    {
+
+        $tag->questions()->onlyTrashed()->each( function ($item)
+        {
+            $item->restore();
+        });
+    }
+
     /**
      * Handle the tag "restored" event.
      *
@@ -63,7 +72,7 @@ class TagObserver
      */
     public function restored(Tag $tag)
     {
-        //
+
     }
 
     /**

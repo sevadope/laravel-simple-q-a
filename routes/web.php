@@ -61,18 +61,30 @@ Route::group(
 
 			Route::get('{tag}/questions', 'TagController@questions')
 				->name('questions');
+
+			Route::post('{tag}/restore', 'TagController@restore')
+				->name('restore');
 		});
 
 		/**** Questions ****/
 		Route::resource('questions', 'QuestionController');
 
+		Route::post('questions/{question}/restore', 'QuestionController@restore')
+			->name('questions.restore');
+
 		/**** Answers ****/
 		Route::delete('answers/{answer}', 'AnswerController@destroy')
 			->name('answers.destroy');
 
+		Route::post('answers/{answer}/restore', 'AnswerController@restore')
+			->name('answers.restore');
+
 		/**** Comments ****/
 		Route::delete('comments/{comment}', 'CommentController@destroy')
 			->name('comments.destroy');
+
+		Route::post('comments/{comment}/restore', 'CommentController@restore')
+			->name('comments.restore');
 });
 
 

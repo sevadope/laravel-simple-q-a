@@ -58,7 +58,7 @@ class AnswerObserver
      */
     public function restored(Answer $answer)
     {
-        //
+        $answer->comments()->restore();
     }
 
     /**

@@ -6,8 +6,6 @@
 
 @section('content')
 
-@include('admin.includes.messages.base')
-
 <form method="post" action="{{ route('admin.questions.store') }}">
 	@csrf
 
