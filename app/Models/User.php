@@ -93,6 +93,42 @@ class User extends Authenticatable
             ->first();
     }
 
+    public function scopeGetShowQuestions($query, string $name)
+    {
+        return $query
+            ->withCount('questions', 'answers')
+            ->with(['questions:id,title',
+                    'questions.tags',
+                    'questions' => function ($query) {
+                        $query->withCount('answers');
+            }])
+            ->where('name', $name)
+            ->first();
+    }
+
+    public function scopeGetShowAnswers($query, string $name)
+    {
+        return $query
+            ->withCount('questions', 'answers')
+            ->with('answers',
+                'answers.user:id,name,first_name,last_name',
+                'answers.question:id,title')
+            ->where('name', $name)
+            ->first();
+    }
+
+    public function scopeGetShowComments($query, string $name)
+    {
+        return $query
+            ->withCount('questions', 'answers')
+            ->with(['comments',
+                'comments.user:id,name,first_name,last_name',
+                'comments.commentable'])
+            ->where('name', $name)
+            ->first();
+
+    }
+
     public function scopeGetForEdit($query, string $name)
     {
         return $query

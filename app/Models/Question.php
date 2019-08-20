@@ -51,8 +51,8 @@ class Question extends Model
 
     public function getTagsTitleAttribute()
     {
-        return ($this->tags->count() > 1) ?
-            $this->tags->first()->title . ' + ' . ($this->tags->count() - 1)
+        return ($this->tags_count > 1) ?
+            $this->tags->first()->title . ' + ' . ($this->tags_count - 1)
             :
             $this->tags->first()->title;
     }
@@ -64,7 +64,34 @@ class Question extends Model
         $columns = ['id', 'user_id', 'title', 'created_at'];
 
         return $query
+            ->withCount('answers', 'tags')
+            ->with(['tags:id,title'])
             ->paginate($per_page, $columns);
+    }
+
+    public function scopeGetForShow($query, int $id)
+    {
+        return $query
+            ->withCount('comments')
+            ->with([
+                'answers' => function ($query) {
+                    $query->withCount('comments');
+                },
+                'tags:id,slug,title',
+                'comments.user:id,name,first_name,last_name',
+                'answers.user:id,name,first_name,last_name',
+                'answers.comments.user:id,name,first_name,last_name'
+            ])
+            ->find($id);
+    }
+
+    public function scopeGetTitles($query, $ids, $per_page = 20)
+    {
+        return $query
+            ->whereIn('id', $ids)
+            ->select('id', 'title')
+            ->orderByRaw('FIELD(id, ' . implode(', ', $ids) . ')')
+            ->get();
     }
 }
 

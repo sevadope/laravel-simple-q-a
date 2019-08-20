@@ -9,8 +9,8 @@
 <h5 class="text-muted">{{ $user->briefly_about_myself }}</h6>
 
 <div class="">
-	<h5 class="d-inline"> Questions: {{ $user->questions()->count() }} |</h5>
-	<h5 class="d-inline"> Answers: {{ $user->answers()->count() }}</h5>
+	<h5 class="d-inline"> Questions: {{ $user->questions_count }} |</h5>
+	<h5 class="d-inline"> Answers: {{ $user->answers_count }}</h5>
 </div>
 
 <ul class="nav nav-tabs mb-2">

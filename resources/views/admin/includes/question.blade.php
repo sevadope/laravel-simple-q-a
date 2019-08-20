@@ -6,14 +6,15 @@
 
 			<h3>
 				<a href="{{ route('admin.questions.show', $question->id) }}">
-					{{ $question->title }}
+					 {{ $question->title }}
 				</a>
 			</h3>
 			<h6 class="text-muted">{{ $question->created_at }}</h6>			
 		</div>
 
 		<div>
-			<h4 class="text-muted">{{ $question->answers->count() }} Answers</h4>
+			<h4 class="text-muted">{{ $question->answers_count }} Answers</h4>
+			<small class="text-muted">ID: {{ $question->id }}</small>
 		</div>
 	</div>
 	

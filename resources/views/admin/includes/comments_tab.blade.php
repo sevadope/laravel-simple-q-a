@@ -1,6 +1,6 @@
 <div class="comments-container">
-	@if($item->comments->count() > 0)
-		<button class="btn btn-link">{{ $item->comments->count() }} comments</button>
+	@if($item->comments_count > 0)
+		<button class="btn btn-link">{{ $item->comments_count }} comments</button>
 	@else
 		<button class="btn btn-link">Comment this</button>
 	@endif

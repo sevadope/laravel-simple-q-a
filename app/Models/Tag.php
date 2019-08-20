@@ -46,6 +46,12 @@ class Tag extends Model
     {
     	return $query
     		->where('slug', $slug)
+            ->withCount('questions')
+            ->with(['questions:id,title,created_at',
+                    'questions.tags:id,title', 
+                    'questions' => function ($query) {
+                        $query->withCount('tags', 'answers');
+                    }])
     		->first();
     }
 

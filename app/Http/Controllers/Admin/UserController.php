@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,21 +34,23 @@ class UserController extends Controller
 
     public function questions($name)
     {
-        $user = User::getForShow($name);
+        $user = User::getShowQuestions($name);
 
         return view('admin.users.show.questions', compact('user'));
     }
 
     public function answers($name)
     {
-        $user = User::getForShow($name);
+        $user = User::getShowAnswers($name);
 
         return view('admin.users.show.answers', compact('user'));
     }
 
     public function comments($name)
     {
-        $user = User::getForShow($name);
+        $user = User::getShowComments($name);
+
+        $this->eagerloadQuestionTitles($user->comments);
 
         return view('admin.users.show.comments', compact('user'));
     }
@@ -107,6 +110,36 @@ class UserController extends Controller
         } else {
             return back()
                 ->withErrors(['msg' => 'Delete error. Please try again.']);
+        }
+    }
+
+    /**
+     * Eager load questions titles for show methods
+     *
+     * @param $comments
+     * @return void
+     */
+    private function eagerloadQuestionTitles($comments)   
+    {
+
+        $question_ids = [];
+
+        // Fill array by all comments questions ids
+        $comments->each(function ($item) use (&$question_ids)
+        {
+            $question_ids[] = $item->commentable_type == Question::class ?
+                $item->commentable_id
+                :
+                $item->commentable->question_id;
+
+        });     
+
+        $questions = Question::getTitles($question_ids);
+
+        // Add questions ids and titles to every comments attributes arrray
+        for ($i = 0; $i < $comments->count(); $i++) {
+            $comments[$i]->setAttribute('question_id', $questions[$i]->id);
+            $comments[$i]->setAttribute('question_title', $questions[$i]->title);
         }
     }
 }

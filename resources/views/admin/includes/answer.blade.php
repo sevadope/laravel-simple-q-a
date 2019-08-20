@@ -7,7 +7,7 @@
 			<a class="d-inline" href="{{ route('admin.users.info', $answer->user->name) }}">
 				{{ $answer->user->profileName }}
 			</a>
-			<div class="d-inline text-muted">{{ '@' . $answer->user->name }}</div>
+			<div class="d-inline text-muted">{{ '@' . $answer->user->id }}</div>
 		</h6>
 		<form class="" method="POST" action="{{ route('admin.answers.destroy', $answer->id) }}">
 			@method('DELETE')

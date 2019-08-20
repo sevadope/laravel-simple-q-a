@@ -42,4 +42,5 @@ class Comment extends Model
             :
             $this->commentable;
     }
+
 }

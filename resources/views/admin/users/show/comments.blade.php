@@ -13,8 +13,8 @@
 				@slot('comment', $comment)
 				@slot('title')
 					<h3>
-						<a href="{{ route('admin.questions.show', $comment->question->id) }}">
-							{{ $comment->question->title }}
+						<a href="{{ route('admin.questions.show', $comment->question_id) }}">
+							{{ $comment->question_title }}
 						</a>
 					</h3>					
 				@endslot

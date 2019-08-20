@@ -66,8 +66,10 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public function show(int $id)
     {
+        $question = Question::getForShow($id);
+        
         return view('admin.questions.show', compact('question'));
     }
 
