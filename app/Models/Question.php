@@ -84,14 +84,6 @@ class Question extends Model
             ])
             ->find($id);
     }
-
-    public function scopeGetTitles($query, $ids, $per_page = 20)
-    {
-        return $query
-            ->whereIn('id', $ids)
-            ->select('id', 'title')
-            ->orderByRaw('FIELD(id, ' . implode(', ', $ids) . ')')
-            ->get();
-    }
+    
 }
 

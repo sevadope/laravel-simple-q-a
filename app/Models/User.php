@@ -89,6 +89,7 @@ class User extends Authenticatable
     public function scopeGetForShow($query, string $name)    
     {
         return $query
+            ->withCount('questions', 'answers')
             ->where('name', $name)
             ->first();
     }
@@ -119,11 +120,14 @@ class User extends Authenticatable
 
     public function scopeGetShowComments($query, string $name)
     {
+        $questions_ids = [];
+
         return $query
             ->withCount('questions', 'answers')
-            ->with(['comments',
+            ->with([
+                'comments',
                 'comments.user:id,name,first_name,last_name',
-                'comments.commentable'])
+                ])
             ->where('name', $name)
             ->first();
 

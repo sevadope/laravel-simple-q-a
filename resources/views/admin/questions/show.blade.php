@@ -21,6 +21,11 @@
 
 	@component('admin.includes.comments_tab')
 		@slot('item', $question)
+		@slot('form')
+			@component('admin.includes.question_comment')
+				@slot('id', $question->id)
+			@endcomponent
+		@endslot
 	@endcomponent
 
 </div>
@@ -35,6 +40,11 @@
 			@slot('comments')
 				@component('admin.includes.comments_tab')
 					@slot('item', $answer)
+					@slot('form')
+						@component('admin.includes.answer_comment')
+							@slot('id', $answer->id)
+						@endcomponent
+					@endslot
 				@endcomponent
 			@endslot
 

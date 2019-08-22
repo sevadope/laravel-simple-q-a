@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -50,7 +51,13 @@ class UserController extends Controller
     {
         $user = User::getShowComments($name);
 
-        $this->eagerloadQuestionTitles($user->comments);
+        $user->comments
+            ->where('commentable_type', Answer::class)
+            ->load('commentable.question:id,title');
+
+        $user->comments
+            ->where('commentable_type', Question::class)
+            ->load('commentable:id,title');
 
         return view('admin.users.show.comments', compact('user'));
     }
@@ -113,33 +120,4 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Eager load questions titles for show methods
-     *
-     * @param $comments
-     * @return void
-     */
-    private function eagerloadQuestionTitles($comments)   
-    {
-
-        $question_ids = [];
-
-        // Fill array by all comments questions ids
-        $comments->each(function ($item) use (&$question_ids)
-        {
-            $question_ids[] = $item->commentable_type == Question::class ?
-                $item->commentable_id
-                :
-                $item->commentable->question_id;
-
-        });     
-
-        $questions = Question::getTitles($question_ids);
-
-        // Add questions ids and titles to every comments attributes arrray
-        for ($i = 0; $i < $comments->count(); $i++) {
-            $comments[$i]->setAttribute('question_id', $questions[$i]->id);
-            $comments[$i]->setAttribute('question_title', $questions[$i]->title);
-        }
-    }
 }

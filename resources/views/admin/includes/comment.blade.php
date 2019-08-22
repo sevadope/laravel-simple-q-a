@@ -9,11 +9,14 @@
 			<div class="d-inline text-muted">{{ '@' . $comment->user->id }}</div>
 		</h6>
 
-		<form class="" method="POST" action="{{ route('admin.comments.destroy', $comment->id) }}">
-			@method('DELETE')
-			@csrf
-			<button class="btn btn-link" type="submit">Delete</button>
-		</form>		
+		<div class="d-flex justify-content-between">
+			<a href="{{ route('admin.comments.edit', $comment->id) }}" class="btn btn-link">Edit</a>
+			<form class="" method="POST" action="{{ route('admin.comments.destroy', $comment->id) }}">
+				@method('DELETE')
+				@csrf
+				<button class="btn btn-link" type="submit">Delete</button>
+			</form>				
+		</div>
 
 	</div>
 

@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-/**** Admin Panel ****/
+/******** Admin panel ********/
 Route::group(
 	[
 		'prefix' => 'admin',
@@ -69,6 +69,16 @@ Route::group(
 		/**** Questions ****/
 		Route::resource('questions', 'QuestionController');
 
+		/** Store comment for question **/
+		Route::post('questions/{question}/question/comment',
+			'CommentController@storeForQuestion')
+			->name('comments.storeForQuestion');
+
+		/** Store comment for answer **/
+		Route::post('questions/{question}/answer/comment',
+			'CommentController@storeForAnswer')
+			->name('comments.storeForAnswer');
+
 		Route::post('questions/{question}/restore', 'QuestionController@restore')
 			->name('questions.restore');
 
@@ -80,12 +90,16 @@ Route::group(
 			->name('answers.restore');
 
 		/**** Comments ****/
-		Route::delete('comments/{comment}', 'CommentController@destroy')
-			->name('comments.destroy');
+		Route::resource('comments', 'CommentController')
+			->only('edit', 'update', 'destroy')
+			->names('comments');
 
 		Route::post('comments/{comment}/restore', 'CommentController@restore')
 			->name('comments.restore');
+
+
 });
 
+/******** Public ********/
 
 

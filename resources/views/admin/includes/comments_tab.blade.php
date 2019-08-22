@@ -9,7 +9,12 @@
 		@foreach($item->comments as $comment)
 			@include('admin.includes.comment')
 		@endforeach
+
+		@auth
+			{{ $form ?? '' }}
+		@endauth
 	</ul>
+
 
 </div>	
 
