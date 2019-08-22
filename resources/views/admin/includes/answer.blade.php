@@ -9,11 +9,16 @@
 			</a>
 			<div class="d-inline text-muted">{{ '@' . $answer->user->id }}</div>
 		</h6>
-		<form class="" method="POST" action="{{ route('admin.answers.destroy', $answer->id) }}">
-			@method('DELETE')
-			@csrf
-			<button class="btn" type="submit">Delete</button>
-		</form>							
+
+		<div class="d-flex  justify-content-between">
+			<a href="{{ route('admin.answers.edit', $answer->id) }}" class="btn btn-primary mr-2">Edit</a>
+			<form class="" method="POST" action="{{ route('admin.answers.destroy', $answer->id) }}">
+				@method('DELETE')
+				@csrf
+				<button class="btn" type="submit">Delete</button>
+			</form>				
+		</div>
+
 	</div>
 	
 	<p>{{ $answer->body }}</p>

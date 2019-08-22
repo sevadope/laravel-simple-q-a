@@ -31,8 +31,10 @@
 </div>
 
 <ul class="answers-tab list-group list-group-flush">
-	<h3>Answers:</h3>
+	
 	@foreach($question->answers as $answer)
+
+		<h3>Answers:</h3>
 
 		@component('admin.includes.answer')
 			@slot('answer', $answer)
@@ -52,6 +54,20 @@
 
 	@endforeach
 </ul>
+
+<h3 class="mt-2">Your answer</h3>
+<br>
+<form action="{{ route('admin.answers.store', $question->id) }}" method="POST">
+	@csrf
+	<input type="hidden" name="question_id" value="{{ $question->id }}">
+
+	<div class="form-group">
+		<h5 for="body">{{ auth()->user()->profileName }}</h5>
+	    <textarea class="form-control" name="body" id="body" rows="5" required></textarea>
+	</div>
+
+	<button class="btn btn-success" type="submit">Send</button>
+</form>
 
 @endsection
 

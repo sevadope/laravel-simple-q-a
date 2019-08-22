@@ -83,8 +83,9 @@ Route::group(
 			->name('questions.restore');
 
 		/**** Answers ****/
-		Route::delete('answers/{answer}', 'AnswerController@destroy')
-			->name('answers.destroy');
+		Route::resource('answers', 'AnswerController')
+			->only('store', 'edit', 'update', 'destroy')
+			->names('answers');
 
 		Route::post('answers/{answer}/restore', 'AnswerController@restore')
 			->name('answers.restore');

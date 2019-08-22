@@ -1,4 +1,4 @@
-<li class="list-group-item">
+
 	{{ $title ?? '' }}
 	<div class="d-flex justify-content-between">
 
@@ -23,4 +23,3 @@
 	<p>{{ $comment->body }}</p>
 
 	<small class="text-muted">{{ $comment->created_at }}</small>
-</li>
