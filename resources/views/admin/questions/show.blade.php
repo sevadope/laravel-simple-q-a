@@ -31,28 +31,69 @@
 </div>
 
 <ul class="answers-tab list-group list-group-flush">
+
+	@if(!empty($question->solutions))
+
+		<h3>Solutions</h3>
+
+		@foreach($question->solutions as $answer)	
+			@component('admin.includes.answer')
+
+				@slot('answer', $answer)
+
+				@if($question->id == auth()->id() || true)
+					@slot('add_field')
+						<a href="{{ route('admin.answers.change_status', $answer->id) }}" class="btn btn-success mr-2">
+							Remove from solutions
+						</a>
+					@endslot	
+				@endif
+
+				@slot('comments')
+					@component('admin.includes.comments_tab')
+						@slot('item', $answer)
+						@slot('form')
+							@component('admin.includes.answer_comment')
+								@slot('id', $answer->id)
+							@endcomponent
+						@endslot	
+					@endcomponent
+				@endslot
+			@endcomponent	
+		@endforeach
+	@endif
+</ul>
+
+<ul class="answers-tab list-group list-group-flush">
 	
-	@foreach($question->answers as $answer)
+	@if(!empty($question->notSolutions))
+		<h3>Answers</h3>
+		@foreach($question->notSolutions as $answer)
+			@component('admin.includes.answer')
+				@slot('answer', $answer)
 
-		<h3>Answers:</h3>
+				@if($question->id == auth()->id() || true)
+					@slot('add_field')
+						<a href="{{ route('admin.answers.change_status', $answer->id) }}" class="btn btn-success mr-2">
+							Add to solutions
+						</a>
+					@endslot	
+				@endif
 
-		@component('admin.includes.answer')
-			@slot('answer', $answer)
+				@slot('comments')
+					@component('admin.includes.comments_tab')
+						@slot('item', $answer)
+						@slot('form')
+							@component('admin.includes.answer_comment')
+								@slot('id', $answer->id)
+							@endcomponent
+						@endslot
+					@endcomponent
+				@endslot
 
-			@slot('comments')
-				@component('admin.includes.comments_tab')
-					@slot('item', $answer)
-					@slot('form')
-						@component('admin.includes.answer_comment')
-							@slot('id', $answer->id)
-						@endcomponent
-					@endslot
-				@endcomponent
-			@endslot
-
-		@endcomponent	
-
-	@endforeach
+			@endcomponent	
+		@endforeach
+	@endif
 </ul>
 
 <h3 class="mt-2">Your answer</h3>

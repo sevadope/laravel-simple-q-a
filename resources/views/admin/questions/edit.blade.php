@@ -52,18 +52,6 @@
 		@enderror
 	</div>
 
-	<div class="form-check">
-
-		<input type="hidden" name="is_completed" value="0">
-
-	  	<input class="form-check-input" type="checkbox" value="1" 
-	  	name="is_completed" id="is_completed">
-
-	 	<label class="form-check-label" for="is_completed">
-	    	Completed
-	  	</label>
-	</div>
-
 	<button type="submit" class="btn btn-success">Update</button>
 
 </form>

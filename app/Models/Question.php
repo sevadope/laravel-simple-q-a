@@ -84,6 +84,19 @@ class Question extends Model
             ])
             ->find($id);
     }
+
+    public function getSolutionsAttribute()
+    {
+        return $this->answers
+            ->where('is_solution', 1)
+            ->all();
+    }
     
+    public function getNotSolutionsAttribute()
+    {
+        return $this->answers
+            ->where('is_solution', 0)
+            ->all();
+    }
 }
 

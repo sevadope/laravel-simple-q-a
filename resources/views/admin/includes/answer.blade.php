@@ -11,7 +11,11 @@
 		</h6>
 
 		<div class="d-flex  justify-content-between">
+			
+			{{ $add_field }}
+
 			<a href="{{ route('admin.answers.edit', $answer->id) }}" class="btn btn-primary mr-2">Edit</a>
+
 			<form class="" method="POST" action="{{ route('admin.answers.destroy', $answer->id) }}">
 				@method('DELETE')
 				@csrf

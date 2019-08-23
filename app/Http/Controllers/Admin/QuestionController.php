@@ -101,10 +101,12 @@ class QuestionController extends Controller
         $tags_sync = $question->tags()->sync($data['tags']);
 
         if ($updated && $tags_sync) {
+
             return redirect()
                 ->route('admin.questions.show', $question->id)
                 ->with(['success' => 'Question successfuly updated']);  
         } else {
+
             return back()
                 ->withErrors(['msg' => 'Update error. Please try again.'])
                 ->withInput();

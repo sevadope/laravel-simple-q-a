@@ -27,7 +27,6 @@ class QuestionUpdateRequest extends FormRequest
             'title' => 'required|string|min:15|max:150',
             'tags' => 'required|array|min:1|max:5',
             'description' => 'required|string|max:5000',
-            'is_completed' => 'required|boolean',
         ];
     }
 }

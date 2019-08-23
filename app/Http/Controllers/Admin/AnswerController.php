@@ -145,4 +145,25 @@ class AnswerController extends Controller
                 ->withErrors(['msg' => "Delete error. Please try again."]);
         }
     }
+
+    public function change_status(Answer $answer)
+    {
+        if ($answer->question->user_id == auth()->id() || true) {
+
+            $answer->is_solution = $answer->is_solution == 0 ? 1 : 0;
+            $answer->save();
+
+            return redirect()
+                ->route('admin.questions.show', $answer->question_id)
+                ->with(['success' 
+                    => $answer->is_solution ?
+                        "Answer by {$answer->user->profileName} add to solutions"
+                        :
+                        "Answer by {$answer->user->profileName} removed from solutions" 
+                ]);
+
+        } else {
+            return back();
+        }
+    }
 }

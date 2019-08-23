@@ -90,6 +90,10 @@ Route::group(
 		Route::post('answers/{answer}/restore', 'AnswerController@restore')
 			->name('answers.restore');
 
+		Route::get('answers/{answer}/change_status',
+			'AnswerController@change_status')
+			->name('answers.change_status');
+
 		/**** Comments ****/
 		Route::resource('comments', 'CommentController')
 			->only('edit', 'update', 'destroy')
