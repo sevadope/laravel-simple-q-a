@@ -132,13 +132,6 @@ class User extends Authenticatable
             ->first();
 
     }
-
-    public function scopeGetForEdit($query, string $name)
-    {
-        return $query
-            ->where('name', $name)
-            ->first();
-    }
     /**** Accessors ****/
 
     /**
@@ -153,4 +146,30 @@ class User extends Authenticatable
             $this->first_name . " " . $this->last_name : $this->name;
     }
 
+    /******** Custom functions ********/
+
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
+    }
+
+    public function setAdminRole()
+    {
+        $this->role = 'admin';
+    }
+
+    public function isModerator()
+    {
+        return $this->role == 'moderator';
+    }
+
+    public function setModeratorRole()
+    {
+        $this->role = 'moderator';
+    }
+
+    public function getRoles()
+    {
+        return ['admin', 'moderator', 'user'];
+    }
 }

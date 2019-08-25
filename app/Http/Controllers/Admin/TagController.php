@@ -10,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class TagController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Tag::class, 'tag');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,23 +27,21 @@ class TagController extends Controller
         return view('admin.tags.index', compact('tags'));
     }
 
-    /**** Show funcs ****/
+    /******** Show actions ********/
 
-    public function info($slug)
+    public function info(Tag $tag)
     {
-        $tag = Tag::getForShow($slug);
-
         return view('admin.tags.show.info', compact('tag'));
     }
 
     public function questions($slug)
     {
-        $tag = Tag::getForShow($slug);
+        $tag = Tag::getForShowQuestions($slug);
 
         return view('admin.tags.show.questions', compact('tag'));
     }
 
-    /********/
+    /****************/
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +49,7 @@ class TagController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   
         return view('admin.tags.create');
     }
 
@@ -59,7 +62,6 @@ class TagController extends Controller
     public function store(TagStoreRequest $request)
     {
         $data = $request->validated();
-
         $tag = (new Tag())->create($data);
 
         if ($tag) {
@@ -79,10 +81,8 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(Tag $tag)
     {
-        $tag = Tag::getForEdit($slug);
-
         return view('admin.tags.edit', compact('tag'));
     }
 
@@ -96,7 +96,6 @@ class TagController extends Controller
     public function update(TagUpdateRequest $request, Tag $tag)
     {
         $data = $request->validated();
-
         $updated = $tag->update($data);
 
         if ($updated) {
@@ -120,7 +119,7 @@ class TagController extends Controller
     public function restore($slug)
     {
         $tag = Tag::getTrashed($slug);
-
+        $this->authorize('restore', $tag);
         $tag->restore();
 
         return view('admin.tags.show.info', compact('tag'));
@@ -132,11 +131,9 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy(Tag $tag)
     {
-        $tag = Tag::getForDestroy($slug);
         $restore_route = route('admin.tags.restore', $tag->slug);
-
         $deleted = $tag->delete();
 
         if ($deleted) {
@@ -149,4 +146,5 @@ class TagController extends Controller
                 ->withErrors(['msg' => 'Delete Error. Pleast try again.']);
         }
     }
+
 }

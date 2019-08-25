@@ -71,13 +71,15 @@ method="post">
 	  <a class="btn btn-info" href="{{ route('admin.users.info', $user->name) }}">Show</a>
 	</li>
 
-	<form action="{{ route('admin.users.destroy', $user->name) }}" method="POST">
-		@method('DELETE')
-		@csrf
+	@admin
+		<form action="{{ route('admin.users.destroy', $user->name) }}" method="POST">
+			@method('DELETE')
+			@csrf
 
-		<li class="list-group-item">
-		  <button type="submit" class="btn btn-danger">Delete user</button>
-		</li>  	  
-		
-	</form>	
+			<li class="list-group-item">
+			  <button type="submit" class="btn btn-danger">Delete user</button>
+			</li>  	  
+		</form>	
+	@endadmin
+	
 @endsection

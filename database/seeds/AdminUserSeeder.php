@@ -17,6 +17,7 @@ class AdminUserSeeder extends Seeder
     	$user = [
     		'name' => 'admin',
     		'email' => 'admin@admin.com',
+            'role' => 'admin',
     		'created_at' => $now,
     		'updated_at' => $now,
     		'remember_token' => 'bgWwVrmL51NJb0X1UEzAlV3ZGHEFKIjhWipv2hin7soQppx2SSPBHkYDblXQ',

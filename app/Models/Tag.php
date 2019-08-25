@@ -42,7 +42,7 @@ class Tag extends Model
     		->paginate($per_page, $columns);
     }
 
-    public function scopeGetForShow($query, $slug)
+    public function scopeGetForShowQuestions($query, $slug)
     {
     	return $query
     		->where('slug', $slug)
@@ -52,13 +52,6 @@ class Tag extends Model
                     'questions' => function ($query) {
                         $query->withCount('tags', 'answers');
                     }])
-    		->first();
-    }
-
-    public function scopeGetForEdit($query, $slug)
-    {
-    	return $query
-    		->where('slug', $slug)
     		->first();
     }
 
@@ -75,7 +68,7 @@ class Tag extends Model
     public function scopeGetTrashed($query, $slug)
     {
         return $query
-            ->onlyTrashed()
+            ->withTrashed()
             ->where('slug', $slug)
             ->first();
     }

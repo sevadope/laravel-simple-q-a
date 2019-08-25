@@ -12,6 +12,11 @@ use App\Http\Requests\Admin\UserUpdateRequest;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -69,10 +74,8 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($name)
+    public function edit(User $user)
     {
-        $user = User::getForEdit($name);
-
         return view('admin.users.edit', compact('user'));
     }
 
@@ -86,7 +89,6 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         $data = $request->validated();
-
         $updated = $user->update($data);
 
         if ($updated) {

@@ -30,17 +30,19 @@
 @endsection
 
 @section('right_sidebar')
-	<li class="list-group-item">
-	  <a class="btn btn-info" href="{{ route('admin.tags.edit', $tag->slug) }}">Edit</a>
-	</li>
-
-	<form action="{{ route('admin.tags.destroy', $tag->slug) }}" method="POST">
-		@method('DELETE')
-		@csrf
-
+	@admin
 		<li class="list-group-item">
-		  <button type="submit" class="btn btn-danger">Delete</button>
-		</li>  	  
+		  <a class="btn btn-info" href="{{ route('admin.tags.edit', $tag->slug) }}">Edit</a>
+		</li>
+	
+		<form action="{{ route('admin.tags.destroy', $tag->slug) }}" method="POST">
+			@method('DELETE')
+			@csrf
 
-	</form>
+			<li class="list-group-item">
+			  <button type="submit" class="btn btn-danger">Delete</button>
+			</li>  	  
+
+		</form>
+	@endadmin
 @endsection

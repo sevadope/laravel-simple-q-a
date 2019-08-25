@@ -44,8 +44,8 @@ class QuestionController extends Controller
     public function store(QuestionStoreRequest $request)
     {
         $data = $request->validated();
-        $user_id = auth()->user()->id;
-        $data['user_id'] = $user_id;
+        $data['user_id'] = auth()->user()->id;
+        
         $item = (new Question())->create($data);
         $tags_sync = $item->tags()->sync($data['tags']);
 
@@ -66,7 +66,7 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         $question = Question::getForShow($id);
         
@@ -123,6 +123,12 @@ class QuestionController extends Controller
     {
         $question = Question::withTrashed()->find($id);
 
+        if (auth()->user()->cant('restore', $question)) {
+            return back()
+                ->withErrors(['msg' =>
+                    'You dont have permissions for this action']);
+        }
+
         $restored = $question->restore();
 
         if ($restored) {
@@ -156,4 +162,5 @@ class QuestionController extends Controller
                 ->withErors(['msg' => 'Delete error. Please try again.']);
         }
     }
+
 }

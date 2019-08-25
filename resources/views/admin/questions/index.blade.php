@@ -7,9 +7,11 @@
     <div class="">
         Questions
     </div>
-    <a href="{{ route('admin.questions.create') }}" class="btn btn-success">
-        New
-    </a>
+    @admin
+        <a href="{{ route('admin.questions.create') }}" class="btn btn-success">
+            New
+        </a>
+    @endadmin
 </div>
 @endsection
 

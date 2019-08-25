@@ -40,7 +40,7 @@
             <a href="" class="list-group-item list-group-item-action text-light bg-dark">
               ->Settings
             </a>
-            <a href="" class="list-group-item list-group-item-action text-light bg-dark mb-3">
+            <a href="{{ route('logout') }}" class="list-group-item list-group-item-action text-light bg-dark mb-3">
               ->Logout
             </a>
           @else
@@ -123,36 +123,3 @@
 
 </body>
 </html>
-{{-- examples --}}
-{{-- content
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between">
-            <div class="">
-              <small class="text-muted d-block">PHP + 4 more</small>
-              <h4>
-                <a href="">
-                  @section('test')
-                    Base
-                  @show
-                </a>
-              </h4>
-              <small class="text-muted d-block">1 Subscriber | 21 seconds ago | 15 views</small>          
-            </div>
-            <div class="my-1">
-              <h4 class="text-muted text-center">5
-                <small class="d-block">Answer</small>
-              </h4>
-            </div>
-          </li>
-        </ul>
-
---}}
-{{-- right sidebar
-
-          <li class="list-group-item">
-            <a class="d-block" href="">Post #1</a>
-            <small class="d-inline">Answers : 1</small>  |
-            <small class="d-inline">Subscribers: 2</small>
-          </li>  
-
---}}

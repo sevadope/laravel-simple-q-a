@@ -176,4 +176,5 @@ class CommentController extends Controller
                 ->withErrors(['msg' => 'Delete error. Please try again.']);
         }
     }
+
 }

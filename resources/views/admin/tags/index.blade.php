@@ -7,9 +7,12 @@
     <div class="">
         Tags
     </div>
-    <a href="{{ route('admin.tags.create') }}" class="btn btn-success">
-        New
-    </a>
+    
+    @admin
+        <a href="{{ route('admin.tags.create') }}" class="btn btn-success">
+            New
+        </a>
+    @endadmin
 </div>
 @endsection
 

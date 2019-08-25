@@ -11,6 +11,7 @@ use App\Observers\UserObserver;
 use App\Observers\QuestionObserver;
 use App\Observers\AnswerObserver;
 use App\Observers\TagObserver;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,5 +36,9 @@ class AppServiceProvider extends ServiceProvider
         Tag::observe(TagObserver::class);
         Question::observe(QuestionObserver::class);
         Answer::observe(AnswerObserver::class);
+
+        Blade::if('admin', function() {
+            return auth()->user()->isAdmin();
+        });
     }
 }

@@ -88,7 +88,7 @@ class AnswerController extends Controller
         $data = $request->validated();
 
         $updated = $answer->update($data);
-
+        
         if ($updated) {
             return redirect()
                 ->route('admin.questions.show', $answer->question_id)
@@ -148,22 +148,22 @@ class AnswerController extends Controller
 
     public function change_status(Answer $answer)
     {
-        if ($answer->question->user_id == auth()->id() || true) {
+        $answer->is_solution = $answer->is_solution == 0 ? 1 : 0;
+        $saved = $answer->save();
 
-            $answer->is_solution = $answer->is_solution == 0 ? 1 : 0;
-            $answer->save();
-
+        if ($saved) {
             return redirect()
                 ->route('admin.questions.show', $answer->question_id)
                 ->with(['success' 
                     => $answer->is_solution ?
                         "Answer by {$answer->user->profileName} add to solutions"
                         :
-                        "Answer by {$answer->user->profileName} removed from solutions" 
-                ]);
-
+                        "Answer by {$answer->user->profileName} removed from solutions"
+                ]);            
         } else {
-            return back();
+            return back()
+                ->withErrors(['Please try again.']);
         }
+
     }
 }
