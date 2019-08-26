@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\TagStoreRequest;
 use App\Http\Requests\Admin\TagUpdateRequest;
 use App\Models\Tag;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -34,11 +35,11 @@ class TagController extends Controller
         return view('admin.tags.show.info', compact('tag'));
     }
 
-    public function questions($slug)
+    public function questions(Tag $tag)
     {
-        $tag = Tag::getForShowQuestions($slug);
+        $questions = Question::getPaginatedForTag($tag->id);
 
-        return view('admin.tags.show.questions', compact('tag'));
+        return view('admin.tags.show.questions', compact('tag', 'questions'));
     }
 
     /****************/

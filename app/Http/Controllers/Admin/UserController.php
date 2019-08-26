@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,33 +39,36 @@ class UserController extends Controller
         return view('admin.users.show.info', compact('user'));
     }
 
-    public function questions($name)
+    public function questions(User $user)
     {
-        $user = User::getShowQuestions($name);
+        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $questions = Question::getPaginatedForUser($user->id);
 
-        return view('admin.users.show.questions', compact('user'));
+        return view('admin.users.show.questions', compact('user', 'questions'));
     }
 
-    public function answers($name)
+    public function answers(User $user)
     {
-        $user = User::getShowAnswers($name);
+        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $answers = Answer::getPaginatedForUser($user->id);
 
-        return view('admin.users.show.answers', compact('user'));
+        return view('admin.users.show.answers', compact('user', 'answers'));
     }
 
-    public function comments($name)
+    public function comments(User $user)
     {
-        $user = User::getShowComments($name);
 
-        $user->comments
+        $comments = Comment::getPaginatedForUser($user->id);
+
+        $comments
             ->where('commentable_type', Answer::class)
             ->load('commentable.question:id,title');
 
-        $user->comments
+        $comments
             ->where('commentable_type', Question::class)
             ->load('commentable:id,title');
 
-        return view('admin.users.show.comments', compact('user'));
+        return view('admin.users.show.comments', compact('user', 'comments'));
     }
     /************/
 

@@ -6,10 +6,8 @@
 
 	<h3>Questions:</h3>
 
-	<ul class="list-group list-group-flush">
-		@foreach($user->questions as $question)
-			@include('admin.includes.question')
-		@endforeach
-	</ul>
+	@include('admin.includes.questions_table')
+
+	{{ $questions->links() }}
 
 @endsection

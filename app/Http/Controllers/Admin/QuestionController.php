@@ -18,7 +18,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::getPaginatedIndex();
+        $questions = Question::getPaginated();
 
         return view('admin.questions.index', compact('questions'));
     }

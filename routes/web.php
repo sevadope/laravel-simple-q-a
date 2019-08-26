@@ -24,7 +24,7 @@ Route::group(
 	[
 		'prefix' => 'admin',
 		'namespace' => 'Admin',
-		'middleware' => 'auth',
+		'middleware' => 'moderator',
 		'as' => 'admin.',
 	],
 	function () {
@@ -107,4 +107,4 @@ Route::group(
 
 /******** Public ********/
 
-
+Route::resource('users', 'UserController');

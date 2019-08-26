@@ -59,11 +59,35 @@ class Question extends Model
 
     /**** Scopes ****/
 
-    public function scopeGetPaginatedIndex($query, int $per_page = 20)
+    public function scopeGetPaginated($query, int $per_page = 20)
     {
-        $columns = ['id', 'user_id', 'title', 'created_at'];
+        $columns = $this->getColumnsForList();
 
         return $query
+            ->withCount('answers', 'tags')
+            ->with(['tags:id,title'])
+            ->paginate($per_page, $columns);
+    }
+
+    public function scopeGetPaginatedForTag($query, $tag_id, int $per_page = 20)
+    {
+        $columns = $this->getColumnsForList();
+
+        return $query
+            ->whereHas('tags', function ($query) use ($tag_id) {
+                $query->where('id', $tag_id);
+            })
+            ->withCount('answers', 'tags')
+            ->with(['tags:id,title'])
+            ->paginate($per_page, $columns);
+    }
+
+    public function scopeGetPaginatedForUser($query, $user_id, int $per_page = 20)
+    {
+        $columns = $this->getColumnsForList();
+
+        return $query
+            ->where('user_id', $user_id)
             ->withCount('answers', 'tags')
             ->with(['tags:id,title'])
             ->paginate($per_page, $columns);
@@ -97,6 +121,18 @@ class Question extends Model
         return $this->answers
             ->where('is_solution', 0)
             ->all();
+    }
+
+    /******** Custom functions ********/
+
+    private function getColumnsForList()
+    {
+        return [
+            'id',
+            'user_id',
+            'title',
+            'created_at'
+        ];
     }
 }
 

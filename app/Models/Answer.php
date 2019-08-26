@@ -36,4 +36,17 @@ class Answer extends Model
     	return $this->morphMany(Comment::class, 'commentable');
     }
 
+    /******** Scopes ********/
+
+    public function scopeGetPaginatedForUser(
+        $query,
+        int $user_id,
+        int $per_page = 10
+    )   
+    {
+        return $query
+            ->where('user_id', $user_id)
+            ->with('user:id,name,first_name,last_name')
+            ->paginate($per_page);
+    }
 }

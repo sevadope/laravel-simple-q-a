@@ -33,7 +33,7 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
     
-    /**** Accessorss ****/
+    /******** Accessors ********/
 
     public function getQuestionAttribute()
     {
@@ -43,4 +43,17 @@ class Comment extends Model
             $this->commentable;
     }
 
+    /******** Scopes ********/
+
+    public function scopeGetPaginatedForUser(
+        $query,
+        int $user_id,
+        int $per_page = 10
+    )
+    {
+        return $query
+            ->where('user_id', $user_id)
+            ->with('user:id,name,first_name,last_name')
+            ->paginate($per_page);
+    }
 }

@@ -9,7 +9,7 @@ body {
 
 #sidebar-wrapper {
 
-  min-width: 20vw;
+  min-width: 15vw;
   margin-left: -15rem;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
@@ -23,7 +23,7 @@ body {
 }
 
 #sidebar-wrapper .list-group {
-  width: 15rem;
+  width: 15vw;
 }
 
 #page-content-wrapper {
