@@ -17,7 +17,9 @@ class AnswerController extends Controller
      */
     public function index()
     {
+        $answers = Answer::getPaginated();
 
+        return view('admin.answers.index', compact('answers'));
     }
 
     /**

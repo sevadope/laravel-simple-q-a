@@ -20,7 +20,10 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::getPaginated();
+        $this->eagerLoadCommentables($comments);
+
+        return view('admin.comments.index', compact('comments'));
     }
 
     /**
@@ -175,6 +178,24 @@ class CommentController extends Controller
             return back()
                 ->withErrors(['msg' => 'Delete error. Please try again.']);
         }
+    }
+    /******** Private custom functions ********/
+    /**
+     * Eager load commentables for comments collections
+     * for getting guestions titles
+     * 
+     * @param void
+     * @return void
+     */
+    private function eagerLoadCommentables($comments)
+    {
+        $comments
+            ->where('commentable_type', Answer::class)
+            ->load('commentable.question:id,title');
+
+        $comments
+            ->where('commentable_type', Question::class)
+            ->load('commentable:id,title');        
     }
 
 }

@@ -84,7 +84,7 @@ Route::group(
 
 		/**** Answers ****/
 		Route::resource('answers', 'AnswerController')
-			->only('store', 'edit', 'update', 'destroy')
+			->only('index', 'store', 'edit', 'update', 'destroy')
 			->names('answers');
 
 		Route::post('answers/{answer}/restore', 'AnswerController@restore')
@@ -96,15 +96,9 @@ Route::group(
 
 		/**** Comments ****/
 		Route::resource('comments', 'CommentController')
-			->only('edit', 'update', 'destroy')
+			->only('index', 'edit', 'update', 'destroy')
 			->names('comments');
 
 		Route::post('comments/{comment}/restore', 'CommentController@restore')
 			->name('comments.restore');
-
-
 });
-
-/******** Public ********/
-
-Route::resource('users', 'UserController');

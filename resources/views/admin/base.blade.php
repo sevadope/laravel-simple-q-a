@@ -16,6 +16,14 @@ Admin Panel
 	<a href="{{ route('admin.users.index') }}" class="list-group-item list-group-item-action text-light bg-dark">
 		Users
 	</a>
+
+	<a href="{{ route('admin.answers.index') }}" class="list-group-item list-group-item-action text-light bg-dark">
+		Answers
+	</a>
+
+	<a href="{{ route('admin.comments.index') }}" class="list-group-item list-group-item-action text-light bg-dark">
+		Comments
+	</a>
 @endsection
 
 

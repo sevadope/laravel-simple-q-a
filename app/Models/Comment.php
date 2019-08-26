@@ -34,7 +34,6 @@ class Comment extends Model
     }
     
     /******** Accessors ********/
-
     public function getQuestionAttribute()
     {
         return $this->commentable_type == Answer::class ?
@@ -44,6 +43,13 @@ class Comment extends Model
     }
 
     /******** Scopes ********/
+    public function scopeGetPaginated($query, int $per_page = 20)
+    {       
+        return $query
+            ->orderBy('created_at')
+            ->with('user:id,name,first_name,last_name')
+            ->paginate($per_page);
+    }
 
     public function scopeGetPaginatedForUser(
         $query,
