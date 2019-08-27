@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Answer;
-use App\Http\Requests\Admin\AnswerStoreRequest;
-use App\Http\Requests\Admin\AnswerUpdateRequest;
+use App\Http\Requests\AnswerStoreRequest;
+use App\Http\Requests\AnswerUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

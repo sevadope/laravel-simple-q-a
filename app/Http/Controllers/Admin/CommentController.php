@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Comment;
-use App\Http\Requests\Admin\CommentStoreForQuestionRequest;
-use App\Http\Requests\Admin\CommentStoreForAnswerRequest;
-use App\Http\Requests\Admin\CommentUpdateRequest;
+use App\Http\Requests\CommentStoreForQuestionRequest;
+use App\Http\Requests\CommentStoreForAnswerRequest;
+use App\Http\Requests\CommentUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

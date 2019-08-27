@@ -69,16 +69,6 @@ Route::group(
 		/**** Questions ****/
 		Route::resource('questions', 'QuestionController');
 
-		/** Store comment for question **/
-		Route::post('questions/{question}/question/comment',
-			'CommentController@storeForQuestion')
-			->name('comments.storeForQuestion');
-
-		/** Store comment for answer **/
-		Route::post('questions/{question}/answer/comment',
-			'CommentController@storeForAnswer')
-			->name('comments.storeForAnswer');
-
 		Route::post('questions/{question}/restore', 'QuestionController@restore')
 			->name('questions.restore');
 
@@ -102,3 +92,70 @@ Route::group(
 		Route::post('comments/{comment}/restore', 'CommentController@restore')
 			->name('comments.restore');
 });
+
+/******** Public ********/
+
+/**** Users ****/
+Route::resource('users', 'UserController')
+	->except('show')->names('users');
+
+/** User`s Profile routes **/
+Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
+
+	Route::get('{user}/info', 'UserController@info')
+		->name('info');
+
+	Route::get('{user}/questions', 'UserController@questions')
+		->name('questions');
+
+	Route::get('{user}/answers', 'UserController@answers')
+		->name('answers');
+
+	Route::get('{user}/comments', 'UserController@comments')
+		->name('comments');
+});
+
+/**** Tags ****/
+Route::resource('tags', 'TagController')
+	->except('show')
+	->names('tags');
+
+/** Tag`s profile routes **/
+Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
+
+	Route::get('{tag}/info', 'TagController@info')
+		->name('info');
+
+	Route::get('{tag}/questions', 'TagController@questions')
+		->name('questions');
+
+	Route::post('{tag}/restore', 'TagController@restore')
+		->name('restore');
+});
+
+/**** Questions ****/
+Route::resource('questions', 'QuestionController');
+
+/** Store comment for question **/
+Route::post('questions/{question}/question/comment',
+	'CommentController@storeForQuestion')
+	->name('comments.storeForQuestion');
+
+/** Store comment for answer **/
+Route::post('questions/{question}/answer/comment',
+	'CommentController@storeForAnswer')
+	->name('comments.storeForAnswer');
+
+/**** Answers ****/
+Route::resource('answers', 'AnswerController')
+	->only('index', 'store', 'edit', 'update', 'destroy')
+	->names('answers');
+
+Route::get('answers/{answer}/change_status',
+	'AnswerController@changeStatus')
+	->name('answers.changeStatus');
+
+/**** Comments ****/
+Route::resource('comments', 'CommentController')
+	->only('index', 'edit', 'update', 'destroy')
+	->names('comments');

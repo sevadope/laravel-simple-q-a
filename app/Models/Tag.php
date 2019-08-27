@@ -42,17 +42,10 @@ class Tag extends Model
     		->paginate($per_page, $columns);
     }
 
-    public function scopeGetForShowQuestions($query, $slug)
+    public function scopeGetForSelect($query, array $columns = ['id', 'title'])
     {
-    	return $query
-    		->where('slug', $slug)
-            ->withCount('questions')
-            ->with(['questions:id,title,created_at',
-                    'questions.tags:id,title', 
-                    'questions' => function ($query) {
-                        $query->withCount('tags', 'answers');
-                    }])
-    		->first();
+        return $query
+            ->get($columns);
     }
 
     public function scopeGetForDestroy($query, $slug)

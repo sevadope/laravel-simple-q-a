@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
+use App\Models\Answer;
 use App\Models\Comment;
+use App\Http\Requests\CommentStoreForQuestionRequest;
+use App\Http\Requests\CommentStoreForAnswerRequest;
+use App\Http\Requests\CommentUpdateRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CommentController extends Controller
 {

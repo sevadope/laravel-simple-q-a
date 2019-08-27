@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Http\Requests\AnswerStoreRequest;
+use App\Http\Requests\AnswerUpdateRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AnswerController extends Controller
 {
@@ -81,5 +84,31 @@ class AnswerController extends Controller
     public function destroy(Answer $answer)
     {
         //
+    }
+
+    /**
+     * summary
+     *
+     * @param void
+     * @return void
+     */
+    public function changeStatus(Answer $answer)        
+    {
+        $answer->is_solution = $answer->is_solution === 0 ? 1 : 0;
+        $saved = $answer->save();
+
+        if ($saved) {
+            return redirect()
+                ->route('questions.show', $answer->question_id)
+                ->with(['success' 
+                    => $answer->is_solution ?
+                        "Answer by {$answer->user->profileName} add to solutions"
+                        :
+                        "Answer by {$answer->user->profileName} removed from solutions"
+                ]);              
+        } else {
+            return back()
+                ->withErrors(['Please try again']);
+        }
     }
 }

@@ -1,8 +1,6 @@
 @extends('layouts.base')
 
-@section('brand_title')
-Admin Panel
-@endsection
+@section('brand_title', 'Admin Panel')
 
 @section('left_sidebar')
 	<a href="{{ route('admin.questions.index') }}" class="list-group-item list-group-item-action text-light bg-dark">
@@ -24,10 +22,14 @@ Admin Panel
 	<a href="{{ route('admin.comments.index') }}" class="list-group-item list-group-item-action text-light bg-dark">
 		Comments
 	</a>
+
+	<a class="list-group-item list-group-item-action text-light bg-dark"
+	href="{{ route('questions.index') }}">
+		To site
+	</a>	
 @endsection
 
-
 @section('base_content')
-@include('admin.includes.messages.base')
-@yield('content')
+	@include('admin.includes.messages.base')
+	@yield('content')
 @endsection

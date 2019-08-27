@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\QuestionUpdateRequest;
-use App\Http\Requests\Admin\QuestionStoreRequest;
+use App\Http\Requests\QuestionUpdateRequest;
+use App\Http\Requests\QuestionStoreRequest;
 use App\Models\Tag;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        $tags = Tag::all();
+        $tags = Tag::getForSelect();
 
         return view('admin.questions.create', compact('tags'));
     }
@@ -81,7 +81,7 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        $tags = Tag::all();
+        $tags = Tag::getForSelect();
 
         return view('admin.questions.edit', compact('question', 'tags'));
     }

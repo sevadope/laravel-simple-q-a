@@ -103,7 +103,7 @@
       <div class="bg-light border-left text-light list-wrapper" id="sidebar-wrapper">
 
         <div class="bg-dark sidebar-heading">
-          <a class="btn btn-success" href="">
+          <a class="btn btn-success" href="{{ route('questions.create') }}">
             Ask a Question
           </a>
         </div>

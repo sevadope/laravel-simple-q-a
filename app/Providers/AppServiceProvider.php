@@ -40,5 +40,11 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('admin', function() {
             return auth()->user()->isAdmin();
         });
+
+        Blade::if('moderator', function () {
+            return auth()->user() && 
+                (auth()->user()->isModerator()
+                || auth()->user()->isAdmin());
+        });
     }
 }
