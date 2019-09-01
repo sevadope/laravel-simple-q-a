@@ -80,7 +80,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Question $question)
-    {
+    {   
         $tags = Tag::getForSelect();
 
         return view('public.questions.edit', compact('question', 'tags'));

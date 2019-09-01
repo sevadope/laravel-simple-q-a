@@ -53,7 +53,7 @@ class Answer extends Model
     {
         return $query
             ->where('user_id', $user_id)
-            ->with('user:id,name,first_name,last_name')
+            ->with('question:id,title')
             ->paginate($per_page);
     }
 }

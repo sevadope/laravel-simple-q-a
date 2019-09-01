@@ -1,7 +1,5 @@
 @extends('admin.base')
 
-
-
 @section('content_header', 'Users')
 
 @section('content')

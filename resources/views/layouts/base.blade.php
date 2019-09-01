@@ -28,7 +28,7 @@
   <div class="" id="sidebar-wrapper">
 
     <!-- Sidebar -->
-      <div class="bg-dark border-right text-light hover-slide" id="">
+      <div class="bg-dark border-right text-light hover-slide">
 
         <div class="sidebar-heading">
           @yield('brand_title', 'Toster')
@@ -36,37 +36,34 @@
 
         <div class="list-group list-group-flush">
           @auth
-            <a href="" class="list-group-item list-group-item-action text-light bg-dark">{{ Auth::user()->name ?? 'Log in' }}</a>
-            <a href="" class="list-group-item list-group-item-action text-light bg-dark">
-              ->Settings
+            <a href="{{ route('users.info', auth()->user()->name) }}" 
+            class="list-group-item list-group-item-action text-light bg-dark">  {{ auth()->user()->name }}
             </a>
-            <a href="{{ route('logout') }}" class="list-group-item list-group-item-action text-light bg-dark mb-3">
-              ->Logout
+
+            <a href="{{ route('users.edit', auth()->user()->name) }}" 
+            class="list-group-item list-group-item-action text-light bg-dark">
+              -> Settings
             </a>
+
+            <form action="{{ route('logout') }}" method="POST">
+              <button type="submit" 
+              class="list-group-item list-group-item-action
+              text-light bg-dark">
+                -> Logout
+              </button>
+            </form>
+
           @else
             <a href="{{ route('login') }}" class="list-group-item
             list-group-item-action text-light bg-dark mb-3">
               ->Login
             </a>
           @endauth
-          @section('left_sidebar')
-            <a href="" class="list-group-item
-            list-group-item-action text-light bg-dark">
-              My Feed
-            </a>
-            <a href="" class="list-group-item
-            list-group-item-action text-light bg-dark">
-              All questions
-            </a>
-            <a href="" class="list-group-item
-            list-group-item-action text-light bg-dark">
-              All tags
-            </a>
-            <a href="" class="list-group-item
-            list-group-item-action text-light bg-dark">
-              Users
-            </a>
-          @show
+
+          <hr>
+
+          @yield('left_sidebar')
+
         </div>
       </div>
   </div>

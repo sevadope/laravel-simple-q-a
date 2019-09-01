@@ -41,7 +41,7 @@
 			<h3>Solutions</h3>
 
 			@foreach($question->solutions as $answer)	
-				@component('public.includes.answer')
+				@component('public.question.includes.answer')
 
 					@slot('answer', $answer)
 
@@ -52,17 +52,7 @@
 							</a>
 						@endslot	
 					@endif
-
-					@slot('comments')
-						@component('public.includes.comments_tab')
-							@slot('item', $answer)
-							@slot('form')
-								@component('public.includes.answer_comment_form')
-									@slot('id', $answer->id)
-								@endcomponent
-							@endslot	
-						@endcomponent
-					@endslot
+					
 				@endcomponent	
 			@endforeach
 		@endif
@@ -73,7 +63,7 @@
 		@if(!empty($question->notSolutions))
 			<h3>Answers</h3>
 			@foreach($question->notSolutions as $answer)
-				@component('public.includes.answer')
+				@component('public.includes.question.answer')
 					@slot('answer', $answer)
 
 					@if($question->id == auth()->id())
@@ -83,17 +73,6 @@
 							</a>
 						@endslot	
 					@endif
-
-					@slot('comments')
-						@component('public.includes.comments_tab')
-							@slot('item', $answer)
-							@slot('form')
-								@component('public.includes.answer_comment_form')
-									@slot('id', $answer->id)
-								@endcomponent
-							@endslot
-						@endcomponent
-					@endslot
 
 				@endcomponent	
 			@endforeach

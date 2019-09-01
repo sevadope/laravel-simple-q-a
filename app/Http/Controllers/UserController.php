@@ -20,40 +20,51 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::getPaginatedIndex(18);
+
+        return view('public.users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    /******** User`s profile routes ********/
+    public function info($name)
     {
-        //
+        $user = User::getForShow($name);
+
+        return view('public.users.show.info', compact('user'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function questions(User $user)
     {
-        //
+        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $questions = Question::getPaginatedForUser($user->id);
+
+        return view('public.users.show.questions', compact('user', 'questions'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function answers(User $user)
     {
-        //
+        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $answers = Answer::getPaginatedForUser($user->id);
+
+        return view('public.users.show.answers', compact('user', 'answers'));
     }
+
+    public function comments(User $user)
+    {
+        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $comments = Comment::getPaginatedForUser($user->id);
+
+        $comments
+            ->where('commentable_type', Answer::class)
+            ->load('commentable.question:id,title');
+
+        $comments
+            ->where('commentable_type', Question::class)
+            ->load('commentable:id,title');
+
+        return view('public.users.show.comments', compact('user', 'comments'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -63,7 +74,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('public.users.edit', compact('user'));
     }
 
     /**
@@ -73,19 +84,19 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        //
-    }
+        $data = $request->validated();
+        $updated = $user->update($data);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+        if ($updated) {
+            return redirect()
+                ->route('users.index')
+                ->with(['success' => "User $user->name successfuly updated"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Update error. Please try again.'])
+                ->withInput();
+        } 
     }
 }

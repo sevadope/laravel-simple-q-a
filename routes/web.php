@@ -31,7 +31,7 @@ Route::group(
 
 		/**** Users ****/
 		Route::resource('users', 'UserController')
-			->except('show')
+			->only('index', 'edit', 'update')
 			->names('users');
 
 		Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
@@ -97,7 +97,7 @@ Route::group(
 
 /**** Users ****/
 Route::resource('users', 'UserController')
-	->except('show')->names('users');
+	->only('index', 'edit', 'update')->names('users');
 
 /** User`s Profile routes **/
 Route::group(['prefix' => 'user', 'as' => 'users.'], function () {

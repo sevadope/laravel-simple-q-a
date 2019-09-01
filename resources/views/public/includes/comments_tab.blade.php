@@ -7,18 +7,15 @@
 
 	<ul class="comments-tab list-group list-group-flush">
 		@foreach($item->comments as $comment)
-		<li class="list-group-item">
-			@include('public.includes.comment')
-		</li>
-		@endforeach
 
-		@auth
+			@include('public.includes.comment')
+
+		@endforeach
 		<li class="list-group-item">
 			{{ $form ?? '' }}
 		</li>
-		@endauth
+		
 	</ul>
-
 
 </div>	
 

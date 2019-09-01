@@ -82,7 +82,7 @@ class User extends Authenticatable
         $columns = ['id', 'name', 'email', 'created_at'];
 
         return $query
-            #->withCount(['questions', 'answers'])
+            ->withCount(['questions', 'answers'])
             ->paginate($per_page, $columns);
     }
 

@@ -1,17 +1,14 @@
 <li class="list-group-item">
 
-	{{ $title ?? '' }}
-
 	<div class="d-flex justify-content-between">
 		<h6 class="">
-			<a class="d-inline" href="{{ route('users.info', $answer->user->name) }}">
-				{{ $answer->user->profileName }}
+			<a class="d-inline" href="{{ route('users.info', $user->name) }}">
+				{{ $user->profileName }}
 			</a>
-			<div class="d-inline text-muted">{{ '@' . $answer->user->id }}</div>
+			<div class="d-inline text-muted">{{ '@' . $answer->user_id }}</div>
 		</h6>
 		
 		<div class="d-flex  justify-content-between">
-			{{ $add_field ?? ''}}
 			
 			@if(auth()->id() === $answer->user_id)
 				<a href="{{ route('answers.edit', $answer->id) }}" class="btn btn-primary mr-2">Edit</a>
@@ -30,5 +27,4 @@
 	
 	<small class="d-inline text-muted">{{ $answer->created_at }}</small>
 
-	{{ $comments ?? '' }}
 </li>

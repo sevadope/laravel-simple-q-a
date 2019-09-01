@@ -38,9 +38,9 @@
 
 		@foreach($question->solutions as $answer)	
 			@component('admin.includes.answer')
-
+				@slot('user', $answer->user)
 				@slot('answer', $answer)
-
+				
 				@if($question->id == auth()->id() || true)
 					@slot('add_field')
 						<a href="{{ route('admin.answers.change_status', $answer->id) }}" class="btn btn-success mr-2">
@@ -52,6 +52,7 @@
 				@slot('comments')
 					@component('admin.includes.comments_tab')
 						@slot('item', $answer)
+						
 						@slot('form')
 							@component('admin.includes.answer_comment')
 								@slot('id', $answer->id)
@@ -71,6 +72,7 @@
 		@foreach($question->notSolutions as $answer)
 			@component('admin.includes.answer')
 				@slot('answer', $answer)
+				@slot('user', $answer->user)
 
 				@if($question->id == auth()->id() || true)
 					@slot('add_field')
@@ -83,6 +85,7 @@
 				@slot('comments')
 					@component('admin.includes.comments_tab')
 						@slot('item', $answer)
+
 						@slot('form')
 							@component('admin.includes.answer_comment')
 								@slot('id', $answer->id)
