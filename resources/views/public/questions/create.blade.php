@@ -15,7 +15,7 @@
 		<input class="form-control 
 		@error('title') is_invalid @enderror"
 		type="text" name="title"
-		id="title">
+		id="title" required>
 
 		@error('title')
 			<div class="alert alert-danger">{{ $message }}</div>
@@ -25,7 +25,7 @@
 	<div class="form-group">
 		<label for="tags">Tags</label>
 
-		<select class="form-control" name="tags[]" id="tags" multiple>
+		<select class="form-control" name="tags[]" id="tags" multiple required>
 			@foreach($tags as $tag)
 				<option value="{{ $tag->id }}">
 					{{ $tag->title }}
@@ -42,7 +42,7 @@
 		<label for="description">Description</label>
 
 		<textarea class="form-control @error('description') is_invalid @enderror"
-		name="description" id="description" cols="30" rows="10"
+		name="description" id="description" cols="30" rows="10" required 
 		>{{ old('description') }}</textarea>
 
 		@error('description')

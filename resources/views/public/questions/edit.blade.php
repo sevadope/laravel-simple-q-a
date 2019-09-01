@@ -17,7 +17,7 @@
 		@error('title') is_invalid @enderror"
 		type="text" name="title"
 		id="title" 
-		value="{{ $question->title }}">
+		value="{{ $question->title }}" required>
 
 		@error('title')
 			<div class="alert alert-danger">{{ $message }}</div>
@@ -27,7 +27,7 @@
 	<div class="form-group">
 		<label for="tags">Tags</label>
 
-		<select class="form-control" name="tags[]" id="tags" multiple>
+		<select class="form-control" name="tags[]" id="tags" multiple required>
 			@foreach($tags as $tag)
 				<option value="{{ $tag->id }}" {{ $question->tags->contains($tag->id) ? 'selected' : ''}}>
 					{{ $tag->title }}
@@ -44,7 +44,7 @@
 		<label for="description">Description</label>
 
 		<textarea class="form-control @error('description') is_invalid @enderror"
-		name="description" id="description" cols="30" rows="10"
+		name="description" id="description" cols="30" rows="10" required 
 		>{{ old('description', $question->description) }}</textarea>
 
 		@error('description')
@@ -62,14 +62,4 @@
 	<li class="list-group-item">
 	  <a class="btn btn-info" href="{{ route('questions.show', $question->id) }}">Show</a>
 	</li>
-
-	<form action="{{ route('questions.destroy', $question->id) }}" method="POST">
-		@method('DELETE')
-		@csrf
-
-		<li class="list-group-item">
-		  <button type="submit" class="btn btn-danger">Delete</button>
-		</li>  	  
-
-	</form>
 @endsection

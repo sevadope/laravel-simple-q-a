@@ -5,7 +5,7 @@
               <th scope="col">Title</th>
               <th scope="col">Slug</th>
               <th scope="col">Created</th>
-              <th scope="col">Updated</th>
+              <th scope="col">Questions</th>
               <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -16,7 +16,7 @@
                     <td>{{ $tag->title }}</td>
                     <td>{{ $tag->slug }}</td>
                     <td>{{ $tag->created_at }}</td>
-                    <td>{{ $tag->updated_at }}</td>
+                    <td>{{ $tag->questions_count }}</td>
                     <td class="d-flex align-items-start">
                         <a class="btn btn-primary"
                         href="{{ route('admin.tags.questions', $tag->slug) }}">

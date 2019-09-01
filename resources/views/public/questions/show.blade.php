@@ -41,11 +41,11 @@
 			<h3>Solutions</h3>
 
 			@foreach($question->solutions as $answer)	
-				@component('public.question.includes.answer')
+				@component('public.includes.question.answer')
 
 					@slot('answer', $answer)
 
-					@if($question->id == auth()->id())
+					@if($question->user_id == auth()->id())
 						@slot('add_field')
 							<a href="{{ route('answers.changeStatus', $answer->id) }}" class="btn btn-success mr-2">
 								Remove from solutions
@@ -66,7 +66,7 @@
 				@component('public.includes.question.answer')
 					@slot('answer', $answer)
 
-					@if($question->id == auth()->id())
+					@if($question->user_id == auth()->id())
 						@slot('add_field')
 							<a href="{{ route('answers.changeStatus', $answer->id) }}" class="btn btn-success mr-2">
 								Add to solutions
@@ -101,15 +101,6 @@
 		<li class="list-group-item">
 		  <a class="btn btn-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
 		</li>
-
-		<form action="{{ route('questions.destroy', $question->id) }}" method="POST">
-			@method('DELETE')
-			@csrf
-
-			<li class="list-group-item">
-			  <button type="submit" class="btn btn-danger">Delete</button>
-			</li>  	  
-		</form>	
 
 	@endif
 @endsection

@@ -11,45 +11,27 @@ use App\Http\Controllers\Controller;
 class AnswerController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnswerStoreRequest $request)
     {
-        //
-    }
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Answer $answer)
-    {
-        //
+        $answer = (new Answer())->create($data);
+
+        if ($answer) {
+            return redirect()
+                ->route('questions.show', $answer->question_id)
+                ->with(['success' => 'Answer successfully created']);   
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Create error. Please try again.'])
+                ->withInput();
+        }
     }
 
     /**
@@ -60,7 +42,7 @@ class AnswerController extends Controller
      */
     public function edit(Answer $answer)
     {
-        //
+        return view('public.answers.edit', compact('answer'));
     }
 
     /**
@@ -70,9 +52,21 @@ class AnswerController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Answer $answer)
+    public function update(AnswerUpdateRequest $request, Answer $answer)
     {
-        //
+        $data = $request->validated();
+
+        $updated = $answer->update($data);
+        
+        if ($updated) {
+            return redirect()
+                ->route('admin.questions.show', $answer->question_id)
+                ->with(['success' => 'Answer successfully updated']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Update error. Please try again'])
+                ->withInput();
+        }
     }
 
     /**
@@ -83,15 +77,19 @@ class AnswerController extends Controller
      */
     public function destroy(Answer $answer)
     {
-        //
+        $destroyed = $answer->delete();
+
+        if ($destroyed) {
+            return redirect()
+                ->route('questions.show', $answer->question_id)
+                ->with(['success' => 
+                    "Answer with ID '$answer->id' successfully deleted"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Delete error. Please try again."]);
+        } 
     }
 
-    /**
-     * summary
-     *
-     * @param void
-     * @return void
-     */
     public function changeStatus(Answer $answer)        
     {
         $answer->is_solution = $answer->is_solution === 0 ? 1 : 0;

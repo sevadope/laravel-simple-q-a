@@ -117,9 +117,7 @@ Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
 
 /**** Tags ****/
 Route::resource('tags', 'TagController')
-	->except('show')
-	->names('tags');
-
+	->only('index');
 /** Tag`s profile routes **/
 Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
 
@@ -134,7 +132,8 @@ Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
 });
 
 /**** Questions ****/
-Route::resource('questions', 'QuestionController');
+Route::resource('questions', 'QuestionController')
+	->except('destroy');
 
 /** Store comment for question **/
 Route::post('questions/{question}/question/comment',
@@ -148,7 +147,7 @@ Route::post('questions/{question}/answer/comment',
 
 /**** Answers ****/
 Route::resource('answers', 'AnswerController')
-	->only('index', 'store', 'edit', 'update', 'destroy')
+	->only('store', 'edit', 'update', 'destroy')
 	->names('answers');
 
 Route::get('answers/{answer}/change_status',
@@ -157,5 +156,5 @@ Route::get('answers/{answer}/change_status',
 
 /**** Comments ****/
 Route::resource('comments', 'CommentController')
-	->only('index', 'edit', 'update', 'destroy')
+	->only('edit', 'update', 'destroy')
 	->names('comments');

@@ -91,17 +91,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Comment  $comment
@@ -165,7 +154,6 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        $question_id = $comment->question->id;
         $destroyed = $comment->delete();
         $restore_route = route('admin.comments.restore', $comment->id);
 

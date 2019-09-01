@@ -132,13 +132,12 @@ class AnswerController extends Controller
      */
     public function destroy(Answer $answer)
     {
-        $question_id = $answer->question_id;
         $destroyed = $answer->delete();
         $restore_route = route('admin.answers.restore', $answer->id);
 
         if ($destroyed) {
             return redirect()
-                ->route('admin.questions.show', $question_id)
+                ->route('admin.questions.show', $answer->question_id)
                 ->with(['success' => 
                     "Answer with ID '$answer->id' successfully deleted",
                     'restore_route' => $restore_route]);

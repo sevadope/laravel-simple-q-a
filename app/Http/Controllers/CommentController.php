@@ -14,45 +14,57 @@ use App\Http\Controllers\Controller;
 class CommentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Store comment for answer
      *
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return void
      */
-    public function index()
+    public function storeForAnswer(CommentStoreForAnswerRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['user_id'] = auth()->id();
+        $data['commentable_type'] = Answer::class;
+
+        $comment = (new Comment())->create($data);
+
+        if ($comment) {
+            return redirect()
+                ->route('questions.show', $comment->question->id)
+                ->with(['success' => 'Comment successfully created']);
+        } else {
+            return back()
+                ->withErrors(['msg' =>
+                    'Error while creating comment. Please try again'])
+                ->withInput();
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store comment for question
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeForQuestion(CommentStoreForQuestionRequest $request)
     {
-        //
-    }
+        $data = $request->validated();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
+        $data['user_id'] = auth()->id();
+        $data['commentable_type'] = Question::class;
+
+        $comment = (new Comment())->create($data);
+
+        if ($comment) {
+            return redirect()
+                ->route('questions.show', $comment->question->id)
+                ->with(['success' => 'Comment successfully created']);
+        } else {
+            return back()
+                ->withErrors(['msg' =>
+                    'Error while creating comment. Please try again'])
+                ->withInput();
+        }
     }
 
     /**
@@ -63,7 +75,7 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        //
+        return view('public.comments.edit', compact('comment'));
     }
 
     /**
@@ -73,9 +85,21 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(CommentUpdateRequest $request, Comment $comment)
     {
-        //
+        $data = $request->validated();
+
+        $updated = $comment->update($data);
+
+        if ($updated) {
+            return redirect()
+                ->route('questions.show', $comment->question->id)
+                ->with(['success' => "Comment with ID '$comment->id' updated"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Update error. Please try again.'])
+                ->withInput();
+        }
     }
 
     /**
@@ -86,6 +110,15 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $destroyed = $comment->delete();
+
+        if ($destroyed) {
+            return redirect()
+                ->route('questions.show', $comment->question->id)
+                ->with(['success' => "Comment with ID '$comment->id' deleted"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Delete error. Please try again.']);
+        }
     }
 }

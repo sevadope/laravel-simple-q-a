@@ -39,6 +39,7 @@ class Tag extends Model
     	$columns = ['id', 'title', 'slug', 'created_at', 'updated_at'];
 
     	return $query
+            ->withCount('questions')
     		->paginate($per_page, $columns);
     }
 
