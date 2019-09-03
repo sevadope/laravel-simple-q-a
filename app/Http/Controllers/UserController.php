@@ -36,7 +36,9 @@ class UserController extends Controller
     public function questions(User $user)
     {
         $user = $user->withCount('questions', 'answers', 'comments')->first();
-        $questions = Question::getPaginatedForUser($user->id);
+        $questions = Question::getPaginated()
+            ->where('user_id', $user->id)
+            ->paginate(20);
 
         return view('public.users.show.questions', compact('user', 'questions'));
     }

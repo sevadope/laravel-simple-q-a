@@ -30,16 +30,7 @@
 	
 	<small class="d-inline text-muted">{{ $answer->created_at }}</small>
 
-	@component('public.includes.comments_tab')
-		@slot('item', $answer)
-
-		@auth
-			@slot('form')
-				@component('public.includes.answer_comment_form')
-					@slot('id', $answer->id)
-				@endcomponent
-			@endslot
-		@endauth
-		
+	@component('public.includes.answer_comments_tab')
+		@slot('answer', $answer)
 	@endcomponent
 </li>

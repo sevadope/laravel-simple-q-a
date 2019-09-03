@@ -46,6 +46,8 @@
             </a>
 
             <form action="{{ route('logout') }}" method="POST">
+              @csrf
+              
               <button type="submit" 
               class="list-group-item list-group-item-action
               text-light bg-dark">
@@ -100,7 +102,11 @@
       <div class="bg-light border-left text-light list-wrapper" id="sidebar-wrapper">
 
         <div class="bg-dark sidebar-heading">
-          <a class="btn btn-success" href="{{ route('questions.create') }}">
+          <a class="btn btn-success"
+          href="
+          @auth{{ route('questions.create') }}
+          @else{{ route('login') }}
+          @endauth">
             Ask a Question
           </a>
         </div>

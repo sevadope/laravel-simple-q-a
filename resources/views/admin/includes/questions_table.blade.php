@@ -5,6 +5,7 @@
               <th scope="col">Tags</th>
               <th scope="col">Title</th>
               <th scope="col">Answers</th>
+              <th scope="col">Asked</th>
               <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -15,6 +16,7 @@
                     <td>{{ $question->tagsTitle }}</td>
                     <td>{{ $question->title }}</td>
                     <td>{{ $question->answers_count }}</td>
+                    <td>{{ $question->created_at }}</td>
                     <td class="d-flex align-items-start">
                         <a class="btn btn-primary"
                         href="{{ route('admin.questions.show', $question->id) }}">

@@ -7,6 +7,7 @@ use App\Http\Requests\QuestionStoreRequest;
 use App\Models\Tag;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\Controller;
 
 class QuestionController extends Controller
@@ -18,9 +19,12 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::getPaginated();
+        $questions = Question::list()->paginate(20);
 
-        return view('public.questions.index', compact('questions'));
+        return view(
+            'public.questions.index',
+            compact('questions')
+        );
     }
 
     /**
@@ -131,5 +135,30 @@ class QuestionController extends Controller
             return back()
                 ->withErors(['msg' => 'Delete error. Please try again.']);
         }
+    }
+
+    /******** Custom functions ********/
+
+    private function setIndexSorting($query, string $sorting_param)
+    {
+        if ($sorting_param == '') {
+            return $query->orderBy('created_at');
+        }
+        elseif ($sorting_param == 'newest') {
+            return $query->orderBy('created_at');
+        }
+        elseif ($sorting_param == 'without_answer') {
+            return $query->withoutAnswer();
+        }
+
+        return  $query->orderBy('created_at');
+    }
+
+    private function getListSortingTabs()
+    {
+        return [
+            'newest' => 'New',
+            'without_answer' => 'Without answer',
+        ];
     }
 }

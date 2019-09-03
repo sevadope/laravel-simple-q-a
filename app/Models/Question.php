@@ -25,7 +25,7 @@ class Question extends Model
 
 
 
-    /**** Relationships ****/
+    /******** Relationships ********/
 
     public function user()
     {
@@ -47,7 +47,7 @@ class Question extends Model
     	return $this->morphMany(Comment::class, 'commentable');
     }
 
-    /**** Accessors ****/
+    /******** Accessors ********/
 
     public function getTagsTitleAttribute()
     {
@@ -57,40 +57,40 @@ class Question extends Model
             $this->tags->first()->title;
     }
 
-    /**** Scopes ****/
-
-    public function scopeGetPaginated($query, int $per_page = 20)
+    public function getSolutionsAttribute()
     {
-        $columns = $this->getColumnsForList();
+        return $this->answers
+            ->where('is_solution', 1)
+            ->all();
+    }
+    
+    public function getNotSolutionsAttribute()
+    {
+        return $this->answers
+            ->where('is_solution', 0)
+            ->all();
+    }
+    
+    /******** Scopes ********/
 
+    public function scopeList($query)
+    {
         return $query
             ->withCount('answers', 'tags')
-            ->with(['tags:id,title'])
-            ->paginate($per_page, $columns);
+            ->with(['tags:id,title']);
     }
 
-    public function scopeGetPaginatedForTag($query, $tag_id, int $per_page = 20)
+    public function scopeWithoutAnswer($query)
     {
-        $columns = $this->getColumnsForList();
+        return $query->withCount('answers')->has('answers', 0);
+    }
 
+    public function scopeForTag($query, $tag_id)
+    {
         return $query
             ->whereHas('tags', function ($query) use ($tag_id) {
                 $query->where('id', $tag_id);
-            })
-            ->withCount('answers', 'tags')
-            ->with(['tags:id,title'])
-            ->paginate($per_page, $columns);
-    }
-
-    public function scopeGetPaginatedForUser($query, $user_id, int $per_page = 20)
-    {
-        $columns = $this->getColumnsForList();
-
-        return $query
-            ->where('user_id', $user_id)
-            ->withCount('answers', 'tags')
-            ->with(['tags:id,title'])
-            ->paginate($per_page, $columns);
+            });
     }
 
     public function scopeGetForShow($query, int $id)
@@ -109,30 +109,5 @@ class Question extends Model
             ->find($id);
     }
 
-    public function getSolutionsAttribute()
-    {
-        return $this->answers
-            ->where('is_solution', 1)
-            ->all();
-    }
-    
-    public function getNotSolutionsAttribute()
-    {
-        return $this->answers
-            ->where('is_solution', 0)
-            ->all();
-    }
-
-    /******** Custom functions ********/
-
-    private function getColumnsForList()
-    {
-        return [
-            'id',
-            'user_id',
-            'title',
-            'created_at'
-        ];
-    }
 }
 
