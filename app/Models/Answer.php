@@ -21,6 +21,7 @@ class Answer extends Model
     ];
 
     /******** Relationships ********/
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -37,23 +38,18 @@ class Answer extends Model
     }
 
     /******** Scopes ********/
-    public function scopeGetPaginated($query, int $per_page = 20)
+
+    public function scopeList($query)
     {       
         return $query
             ->orderBy('created_at')
-            ->with('user:id,name,first_name,last_name')
-            ->paginate($per_page);
+            ->with('user:id,name,first_name,last_name');
     }
 
-    public function scopeGetPaginatedForUser(
-        $query,
-        int $user_id,
-        int $per_page = 10
-    )   
+    public function scopeForUser($query, int $user_id)   
     {
         return $query
             ->where('user_id', $user_id)
-            ->with('question:id,title')
-            ->paginate($per_page);
+            ->with('question:id,title');
     }
 }

@@ -37,7 +37,9 @@ class TagController extends Controller
 
     public function questions(Tag $tag)
     {
-        $questions = Question::getPaginatedForTag($tag->id);
+        $questions = Question::list()
+            ->forTag($tag->id)
+            ->paginate(20);
 
         return view('admin.tags.show.questions', compact('tag', 'questions'));
     }

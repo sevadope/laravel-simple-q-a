@@ -3,13 +3,6 @@
 @section('brand_title', 'Toaster')
 
 @section('left_sidebar')
-	
-	@moderator
-		<a class="list-group-item list-group-item-action text-light bg-dark"
-		href="{{ route('admin.questions.index') }}">
-			To admin panel
-		</a>		
-	@endmoderator
 
 	@auth
 		<a class="list-group-item list-group-item-action text-light bg-dark"
@@ -29,6 +22,13 @@
 	<a href="{{ route('users.index') }}" class="list-group-item list-group-item-action text-light bg-dark">
 		Users
 	</a>	
+
+	@moderator
+		<a class="list-group-item list-group-item-action text-light bg-dark"
+		href="{{ route('admin.questions.index') }}">
+			<button class="btn btn-primary"> To admin panel</button>
+		</a>		
+	@endmoderator
 
 @endsection
 

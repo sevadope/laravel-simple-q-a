@@ -36,8 +36,8 @@ class UserController extends Controller
     public function questions(User $user)
     {
         $user = $user->withCount('questions', 'answers', 'comments')->first();
-        $questions = Question::getPaginated()
-            ->where('user_id', $user->id)
+        $questions = Question::list()
+            ->forUser($user->id)
             ->paginate(20);
 
         return view('public.users.show.questions', compact('user', 'questions'));
@@ -46,7 +46,9 @@ class UserController extends Controller
     public function answers(User $user)
     {
         $user = $user->withCount('questions', 'answers', 'comments')->first();
-        $answers = Answer::getPaginatedForUser($user->id);
+        $answers = Answer::list()
+            ->forUser($user->id)
+            ->paginate(20);
 
         return view('public.users.show.answers', compact('user', 'answers'));
     }
@@ -54,7 +56,9 @@ class UserController extends Controller
     public function comments(User $user)
     {
         $user = $user->withCount('questions', 'answers', 'comments')->first();
-        $comments = Comment::getPaginatedForUser($user->id);
+        $comments = Comment::list()
+            ->forUser($user->id)
+            ->paginate(20);
 
         $comments
             ->where('commentable_type', Answer::class)

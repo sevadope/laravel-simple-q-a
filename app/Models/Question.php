@@ -76,6 +76,7 @@ class Question extends Model
     public function scopeList($query)
     {
         return $query
+            ->orderBy('created_at')
             ->withCount('answers', 'tags')
             ->with(['tags:id,title']);
     }
@@ -83,14 +84,6 @@ class Question extends Model
     public function scopeWithoutAnswer($query)
     {
         return $query->withCount('answers')->has('answers', 0);
-    }
-
-    public function scopeForTag($query, $tag_id)
-    {
-        return $query
-            ->whereHas('tags', function ($query) use ($tag_id) {
-                $query->where('id', $tag_id);
-            });
     }
 
     public function scopeGetForShow($query, int $id)
@@ -107,6 +100,19 @@ class Question extends Model
                 'answers.comments.user:id,name,first_name,last_name'
             ])
             ->find($id);
+    }
+
+    public function scopeForTag($query, $tag_id)
+    {
+        return $query
+            ->whereHas('tags', function ($query) use ($tag_id) {
+                $query->where('id', $tag_id);
+            });
+    }
+
+    public function scopeForUser($query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
     }
 
 }

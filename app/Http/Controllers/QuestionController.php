@@ -19,7 +19,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::list()->paginate(20);
+        $query = Question::list()->paginate(20);
 
         return view(
             'public.questions.index',
@@ -142,16 +142,16 @@ class QuestionController extends Controller
     private function setIndexSorting($query, string $sorting_param)
     {
         if ($sorting_param == '') {
-            return $query->orderBy('created_at');
+            return $query;
         }
         elseif ($sorting_param == 'newest') {
-            return $query->orderBy('created_at');
+            return $query;
         }
         elseif ($sorting_param == 'without_answer') {
             return $query->withoutAnswer();
         }
 
-        return  $query->orderBy('created_at');
+        return  $query;
     }
 
     private function getListSortingTabs()

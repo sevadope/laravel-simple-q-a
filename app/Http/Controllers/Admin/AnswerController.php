@@ -17,19 +17,9 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        $answers = Answer::getPaginated();
+        $answers = Answer::list()->paginate(20);
 
         return view('admin.answers.index', compact('answers'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -54,17 +44,6 @@ class AnswerController extends Controller
                 ->withErrors(['msg' => 'Create error. Please try again.'])
                 ->withInput();
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Answer $answer)
-    {
-        //
     }
 
     /**

@@ -25,7 +25,7 @@
 
 	<a class="list-group-item list-group-item-action text-light bg-dark"
 	href="{{ route('questions.index') }}">
-		To site
+		<button class="btn btn-primary">To site</button>
 	</a>	
 @endsection
 

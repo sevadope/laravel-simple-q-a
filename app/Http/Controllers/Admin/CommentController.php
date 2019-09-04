@@ -20,20 +20,10 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::getPaginated();
+        $comments = Comment::list()->paginate(20);
         $this->eagerLoadCommentables($comments);
 
         return view('admin.comments.index', compact('comments'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -167,7 +157,8 @@ class CommentController extends Controller
                 ->withErrors(['msg' => 'Delete error. Please try again.']);
         }
     }
-    /******** Private custom functions ********/
+    /******** Custom functions ********/
+
     /**
      * Eager load commentables for comments collections
      * for getting guestions titles
