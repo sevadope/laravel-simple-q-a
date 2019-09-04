@@ -19,11 +19,16 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $query = Question::list()->paginate(20);
+        $sorting_tabs = $this->getListSortingTabs();
+        $sorting_param = request()->query('tab') ?? 'newest';
+
+        $query = Question::list();
+        $questions = $this->setIndexSorting($query, $sorting_param)
+            ->paginate(20);
 
         return view(
             'public.questions.index',
-            compact('questions')
+            compact('questions', 'sorting_param', 'sorting_tabs')
         );
     }
 
