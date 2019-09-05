@@ -11,12 +11,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    	factory(\App\Models\User::class, 20)->create();
+    	factory(\App\Models\User::class, 100)->create();
     	$this->call(TagSeeder::class);
-    	factory(\App\Models\Question::class, 100)->create();
+    	factory(\App\Models\Question::class, 1000)->create();
     	$this->call(QuestionTagRelationSeeder::class);
-    	factory(\App\Models\Answer::class, 100)->create();
-    	factory(\App\Models\Comment::class, 200)->create();
+    	factory(\App\Models\Answer::class, 1500)->create();
+    	factory(\App\Models\Comment::class, 2000)->create();
         $this->call(AdminUserSeeder::class);
+        $this->call(QuestionSubscriberRelationSeeder::class);
+        $this->call(TagSubscriberRelationSeeder::class);
+        
     }
 }

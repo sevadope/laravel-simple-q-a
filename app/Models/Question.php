@@ -47,6 +47,11 @@ class Question extends Model
     	return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function subscribers()
+    {
+        return $this->belongsToMany(User::class, 'question_subscriber');
+    }
+
     /******** Accessors ********/
 
     public function getTagsTitleAttribute()
@@ -77,7 +82,7 @@ class Question extends Model
     {
         return $query
             ->orderBy('created_at')
-            ->withCount('answers', 'tags')
+            ->withCount('answers', 'tags', 'subscribers')
             ->with(['tags:id,title']);
     }
 

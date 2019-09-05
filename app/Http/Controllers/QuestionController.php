@@ -57,8 +57,9 @@ class QuestionController extends Controller
         
         $item = (new Question())->create($data);
         $tags_sync = $item->tags()->sync($data['tags']);
+        $sub_attached = $item->subscribers()->attache($data['user_id']);
 
-        if ($item && $tags_sync) {
+        if ($item && $tags_sync && $sub_attached) {
             return redirect()
                 ->route('questions.show', $item->id)
                 ->with(['success' => 'Question successfuly created']);

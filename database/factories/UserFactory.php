@@ -18,7 +18,7 @@ use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => rand(1, 3) > 1 ? $faker->firstNameMale() : $faker->firstNameFemale(),
+        'name' => (rand(1, 3) > 1 ? $faker->firstNameMale() : $faker->firstNameFemale()) . random_int(0, 999),
         'email' => $faker->unique()->safeEmail,
 
         'first_name' => $faker->firstNameMale(),
