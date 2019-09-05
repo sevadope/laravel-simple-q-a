@@ -22,11 +22,23 @@
 		<p class="card-subtitle mt-2 ml-2 text-muted">
 			{{ $question->created_at }}
 		</p>
+		
+		@user_subscribed($question->subscribers)
+			<a href="{{ route('questions.unsubscribe', $question->id) }}"
+			class="btn btn-outline-primary">
+				Unsubscribe | {{ $question->subscribers_count }}
+			</a>
+		@else 
+			<a href="{{ route('questions.subscribe', $question->id) }}"
+			class="btn btn-primary">
+				Subscribe | {{ $question->subscribers_count }}
+			</a>
+		@enduser_subscribed
 
 		@component('public.includes.question_comments_tab')
 			@slot('question', $question)
 		@endcomponent
-
+	
 	</div>
 
 	<ul class="answers-tab list-group list-group-flush">
@@ -87,7 +99,7 @@
 			    <textarea class="form-control" name="body" id="body" rows="5" required></textarea>
 			</div>
 
-			<button class="btn btn-success" type="submit">Send</button>
+			<button class="btn btn-primary" type="submit">Send</button>
 		</form>
 	@endauth
 	

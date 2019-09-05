@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 /******** Admin panel ********/
+
 Route::group(
 	[
 		'prefix' => 'admin',
@@ -34,7 +35,7 @@ Route::group(
 			->only('index', 'edit', 'update')
 			->names('users');
 
-		Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
+		Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
 
 			Route::get('{user}/info', 'UserController@info')
 				->name('info');
@@ -54,7 +55,7 @@ Route::group(
 			->except('show')
 			->names('tags');
 
-		Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
+		Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
 
 			Route::get('{tag}/info', 'TagController@info')
 				->name('info');
@@ -118,8 +119,9 @@ Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
 /**** Tags ****/
 Route::resource('tags', 'TagController')
 	->only('index');
+
 /** Tag`s profile routes **/
-Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
+Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
 
 	Route::get('{tag}/info', 'TagController@info')
 		->name('info');
@@ -135,15 +137,27 @@ Route::group(['prefix' => 'tag', 'as' => 'tags.'], function () {
 Route::resource('questions', 'QuestionController')
 	->except('destroy');
 
-/** Store comment for question **/
-Route::post('questions/{question}/question/comment',
-	'CommentController@storeForQuestion')
-	->name('comments.storeForQuestion');
+Route::group(['prefix' => 'questions'], function () {
+	
+	/** Store comment for question **/
+	Route::post('{question}/question/comment',
+		'CommentController@storeForQuestion')
+		->name('comments.storeForQuestion');
 
-/** Store comment for answer **/
-Route::post('questions/{question}/answer/comment',
-	'CommentController@storeForAnswer')
-	->name('comments.storeForAnswer');
+	/** Store comment for answer **/
+	Route::post('{question}/answer/comment',
+		'CommentController@storeForAnswer')
+		->name('comments.storeForAnswer');
+
+	Route::get('{question}/unsubscribe', 
+		'QuestionController@unsubscribe')
+		->name('questions.unsubscribe');
+
+	Route::get('{question}/subscribe', 
+		'QuestionController@subscribe')
+		->name('questions.subscribe');	
+});
+
 
 /**** Answers ****/
 Route::resource('answers', 'AnswerController')

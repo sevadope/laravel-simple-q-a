@@ -51,7 +51,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(QuestionStoreRequest $request)
-    {
+    {   
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         
@@ -82,6 +82,32 @@ class QuestionController extends Controller
 
         return view('public.questions.show', compact('question'));
     }
+
+    public function subscribe(Question $question)
+    {
+        $sub_attached = $question->subscribers()
+            ->syncWithoutDetaching(auth()->id());
+
+        if ($sub_attached) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => $sub_attached.'Subscribe error. Please try again.']);
+        }
+    }
+
+    public function unsubscribe(Question $question)
+    {
+        $sub_detached = $question->subscribers()->detach(auth()->id());
+
+        if ($sub_detached) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Subscribe error. Please try again.']);
+        }
+    }
+
 
     /**
      * Show the form for editing the specified resource.

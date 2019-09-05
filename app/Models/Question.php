@@ -94,7 +94,7 @@ class Question extends Model
     public function scopeGetForShow($query, int $id)
     {
         return $query
-            ->withCount('comments')
+            ->withCount('comments', 'subscribers')
             ->with([
                 'answers' => function ($query) {
                     $query->withCount('comments');

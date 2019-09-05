@@ -24,7 +24,7 @@
 					<textarea name="body" id="body" cols="30" rows="10"
 					class="form-control"></textarea>
 
-					<button type="submit">Send</button>
+					<button class="btn btn-primary mt-2" type="submit">Send</button>
 				</form>
 			</li>
 		@endauth
