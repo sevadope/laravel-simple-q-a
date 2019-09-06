@@ -17,8 +17,6 @@ class TagSubscriberRelationSeeder extends Seeder
         $tags_count = Tag::count();
         $users_count = User::count();
 
-        $subs_count = [];
-
         for ($tag_id = 1; $tag_id <= $tags_count; $tag_id++) {
         	$avarage_subs_count = (int) round($users_count / $tags_count);
 

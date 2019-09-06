@@ -23,7 +23,7 @@ class QuestionController extends Controller
         $sorting_param = request()->query('tab') ?? 'newest';
 
         $query = Question::list();
-        $questions = $this->setIndexSorting($query, $sorting_param)
+        $questions = $this->setQueryIndexSorting($query, $sorting_param)
             ->paginate(20);
 
         return view(
@@ -171,7 +171,7 @@ class QuestionController extends Controller
 
     /******** Custom functions ********/
 
-    private function setIndexSorting($query, string $sorting_param)
+    private function setQueryIndexSorting($query, string $sorting_param)
     {
         if ($sorting_param == '') {
             return $query;

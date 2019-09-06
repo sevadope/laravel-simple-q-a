@@ -75,6 +75,16 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function subscribed_questions()
+    {
+        return $this->belongsToMany(Question::class, 'question_subscriber');
+    }
+
+    public function subscribed_tags()
+    {
+        return $this->belongsToMany(Tag::class, 'tag_subscriber');
+    }
+
     /**** Scopes ****/
 
     public function scopeGetPaginatedIndex($query, int $per_page = 20)

@@ -32,9 +32,34 @@ class TagController extends Controller
     public function questions(Tag $tag)
     {
         $questions = Question::list()
-            ->forTag($tag->id)
+            ->forTags($tag->id)
             ->paginate(20);
 
         return view('public.tags.show.questions', compact('questions', 'tag'));
+    }
+
+    public function subscribe(Tag $tag)
+    {
+        $sub_attached = $tag->subscribers()
+            ->syncWithoutDetaching(auth()->id());
+
+        if ($sub_attached) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => $sub_attached.'Subscribe error. Please try again.']);
+        }
+    }
+
+    public function unsubscribe(Tag $tag)
+    {
+        $sub_detached = $tag->subscribers()->detach(auth()->id());
+
+        if ($sub_detached) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Subscribe error. Please try again.']);
+        }
     }
 }

@@ -107,11 +107,13 @@ class Question extends Model
             ->find($id);
     }
 
-    public function scopeForTag($query, $tag_id)
+    public function scopeForTags($query, $tags_ids)
     {
+        $tags_ids = is_array($tags_ids) ? $tags_ids : array($tags_ids);
+ 
         return $query
-            ->whereHas('tags', function ($query) use ($tag_id) {
-                $query->where('id', $tag_id);
+            ->whereHas('tags', function ($query) use ($tags_ids) {
+                $query->whereIn('id', $tags_ids);
             });
     }
 

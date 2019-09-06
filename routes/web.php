@@ -103,16 +103,20 @@ Route::resource('users', 'UserController')
 /** User`s Profile routes **/
 Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
 
-	Route::get('{user}/info', 'UserController@info')
+	Route::get('{user}/info', 
+		'UserController@info')
 		->name('info');
 
-	Route::get('{user}/questions', 'UserController@questions')
+	Route::get('{user}/questions', 
+		'UserController@questions')
 		->name('questions');
 
-	Route::get('{user}/answers', 'UserController@answers')
+	Route::get('{user}/answers', 
+		'UserController@answers')
 		->name('answers');
 
-	Route::get('{user}/comments', 'UserController@comments')
+	Route::get('{user}/comments', 
+		'UserController@comments')
 		->name('comments');
 });
 
@@ -120,17 +124,29 @@ Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
 Route::resource('tags', 'TagController')
 	->only('index');
 
-/** Tag`s profile routes **/
 Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
 
-	Route::get('{tag}/info', 'TagController@info')
+	/** Tag`s profile routes **/
+	Route::get('{tag}/info',
+		'TagController@info')
 		->name('info');
 
-	Route::get('{tag}/questions', 'TagController@questions')
+	Route::get('{tag}/questions',
+		'TagController@questions')
 		->name('questions');
 
-	Route::post('{tag}/restore', 'TagController@restore')
+	Route::post('{tag}/restore', 
+		'TagController@restore')
 		->name('restore');
+
+	/** User subscriptions **/
+	Route::get('{tag}/unsubscribe',	
+		'TagController@unsubscribe')
+		->name('unsubscribe');
+
+	Route::get('{tag}/subscribe', 
+		'TagController@subscribe')
+		->name('subscribe');
 });
 
 /**** Questions ****/
@@ -138,7 +154,7 @@ Route::resource('questions', 'QuestionController')
 	->except('destroy');
 
 Route::group(['prefix' => 'questions'], function () {
-	
+
 	/** Store comment for question **/
 	Route::post('{question}/question/comment',
 		'CommentController@storeForQuestion')
@@ -149,6 +165,7 @@ Route::group(['prefix' => 'questions'], function () {
 		'CommentController@storeForAnswer')
 		->name('comments.storeForAnswer');
 
+	/** User subscriptions **/
 	Route::get('{question}/unsubscribe', 
 		'QuestionController@unsubscribe')
 		->name('questions.unsubscribe');
