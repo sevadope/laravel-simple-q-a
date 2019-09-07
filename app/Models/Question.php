@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\Answer;
+use App\Models\Like;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -47,6 +48,16 @@ class Question extends Model
     	return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function answers_comments()
+    {
+        return $this->hasManyThrough(
+            Comment::class,
+            Answer::class,
+            'question_id',
+            'commentable_id'
+        )->where('commentable_type', Answer::class);
+    }
+    
     public function subscribers()
     {
         return $this->belongsToMany(User::class, 'question_subscriber');
@@ -98,11 +109,17 @@ class Question extends Model
             ->with([
                 'answers' => function ($query) {
                     $query->withCount('comments');
+                    $query->withCount('likes');
+                    $query->with(['comments' => function ($query){
+                        $query->withCount('likes');
+                    }]);
                 },
+                'comments' => function ($query) {
+                    $query->withCount('likes');
+                },
+                'answers.comments.user',
                 'tags:id,slug,title',
-                'comments.user:id,name,first_name,last_name',
-                'answers.user:id,name,first_name,last_name',
-                'answers.comments.user:id,name,first_name,last_name'
+                'subscribers'
             ])
             ->find($id);
     }

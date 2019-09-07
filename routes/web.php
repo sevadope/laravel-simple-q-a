@@ -185,7 +185,13 @@ Route::get('answers/{answer}/change_status',
 	'AnswerController@changeStatus')
 	->name('answers.changeStatus');
 
+Route::get('answers/{answer}/add_like', 'AnswerController@add_like')
+	->name('answers.add_like');
+
 /**** Comments ****/
 Route::resource('comments', 'CommentController')
 	->only('edit', 'update', 'destroy')
 	->names('comments');
+
+Route::get('comments/{comment}/add_like', 'CommentController@add_like')
+	->name('comments.add_like');

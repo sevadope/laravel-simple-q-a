@@ -33,6 +33,6 @@
 @endsection
 
 @section('base_content')
-	@include('public.includes.messages.base')
+	@include('public.components.messages.base')
 	@yield('content')
 @endsection

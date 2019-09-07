@@ -13,7 +13,7 @@
 					{{ $comment->question->title }}
 				</a>
 			</h3>
-			@include('public.includes.comment')
+			@include('public.components.comment')
 		@endforeach
 	</ul>
 

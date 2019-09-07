@@ -90,6 +90,11 @@ class AnswerController extends Controller
         } 
     }
 
+    public function add_like(Answer $answer)
+    {
+        
+    }
+
     public function changeStatus(Answer $answer)        
     {
         $answer->is_solution = $answer->is_solution === 0 ? 1 : 0;

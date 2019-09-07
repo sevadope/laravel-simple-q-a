@@ -35,7 +35,7 @@
 			</a>
 		@enduser_subscribed
 
-		@component('public.includes.question_comments_tab')
+		@component('public.components.question_comments_tab')
 			@slot('question', $question)
 		@endcomponent
 	
@@ -48,7 +48,7 @@
 			<h3>Solutions</h3>
 
 			@foreach($question->solutions as $answer)	
-				@component('public.includes.question.answer')
+				@component('public.components.question.answer')
 
 					@slot('answer', $answer)
 
@@ -59,6 +59,17 @@
 							</a>
 						@endslot	
 					@endif
+					
+					@auth
+						@slot('like_btn')
+							<a href="{{ route('answers.add_like', $answer->id) }}"
+							class="btn btn-outline-success">
+								Like
+								{{ $answer->likes_count
+									? '| ' . $answer->likes_count : ''}}
+							</a>
+						@endslot
+					@endauth
 
 				@endcomponent	
 			@endforeach
@@ -70,7 +81,7 @@
 		@if($question->notSolutions)
 			<h3>Answers</h3>
 			@foreach($question->notSolutions as $answer)
-				@component('public.includes.question.answer')
+				@component('public.components.question.answer')
 					@slot('answer', $answer)
 
 					@if($question->user_id === auth()->id())
@@ -80,6 +91,17 @@
 							</a>
 						@endslot	
 					@endif
+
+					@auth
+						@slot('like_btn')
+							<a href="{{ route('answers.add_like', $answer->id) }}"
+							class="btn btn-outline-success">
+								Like
+								{{ $answer->likes_count
+									? '| ' . $answer->likes_count : ''}}
+							</a>
+						@endslot
+					@endauth
 
 				@endcomponent	
 			@endforeach

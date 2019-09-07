@@ -15,7 +15,7 @@
 				</a>
 			</h3>
 
-			@component('public.includes.user.answer')
+			@component('public.components.user.answer')
 				@slot('answer', $answer)
 				@slot('user', $user)		
 			@endcomponent

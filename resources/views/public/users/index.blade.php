@@ -6,7 +6,7 @@
 
 	<div class="d-flex flex-wrap">
 		@foreach($users as $user)
-			@include('public.includes.user_card')
+			@include('public.components.user_card')
 		@endforeach		
 	</div>
 

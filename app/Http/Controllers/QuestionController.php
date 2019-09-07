@@ -80,6 +80,15 @@ class QuestionController extends Controller
     {
         $question = Question::getForShow($id);
 
+        $comments = $question->comments
+            ->merge($question->answers_comments)
+            ->load('likes');
+
+        $question->comments->merge($question->answers)
+            ->load('user:id,name,first_name,last_name');
+
+        #dd($question->answers_comments);
+
         return view('public.questions.show', compact('question'));
     }
 
@@ -171,6 +180,8 @@ class QuestionController extends Controller
 
     /******** Custom functions ********/
 
+    /**** Sorting ****/
+
     private function setQueryIndexSorting($query, string $sorting_param)
     {
         if ($sorting_param == '') {
@@ -192,5 +203,12 @@ class QuestionController extends Controller
             'newest' => 'New',
             'without_answer' => 'Without answer',
         ];
+    }
+
+    /**** Users collection loading ****/
+
+    private function loadUsers()
+    {
+        
     }
 }

@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminUserSeeder::class);
         $this->call(QuestionSubscriberRelationSeeder::class);
         $this->call(TagSubscriberRelationSeeder::class);
-        
+        factory(\App\Models\Like::class, 5000)->create();
     }
 }

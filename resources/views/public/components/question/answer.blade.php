@@ -22,15 +22,17 @@
 					<button class="btn" type="submit">Delete</button>
 				</form>		
 			@endif		
-
+			
 		</div>
 	</div>
 	
 	<p>{{ $answer->body }}</p>
 	
-	<small class="d-inline text-muted">{{ $answer->created_at }}</small>
+	<small class="text-muted">{{ $answer->created_at }}</small>
+	<br>
+	{{ $like_btn ?? '' }}
 
-	@component('public.includes.answer_comments_tab')
+	@component('public.components.answer_comments_tab')
 		@slot('answer', $answer)
 	@endcomponent
 </li>

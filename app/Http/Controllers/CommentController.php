@@ -13,6 +13,11 @@ use App\Http\Controllers\Controller;
 
 class CommentController extends Controller
 {
+    public function add_like(Comment $comment)
+    {
+        $comment;
+    }
+
     /**
      * Store comment for answer
      *

@@ -8,7 +8,17 @@
 	<ul class="comments-tab list-group list-group-flush">
 		@foreach($answer->comments as $comment)
 
-			@include('public.includes.comment')
+			@component('public.components.comment')
+				@slot('comment', $comment)
+				@slot('like_btn')
+					<a href="{{ route('comments.add_like', $comment->id) }}">
+						Like 
+						{{ $comment->likes_count ?
+							'(' . $comment->likes_count . ')' : '' 
+						}}
+					</a>
+				@endslot
+			@endcomponent
 
 		@endforeach
 
