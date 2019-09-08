@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Http\Requests\CommentStoreForQuestionRequest;
 use App\Http\Requests\CommentStoreForAnswerRequest;
 use App\Http\Requests\CommentUpdateRequest;
@@ -13,9 +14,39 @@ use App\Http\Controllers\Controller;
 
 class CommentController extends Controller
 {
-    public function add_like(Comment $comment)
+    public function addLike(Comment $comment)
     {
-        $comment;
+        $like = $comment->likes()->create([
+            'user_id' => auth()->id(),
+            'likeable_type' => Comment::class,
+            'likeable_id' => $comment->id,
+        ]);
+
+        if ($like && $like->exists) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Error']);
+        }
+    }
+
+    public function removeLike(Comment $comment)
+    {
+        $like = Like::where(
+            [
+                ['likeable_id', $comment->id],
+                ['likeable_type', Comment::class],
+            ]
+        )->first();
+
+        $deleted = $like->delete();
+
+        if ($deleted) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Delete error']);
+        }
     }
 
     /**

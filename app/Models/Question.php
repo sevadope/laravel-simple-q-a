@@ -108,16 +108,17 @@ class Question extends Model
             ->withCount('comments', 'subscribers')
             ->with([
                 'answers' => function ($query) {
-                    $query->withCount('comments');
-                    $query->withCount('likes');
+                    $query->withCount('comments', 'likes');
                     $query->with(['comments' => function ($query){
-                        $query->withCount('likes');
+                            $query->withCount('likes');
+                            $query->with('likes', 'user');
                     }]);
+                    $query->with('likes');
                 },
                 'comments' => function ($query) {
+                    $query->with('likes');
                     $query->withCount('likes');
                 },
-                'answers.comments.user',
                 'tags:id,slug,title',
                 'subscribers'
             ])

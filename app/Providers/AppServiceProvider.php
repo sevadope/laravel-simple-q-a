@@ -48,7 +48,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::if('user_subscribed', function ($subscribers) {
-            return auth()->check() && $subscribers->contains(auth()->id());
+            return 
+                auth()->check() && 
+                $subscribers->contains(auth()->id());
+        });
+
+        Blade::if('user_liked', function ($likes) {
+            return 
+                auth()->check() && 
+                $likes->where('user_id', auth()->id())->isnotEmpty();
         });
     }
 }

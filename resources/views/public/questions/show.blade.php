@@ -60,7 +60,17 @@
 						@endslot	
 					@endif
 					
-					@auth
+					
+					@user_liked($answer->likes)
+						@slot('like_btn')
+							<a href="{{ route('answers.remove_like', $answer->id) }}"
+							class="btn btn-success">
+								You like it
+								{{ $answer->likes_count
+									? '| ' . $answer->likes_count : ''}}
+							</a>
+						@endslot
+					@else
 						@slot('like_btn')
 							<a href="{{ route('answers.add_like', $answer->id) }}"
 							class="btn btn-outline-success">
@@ -69,7 +79,7 @@
 									? '| ' . $answer->likes_count : ''}}
 							</a>
 						@endslot
-					@endauth
+					@enduser_liked
 
 				@endcomponent	
 			@endforeach
@@ -92,7 +102,16 @@
 						@endslot	
 					@endif
 
-					@auth
+					@user_liked($answer->likes)
+						@slot('like_btn')
+							<a href="{{ route('answers.remove_like', $answer->id) }}"
+							class="btn btn-success">
+								You like it
+								{{ $answer->likes_count
+									? '| ' . $answer->likes_count : ''}}
+							</a>
+						@endslot
+					@else
 						@slot('like_btn')
 							<a href="{{ route('answers.add_like', $answer->id) }}"
 							class="btn btn-outline-success">
@@ -101,7 +120,7 @@
 									? '| ' . $answer->likes_count : ''}}
 							</a>
 						@endslot
-					@endauth
+					@enduser_liked
 
 				@endcomponent	
 			@endforeach

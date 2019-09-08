@@ -14,7 +14,7 @@ $factory->define(Question::class, function (Faker $faker) {
 
 	$title = $faker->bs() . '?';
 	$description = $faker->realText(rand(20, 1000));
-	
+
 	$created_at = $faker->dateTimeBetween('-3 weeks', '-1 week');
 
     return [
@@ -23,5 +23,6 @@ $factory->define(Question::class, function (Faker $faker) {
         'description' => $description,
         'created_at' => $created_at,
         'updated_at' => $created_at,
+
     ];
 });

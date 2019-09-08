@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Like;
 use App\Http\Requests\AnswerStoreRequest;
 use App\Http\Requests\AnswerUpdateRequest;
 use Illuminate\Http\Request;
@@ -10,6 +11,41 @@ use App\Http\Controllers\Controller;
 
 class AnswerController extends Controller
 {
+    public function addLike(Answer $answer)
+    {
+        $like = $answer->likes()->create([
+            'user_id' => auth()->id(),
+            'likeable_type' => Answer::class,
+            'likeable_id' => $answer->id,
+        ]);
+
+        if ($like && $like->exists) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Error']);
+        }
+    }
+
+    public function removeLike(Answer $answer)
+    {
+        $like = Like::where(
+            [
+                ['likeable_id', '=', $answer->id],
+                ['likeable_type', '=', Answer::class],
+            ]
+        )->first();
+
+        $deleted = $like->delete();
+
+        if ($deleted) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Delete error']);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
