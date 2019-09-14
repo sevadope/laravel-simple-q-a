@@ -18,7 +18,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::GetPaginatedIndex(18);
+        $tags = Tag::list()->paginate(18);
 
         return view('public.tags.index', compact('tags'));
     }

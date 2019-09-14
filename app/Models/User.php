@@ -87,13 +87,10 @@ class User extends Authenticatable
 
     /**** Scopes ****/
 
-    public function scopeGetPaginatedIndex($query, int $per_page = 20)
+    public function scopelist($query)
     {
-        $columns = ['id', 'name', 'email', 'created_at'];
-
         return $query
-            ->withCount(['questions', 'answers'])
-            ->paginate($per_page, $columns);
+            ->withCount(['questions', 'answers']);
     }
 
     public function scopeGetForShow($query, string $name)    

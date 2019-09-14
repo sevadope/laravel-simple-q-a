@@ -4,9 +4,12 @@
 
 @section('tab_content')
 
-	<h3>Answers:</h3>
+	@if($answers->isNotEmpty())
+		<h3>Answers:</h3>
+		@include('admin.components.answers_table')
+		{{ $answers->links() }}
+	@else
+		<h3>This user has no answers yet</h3>
+	@endif	
 
-	@include('admin.includes.answers_table')
-
-	{{ $answers->links() }}
 @endsection

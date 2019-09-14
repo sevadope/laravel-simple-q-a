@@ -4,6 +4,8 @@
 
 @section('tab_content')
 
-<h4>{{ $user->about_myself }}</h4>
+	<h4>
+		{{ $user->about_myself ?? 'This user has not told anything about himself' }}
+	</h4>
 
 @endsection

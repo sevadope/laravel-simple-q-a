@@ -15,7 +15,7 @@
 
 @section('content')
 
-@include('admin.includes.questions_table')
+@include('admin.components.questions_table')
 
 {{ $questions->links() }}
 

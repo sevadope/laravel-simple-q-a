@@ -30,6 +30,6 @@
 @endsection
 
 @section('base_content')
-	@include('admin.includes.messages.base')
+	@include('admin.components.messages.base')
 	@yield('content')
 @endsection

@@ -4,19 +4,25 @@
 
 @section('tab_content')
 
-	<h3>Comments:</h3>
+	@if($comments->isNotEmpty())
+		<h3>Comments:</h3>
 
-	<ul class="list-group list-group-flush">
-		@foreach($comments as $comment)
-			<h3 class="mt-3">
-				<a href="{{ route('questions.show', $comment->question->id) }}">
-					{{ $comment->question->title }}
-				</a>
-			</h3>
-			@include('public.components.comment')
-		@endforeach
-	</ul>
-
-	{{ $comments->links() }}
-
+		<ul class="list-group list-group-flush">
+			@foreach($comments as $comment)
+				<h3 class="mt-3">
+					<a href="{{ route('questions.show', $comment->question->id) }}">
+						{{ $comment->question->title }}
+					</a>
+				</h3>
+				@component('public.components.comment')
+					@slot('comment', $comment)
+					@slot('like_btn')
+					@endslot
+				@endcomponent
+			@endforeach
+		</ul>
+		{{ $comments->links() }}
+	@else
+		<h3>This user has not yet commented on anything</h3>
+	@endif
 @endsection

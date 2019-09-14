@@ -14,6 +14,11 @@ use App\Http\Controllers\Controller;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Comment::class, 'comment');
+    }
+
     public function addLike(Comment $comment)
     {
         $like = $comment->likes()->create([

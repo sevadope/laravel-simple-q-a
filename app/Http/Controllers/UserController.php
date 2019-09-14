@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::getPaginatedIndex(18);
+        $users = User::list()->paginate(18);
 
         return view('public.users.index', compact('users'));
     }
@@ -33,9 +33,9 @@ class UserController extends Controller
         return view('public.users.show.info', compact('user'));
     }
 
-    public function questions(User $user)
+    public function questions($name)
     {
-        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $user = User::getForShow($name);
         $questions = Question::list()
             ->forUser($user->id)
             ->paginate(20);
@@ -43,9 +43,9 @@ class UserController extends Controller
         return view('public.users.show.questions', compact('user', 'questions'));
     }
 
-    public function answers(User $user)
+    public function answers($name)
     {
-        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $user = User::getForShow($name);
         $answers = Answer::list()
             ->forUser($user->id)
             ->paginate(20);
@@ -53,9 +53,10 @@ class UserController extends Controller
         return view('public.users.show.answers', compact('user', 'answers'));
     }
 
-    public function comments(User $user)
+    public function comments($name)
     {
-        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $user = User::getForShow($name);
+
         $comments = Comment::list()
             ->forUser($user->id)
             ->paginate(20);
@@ -80,6 +81,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
+
         return view('public.users.edit', compact('user'));
     }
 
@@ -91,7 +94,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UserUpdateRequest $request, User $user)
-    {
+    {   
+        $this->authorize('update', $user);
+
         $data = $request->validated();
         $updated = $user->update($data);
 

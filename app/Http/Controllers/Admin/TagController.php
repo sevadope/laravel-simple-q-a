@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\TagUpdateRequest;
 use App\Models\Tag;
 use App\Models\Question;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController as Controller;
 
 class TagController extends Controller
 {
@@ -23,20 +23,24 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::getPaginatedIndex(10);
+        $tags = Tag::list()->paginate(10);
 
         return view('admin.tags.index', compact('tags'));
     }
 
     /******** Show actions ********/
 
-    public function info(Tag $tag)
+    public function info($slug)
     {
+        $tag = Tag::getForShow($slug);
+
         return view('admin.tags.show.info', compact('tag'));
     }
 
-    public function questions(Tag $tag)
+    public function questions($slug)
     {
+        $tag = Tag::getForShow($slug);
+
         $questions = Question::list()
             ->forTags($tag->id)
             ->paginate(20);

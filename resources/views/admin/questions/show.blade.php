@@ -1,133 +1,131 @@
 @extends('admin.base')
 
 @section('content_header')
-<h5 class="card-subtitle mb-2">
-	@foreach($question->tags as $tag)
-	|	<a class="d-inline text-info" href="{{ route('admin.tags.questions', $tag->slug) }}">
-			{{ $tag->title }}
-		</a>
-	@endforeach
-</h5>
-<h2>{{ $question->title }}</h2>
+	<h5 class="card-subtitle mb-2">
+		@foreach($question->tags as $tag)
+		|	<a class="d-inline text-info" href="{{ route('tags.questions', $tag->slug) }}">
+				{{ $tag->title }}
+			</a>
+		@endforeach
+	</h5>
+	<h2>{{ $question->title }}</h2>
 @endsection
 
 @section('content')
 
-<div class="question">
-	<div class="ml-2">
-		{{ $question->description }}
+	<div class="question">
+
+		<div class="ml-2">
+			{{ $question->description }}
+		</div>
+
+		<p class="card-subtitle mt-2 ml-2 text-muted">
+			{{ $question->created_at }}
+		</p>
+		
+		<div class="btn btn-primary m-2" disabled>
+			Subscribers: {{ $question->subscribers_count }}
+		</div>
+
+		@component('admin.components.question_comments_tab')
+			@slot('question', $question)
+		@endcomponent
+	
 	</div>
-	<p class="card-subtitle mt-2 ml-2 text-muted">{{ $question->created_at }}</p>
 
-	@component('admin.includes.comments_tab')
-		@slot('item', $question)
-		@slot('form')
-			@component('admin.includes.question_comment')
-				@slot('id', $question->id)
-			@endcomponent
-		@endslot
-	@endcomponent
+	<ul class="answers-tab list-group list-group-flush">
 
-</div>
+		@if($question->solutions)
 
-<ul class="answers-tab list-group list-group-flush">
+			<h3>Solutions</h3>
 
-	@if(!empty($question->solutions))
+			@foreach($question->solutions as $answer)	
+				@component('admin.components.question.answer')
 
-		<h3>Solutions</h3>
+					@slot('answer', $answer)
 
-		@foreach($question->solutions as $answer)	
-			@component('admin.includes.answer')
-				@slot('user', $answer->user)
-				@slot('answer', $answer)
-				
-				@if($question->id == auth()->id() || true)
 					@slot('add_field')
-						<a href="{{ route('admin.answers.change_status', $answer->id) }}" class="btn btn-success mr-2">
+						<a class="btn btn-success mr-2" 
+						href="{{ route('admin.answers.change_status', $answer->id)}}">
 							Remove from solutions
 						</a>
 					@endslot	
-				@endif
+					
+					@slot('like_btn')
+						<div class="btn btn-success mb-2" disabled>
+							Likes: {{ $answer->likes_count }}
+						</div>
+					@endslot
 
-				@slot('comments')
-					@component('admin.includes.comments_tab')
-						@slot('item', $answer)
-						
-						@slot('form')
-							@component('admin.includes.answer_comment')
-								@slot('id', $answer->id)
-							@endcomponent
-						@endslot	
-					@endcomponent
-				@endslot
-			@endcomponent	
-		@endforeach
-	@endif
-</ul>
+				@endcomponent	
+			@endforeach
+		@endif
+	</ul>
 
-<ul class="answers-tab list-group list-group-flush">
-	
-	@if(!empty($question->notSolutions))
-		<h3>Answers</h3>
-		@foreach($question->notSolutions as $answer)
-			@component('admin.includes.answer')
-				@slot('answer', $answer)
-				@slot('user', $answer->user)
+	<ul class="answers-tab list-group list-group-flush">
+		
+		@if($question->notSolutions)
+			<h3>Answers</h3>
+			@foreach($question->notSolutions as $answer)
+				@component('admin.components.question.answer')
 
-				@if($question->id == auth()->id() || true)
+					@slot('answer', $answer)
+
 					@slot('add_field')
-						<a href="{{ route('admin.answers.change_status', $answer->id) }}" class="btn btn-success mr-2">
+						<a href="{{ route('admin.answers.change_status', $answer->id)}}" class="btn btn-success mr-2">
 							Add to solutions
 						</a>
 					@endslot	
-				@endif
+					
+					@slot('like_btn')
+						<div class="btn btn-success mb-2" disabled>
+							Likes: {{ $answer->likes_count }}
+						</div>
+					@endslot
 
-				@slot('comments')
-					@component('admin.includes.comments_tab')
-						@slot('item', $answer)
+				@endcomponent	
+			@endforeach
+		@endif
 
-						@slot('form')
-							@component('admin.includes.answer_comment')
-								@slot('id', $answer->id)
-							@endcomponent
-						@endslot
-					@endcomponent
-				@endslot
+	</ul>
 
-			@endcomponent	
-		@endforeach
-	@endif
-</ul>
+	<div class="">		
+		<h3 class="mt-2">Your answer</h3>
+		<br>
+		<form action="{{ route('admin.answers.store', $question->id) }}"
+		method="POST">
+			@csrf
+			<input type="hidden" name="question_id" value="{{ $question->id }}">
 
-<h3 class="mt-2">Your answer</h3>
-<br>
-<form action="{{ route('admin.answers.store', $question->id) }}" method="POST">
-	@csrf
-	<input type="hidden" name="question_id" value="{{ $question->id }}">
+			<div class="form-group">
+				<h5 for="body">Moderator</h5>
+			    <textarea class="form-control" name="body" id="body" rows="5" required></textarea>
+			</div>
 
-	<div class="form-group">
-		<h5 for="body">{{ auth()->user()->profileName }}</h5>
-	    <textarea class="form-control" name="body" id="body" rows="5" required></textarea>
+			<button class="btn btn-primary" type="submit">Send</button>
+		</form>
 	</div>
-
-	<button class="btn btn-success" type="submit">Send</button>
-</form>
-
+	
 @endsection
 
-
 @section('right_sidebar')
+
 	<li class="list-group-item">
-	  <a class="btn btn-info" href="{{ route('admin.questions.edit', $question->id) }}">Edit</a>
+	 	<a class="btn btn-info" 
+	 	href="{{ route('admin.questions.edit', $question->id) }}">
+	 		Edit
+	 	</a>
+	</li>
+	<li class="list-group-item">
+		<form method="POST"
+		action="{{ route('admin.questions.destroy', $question->id) }}">
+			@method('DELETE')
+			@csrf
+
+			<button class="btn btn-danger" type="submit">
+				Delete
+			</button>
+		</form>
 	</li>
 
-	<form action="{{ route('admin.questions.destroy', $question->id) }}" method="POST">
-		@method('DELETE')
-		@csrf
-
-		<li class="list-group-item">
-		  <button type="submit" class="btn btn-danger">Delete</button>
-		</li>  	  
-		
-	</form>	
 @endsection

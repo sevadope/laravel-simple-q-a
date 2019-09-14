@@ -8,7 +8,7 @@
 
 <h5 class="text-muted">{{ $user->briefly_about_myself }}</h6>
 
-<div class="">
+<div class="mb-2">
 	<h5 class="d-inline"> Questions: {{ $user->questions_count }} |</h5>
 	<h5 class="d-inline"> Answers: {{ $user->answers_count }} |</h5>
 	<h5 class="d-inline"> Comments: {{ $user->comments_count }}</h5>

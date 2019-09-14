@@ -6,7 +6,7 @@
 
 @section('content')
 
-	<div class="text-center">
+	<div class="text-center mb-2">
 		<h5 class="text-muted text-center">{{ $tag->slug }}</h6>
 		
 		<h5>
@@ -14,17 +14,19 @@
 			| Questions: {{ $tag->questions->count() }}
 		</h5>
 
-	    @user_subscribed($tag->subscribers)
-	      <a href="{{ route('tags.unsubscribe', $tag->slug) }}"
-	      class="btn btn-outline-primary m-2">
-	        Unsubscribe
-	      </a>    
-	    @else
-	      <a href="{{ route('tags.subscribe', $tag->slug) }}"
-	      class="btn btn-primary m-2">
-	        Subscribe
-	      </a>
-	    @enduser_subscribed
+		@auth
+		    @user_subscribed($tag->subscribers)
+		      <a href="{{ route('tags.unsubscribe', $tag->slug) }}"
+		      class="btn btn-outline-primary m-2">
+		        Unsubscribe
+		      </a>    
+		    @else
+		      <a href="{{ route('tags.subscribe', $tag->slug) }}"
+		      class="btn btn-primary m-2">
+		        Subscribe
+		      </a>
+		    @enduser_subscribed
+	    @endauth
 	</div>
 
 	<ul class="nav nav-tabs mb-2">

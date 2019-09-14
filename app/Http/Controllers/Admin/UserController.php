@@ -7,7 +7,7 @@ use App\Models\Question;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController as Controller;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
 
@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::getPaginatedIndex();
+        $users = User::list()->paginate(18);
         
         return view('admin.users.index', compact('users'));
     }
@@ -39,9 +39,9 @@ class UserController extends Controller
         return view('admin.users.show.info', compact('user'));
     }
 
-    public function questions(User $user)
+    public function questions($name)
     {
-        $user = $user->withCount('questions', 'answers', 'comments')->first();
+        $user = User::getForShow($name);
         $questions = Question::list()
             ->forUser($user->id)
             ->paginate(20);
@@ -49,18 +49,20 @@ class UserController extends Controller
         return view('admin.users.show.questions', compact('user', 'questions'));
     }
 
-    public function answers(User $user)
+    public function answers($name)
     {
-        $user = $user->withCount('questions', 'answers', 'comments')->first();
-        $answers = Answer::getPaginatedForUser($user->id);
+        $user = User::getForShow($name);
+        $answers = Answer::list()->forUser($user->id)->paginate(20);
 
         return view('admin.users.show.answers', compact('user', 'answers'));
     }
 
-    public function comments(User $user)
+    public function comments($name)
     {
+        $user = User::getForShow($name);
 
-        $comments = Comment::getPaginatedForUser($user->id);
+        $comments = Comment::list()->forUser($user->id)
+            ->paginate(20);
 
         $comments
             ->where('commentable_type', Answer::class)

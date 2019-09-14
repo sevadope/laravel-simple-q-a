@@ -39,19 +39,24 @@ class Tag extends Model
 
     /**** Scopes ****/
 
-    public function scopeGetPaginatedIndex($query, $per_page)
+    public function scopeList($query)
     {
-    	$columns = ['id', 'title', 'slug', 'created_at', 'updated_at'];
-
     	return $query
-            ->withCount('questions', 'subscribers')
-    		->paginate($per_page, $columns);
+            ->withCount('questions', 'subscribers');
     }
 
     public function scopeGetForSelect($query, array $columns = ['id', 'title'])
     {
         return $query
             ->get($columns);
+    }
+
+    public function scopeGetForShow($query, $slug)
+    {
+        return $query
+            ->where('slug', $slug)
+            ->withCount('questions', 'subscribers')
+            ->first();
     }
 
     public function scopeGetForDestroy($query, $slug)

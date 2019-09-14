@@ -1,4 +1,4 @@
-<div class="comments-container">
+<div class="comments-container d-inline">
 	@if($question->comments_count > 0)
 		<button class="btn btn-link">{{ $question->comments_count }} comments</button>
 	@else
@@ -10,25 +10,29 @@
 
 			@component('public.components.comment')
 				@slot('comment', $comment)
-				@user_liked($comment->likes)
-					@slot('like_btn')
-						<a href="{{ route('comments.remove_like', $comment->id) }}">
-								You like it
-							{{ $comment->likes_count ?
-								'(' . $comment->likes_count . ')' : '' 
-							}}
-						</a>
-					@endslot
-				@else
-					@slot('like_btn')
-						<a href="{{ route('comments.add_like', $comment->id) }}">
-								Like
-							{{ $comment->likes_count ?
-								'(' . $comment->likes_count . ')' : '' 
-							}}
-						</a>
-					@endslot
-				@enduser_liked
+
+				@auth
+					@user_liked($comment->likes)
+						@slot('like_btn')
+							<a href="{{ route('comments.remove_like', $comment->id) }}">
+									You like it
+								{{ $comment->likes_count ?
+									'(' . $comment->likes_count . ')' : '' 
+								}}
+							</a>
+						@endslot
+					@else
+						@slot('like_btn')
+							<a href="{{ route('comments.add_like', $comment->id) }}">
+									Like
+								{{ $comment->likes_count ?
+									'(' . $comment->likes_count . ')' : '' 
+								}}
+							</a>
+						@endslot
+					@enduser_liked
+				@endauth
+
 			@endcomponent
 
 		@endforeach

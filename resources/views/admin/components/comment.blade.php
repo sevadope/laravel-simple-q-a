@@ -1,9 +1,10 @@
 <li class="list-group-item">
 			
 	{{ $title ?? '' }}
-	
+
 	<h6 class="">
-		<a class="d-inline" href="{{ route('users.info', $comment->user->name) }}">
+		<a class="d-inline" 
+		href="{{ route('admin.users.info', $comment->user->name) }}">
 			{{ $comment->user->profileName }}
 		</a>
 		<div class="d-inline text-muted">{{ '@' . $comment->user->id }}</div>
@@ -12,7 +13,7 @@
 	<div class="d-flex justify-content-between">
 
 		<div class="">
-			<div>{{ $comment->body }}</div>
+			<p>{{ $comment->body }}</p>
 			<small class="text-muted">{{ $comment->created_at }}</small>
 			<br>
 			{{ $like_btn ?? ''}}
@@ -20,18 +21,19 @@
 
 		@if(auth()->id() === $comment->user_id)
 			<div class="d-flex flex-row-reverse">
-
+				
 				<form class="" method="POST" 
-				action="{{ route('comments.destroy', $comment->id) }}">
+				action="{{ route('admin.comments.destroy', $comment->id) }}">
 					@method('DELETE')
 					@csrf
-					<button class="btn btn-link text-danger" type="submit">Delete</button>
-				</form>		
+					<button class="btn btn-link" type="submit">Delete</button>
+				</form>	
 
-				<a href="{{ route('comments.edit', $comment->id) }}"
+				<a href="{{ route('admin.comments.edit', $comment->id) }}"
 				class="btn btn-link">
 					Edit
-				</a>		
+				</a>
+			
 			</div>
 		@endif
 

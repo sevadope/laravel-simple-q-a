@@ -92,7 +92,7 @@ class Question extends Model
     public function scopeList($query)
     {
         return $query
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->withCount('answers', 'tags', 'subscribers')
             ->with(['tags:id,title']);
     }

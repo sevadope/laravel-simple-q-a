@@ -11,6 +11,11 @@ use App\Http\Controllers\Controller;
 
 class AnswerController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Answer::class, 'answer');
+    }
+
     public function addLike(Answer $answer)
     {
         $like = $answer->likes()->create([
@@ -126,13 +131,10 @@ class AnswerController extends Controller
         } 
     }
 
-    public function add_like(Answer $answer)
-    {
-        
-    }
-
     public function changeStatus(Answer $answer)        
     {
+        $this->authorize('change_status', $answer);
+        
         $answer->is_solution = $answer->is_solution === 0 ? 1 : 0;
         $saved = $answer->save();
 

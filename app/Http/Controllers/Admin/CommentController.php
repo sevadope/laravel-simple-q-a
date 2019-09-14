@@ -9,7 +9,7 @@ use App\Http\Requests\CommentStoreForQuestionRequest;
 use App\Http\Requests\CommentStoreForAnswerRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController as Controller;
 
 class CommentController extends Controller
 {
@@ -36,7 +36,7 @@ class CommentController extends Controller
     {
         $data = $request->validated();
 
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = self::MODERATOR_ID;
         $data['commentable_type'] = Question::class;
 
         $comment = (new Comment())->create($data);
@@ -63,7 +63,7 @@ class CommentController extends Controller
     {
         $data = $request->validated();
 
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = self::MODERATOR_ID;
         $data['commentable_type'] = Answer::class;
 
         $comment = (new Comment())->create($data);

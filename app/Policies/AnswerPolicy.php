@@ -10,6 +10,11 @@ class AnswerPolicy
 {
     use HandlesAuthorization;
     
+    public function change_status(User $user, Answer $answer)
+    {
+        return $user->questions->contains($answer->question_id);
+    }
+
     /**
      * Determine whether the user can view any answers.
      *
@@ -41,7 +46,7 @@ class AnswerPolicy
      */
     public function create(User $user)
     {
-        return $user->exists;
+        return true;
     }
 
     /**

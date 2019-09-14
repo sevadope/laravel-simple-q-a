@@ -8,8 +8,9 @@
 
 <h5 class="text-muted">{{ $tag->slug }}</h6>
 
-<div class="">
-	<h5 class="d-inline"> Questions: {{ $tag->questions->count() }}</h5>
+<div class="mb-2">
+	<h5 class="d-inline">Subscribers: {{ $tag->subscribers_count }}</h5>
+	<h5 class="d-inline">| Questions: {{ $tag->questions_count }}</h5>
 </div>
 
 <ul class="nav nav-tabs mb-2">

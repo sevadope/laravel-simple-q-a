@@ -25,7 +25,7 @@ class QuestionPolicy
      */
     public function viewAny(User $user)
     {
-
+        return true;
     }
 
     /**
@@ -48,7 +48,6 @@ class QuestionPolicy
      */
     public function create(User $user)
     {
-        return $user->exists;
     }
 
     /**

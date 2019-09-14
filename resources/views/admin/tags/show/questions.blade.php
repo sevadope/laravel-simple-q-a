@@ -4,10 +4,12 @@
 
 @section('tab_content')
 
-	<h3>Questions:</h3>
-
-	@include('admin.includes.questions_table')
-
-	{{ $questions->links() }}
+	@if($questions->isNotEmpty())
+		<h3>Questions:</h3>
+		@include('admin.components.questions_table')
+		{{ $questions->links() }}
+	@else
+		<h5>There are no questions with this tag</h5>
+	@endif	
 
 @endsection

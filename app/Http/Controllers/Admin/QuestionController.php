@@ -7,7 +7,7 @@ use App\Http\Requests\QuestionStoreRequest;
 use App\Models\Tag;
 use App\Models\Question;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController as Controller;
 
 class QuestionController extends Controller
 {
@@ -69,6 +69,9 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::getForShow($id);
+
+        $question->comments->merge($question->answers)
+            ->load('user:id,name,first_name,last_name');
         
         return view('admin.questions.show', compact('question'));
     }
@@ -158,6 +161,7 @@ class QuestionController extends Controller
                 ->with(['success' => "Question with ID '$question->id' deleted",
                         'restore_route' => $restore_route]);
         } else {
+            dd($destroyed);
             return back()
                 ->withErors(['msg' => 'Delete error. Please try again.']);
         }

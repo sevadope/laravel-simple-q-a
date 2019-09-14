@@ -32,7 +32,7 @@ Route::group(
 
 		/**** Users ****/
 		Route::resource('users', 'UserController')
-			->only('index', 'edit', 'update')
+			->only('index', 'edit', 'update', 'destroy')
 			->names('users');
 
 		Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
@@ -73,6 +73,16 @@ Route::group(
 		Route::post('questions/{question}/restore', 'QuestionController@restore')
 			->name('questions.restore');
 
+		/** Store comment for question **/
+		Route::post('{question}/question/comment',
+			'CommentController@storeForQuestion')
+			->name('comments.storeForQuestion');
+
+		/** Store comment for answer **/
+		Route::post('{question}/answer/comment',
+			'CommentController@storeForAnswer')
+			->name('comments.storeForAnswer');
+
 		/**** Answers ****/
 		Route::resource('answers', 'AnswerController')
 			->only('index', 'store', 'edit', 'update', 'destroy')
@@ -82,7 +92,7 @@ Route::group(
 			->name('answers.restore');
 
 		Route::get('answers/{answer}/change_status',
-			'AnswerController@change_status')
+			'AnswerController@changeStatus')
 			->name('answers.change_status');
 
 		/**** Comments ****/
@@ -101,7 +111,7 @@ Route::resource('users', 'UserController')
 	->only('index', 'edit', 'update')->names('users');
 
 /** User`s Profile routes **/
-Route::group(['prefix' => 'user', 'as' => 'users.'], function () {
+Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
 
 	Route::get('{user}/info', 
 		'UserController@info')
@@ -139,22 +149,28 @@ Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
 		'TagController@restore')
 		->name('restore');
 
-	/** User subscriptions **/
-	Route::get('{tag}/unsubscribe',	
-		'TagController@unsubscribe')
-		->name('unsubscribe');
+	Route::group(['middleware' => 'auth.basic'], function () {
+		/** User subscriptions **/
+		Route::get('{tag}/unsubscribe',	
+			'TagController@unsubscribe')
+			->name('unsubscribe');
 
-	Route::get('{tag}/subscribe', 
-		'TagController@subscribe')
-		->name('subscribe');
+		Route::get('{tag}/subscribe', 
+			'TagController@subscribe')
+			->name('subscribe');	
+	});
 });
 
 /**** Questions ****/
 Route::resource('questions', 'QuestionController')
 	->except('destroy');
 
-Route::group(['prefix' => 'questions'], function () {
-
+Route::group(
+	[
+		'prefix' => 'questions',
+		'middleware' => 'auth.basic'
+	],
+	function () {
 	/** Store comment for question **/
 	Route::post('{question}/question/comment',
 		'CommentController@storeForQuestion')
@@ -196,8 +212,11 @@ Route::resource('comments', 'CommentController')
 	->only('edit', 'update', 'destroy')
 	->names('comments');
 
-Route::get('comments/{comment}/add_like', 'CommentController@addLike')
-	->name('comments.add_like');
+Route::group(['middleware' => 'auth.basic'], function () {
+	Route::get('comments/{comment}/add_like', 'CommentController@addLike')
+		->name('comments.add_like');
 
-Route::get('comments/{comment}/remove_like', 'CommentController@removeLike')
-	->name('comments.remove_like');
+	Route::get('comments/{comment}/remove_like', 'CommentController@removeLike')
+		->name('comments.remove_like');	
+});
+

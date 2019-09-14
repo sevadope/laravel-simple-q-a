@@ -6,7 +6,7 @@ use App\Models\Answer;
 use App\Http\Requests\AnswerStoreRequest;
 use App\Http\Requests\AnswerUpdateRequest;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController as Controller;
 
 class AnswerController extends Controller
 {
@@ -31,7 +31,7 @@ class AnswerController extends Controller
     public function store(AnswerStoreRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = self::MODERATOR_ID;
 
         $answer = (new Answer())->create($data);
 
@@ -126,7 +126,7 @@ class AnswerController extends Controller
         }
     }
 
-    public function change_status(Answer $answer)
+    public function changeStatus(Answer $answer)
     {
         $answer->is_solution = $answer->is_solution == 0 ? 1 : 0;
         $saved = $answer->save();

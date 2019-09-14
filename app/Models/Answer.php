@@ -48,7 +48,7 @@ class Answer extends Model
     public function scopeList($query)
     {       
         return $query
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->with('user:id,name,first_name,last_name');
     }
 

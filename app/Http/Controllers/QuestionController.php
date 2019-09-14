@@ -57,13 +57,14 @@ class QuestionController extends Controller
         
         $item = (new Question())->create($data);
         $tags_sync = $item->tags()->sync($data['tags']);
-        $sub_attached = $item->subscribers()->attache($data['user_id']);
+        $item->subscribers()->attach($data['user_id']);
 
-        if ($item && $tags_sync && $sub_attached) {
+        if ($item && $tags_sync) {
             return redirect()
                 ->route('questions.show', $item->id)
                 ->with(['success' => 'Question successfuly created']);
         } else {
+            dd($item);
             return back()
                 ->withErors(['msg' => 'Create error. Please try again'])
                 ->withInput();
@@ -199,12 +200,5 @@ class QuestionController extends Controller
             'newest' => 'New',
             'without_answer' => 'Without answer',
         ];
-    }
-
-    /**** Users collection loading ****/
-
-    private function loadUsers()
-    {
-        
     }
 }

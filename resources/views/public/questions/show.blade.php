@@ -22,23 +22,25 @@
 		<p class="card-subtitle mt-2 ml-2 text-muted">
 			{{ $question->created_at }}
 		</p>
-		
-		@user_subscribed($question->subscribers)
-			<a href="{{ route('questions.unsubscribe', $question->id) }}"
-			class="btn btn-outline-primary">
-				Unsubscribe | {{ $question->subscribers_count }}
-			</a>
-		@else 
-			<a href="{{ route('questions.subscribe', $question->id) }}"
-			class="btn btn-primary">
-				Subscribe | {{ $question->subscribers_count }}
-			</a>
-		@enduser_subscribed
+
+		@auth
+			@user_subscribed($question->subscribers)
+				<a href="{{ route('questions.unsubscribe', $question->id) }}"
+				class="btn btn-outline-primary m-2">
+					Unsubscribe | {{ $question->subscribers_count }}
+				</a>
+			@else 
+				<a href="{{ route('questions.subscribe', $question->id) }}"
+				class="btn btn-primary m-2">
+					Subscribe | {{ $question->subscribers_count }}
+				</a>
+			@enduser_subscribed
+		@endauth
 
 		@component('public.components.question_comments_tab')
 			@slot('question', $question)
-		@endcomponent
-	
+		@endcomponent		
+
 	</div>
 
 	<ul class="answers-tab list-group list-group-flush">
@@ -60,26 +62,27 @@
 						@endslot	
 					@endif
 					
-					
-					@user_liked($answer->likes)
-						@slot('like_btn')
-							<a href="{{ route('answers.remove_like', $answer->id) }}"
-							class="btn btn-success">
-								You like it
-								{{ $answer->likes_count
-									? '| ' . $answer->likes_count : ''}}
-							</a>
-						@endslot
-					@else
-						@slot('like_btn')
-							<a href="{{ route('answers.add_like', $answer->id) }}"
-							class="btn btn-outline-success">
-								Like
-								{{ $answer->likes_count
-									? '| ' . $answer->likes_count : ''}}
-							</a>
-						@endslot
-					@enduser_liked
+					@auth
+						@user_liked($answer->likes)
+							@slot('like_btn')
+								<a href="{{ route('answers.remove_like', $answer->id) }}"
+								class="btn btn-success mb-2">
+									You like it
+									{{ $answer->likes_count
+										? '| ' . $answer->likes_count : ''}}
+								</a>
+							@endslot
+						@else
+							@slot('like_btn')
+								<a href="{{ route('answers.add_like', $answer->id) }}"
+								class="btn btn-outline-success mb-2">
+									Like
+									{{ $answer->likes_count
+										? '| ' . $answer->likes_count : ''}}
+								</a>
+							@endslot
+						@enduser_liked
+					@endauth
 
 				@endcomponent	
 			@endforeach
@@ -101,27 +104,28 @@
 							</a>
 						@endslot	
 					@endif
-
-					@user_liked($answer->likes)
-						@slot('like_btn')
-							<a href="{{ route('answers.remove_like', $answer->id) }}"
-							class="btn btn-success">
-								You like it
-								{{ $answer->likes_count
-									? '| ' . $answer->likes_count : ''}}
-							</a>
-						@endslot
-					@else
-						@slot('like_btn')
-							<a href="{{ route('answers.add_like', $answer->id) }}"
-							class="btn btn-outline-success">
-								Like
-								{{ $answer->likes_count
-									? '| ' . $answer->likes_count : ''}}
-							</a>
-						@endslot
-					@enduser_liked
-
+					
+					@auth
+						@user_liked($answer->likes)
+							@slot('like_btn')
+								<a href="{{ route('answers.remove_like', $answer->id) }}"
+								class="btn btn-success mb-2">
+									You like it
+									{{ $answer->likes_count
+										? '| ' . $answer->likes_count : ''}}
+								</a>
+							@endslot
+						@else
+							@slot('like_btn')
+								<a href="{{ route('answers.add_like', $answer->id) }}"
+								class="btn btn-outline-success mb-2">
+									Like
+									{{ $answer->likes_count
+										? '| ' . $answer->likes_count : ''}}
+								</a>
+							@endslot
+						@enduser_liked
+					@endauth
 				@endcomponent	
 			@endforeach
 		@endif
