@@ -8,6 +8,7 @@ use App\Http\Requests\AnswerStoreRequest;
 use App\Http\Requests\AnswerUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\AnswerService;
 
 class AnswerController extends Controller
 {
@@ -34,14 +35,10 @@ class AnswerController extends Controller
 
     public function removeLike(Answer $answer)
     {
-        $like = Like::where(
-            [
-                ['likeable_id', '=', $answer->id],
-                ['likeable_type', '=', Answer::class],
-            ]
-        )->first();
-
-        $deleted = $like->delete();
+        $deleted = $answer->likes
+            ->where('user_id', auth()->id())
+            ->first()
+            ->delete();
 
         if ($deleted) {
             return back();
@@ -57,12 +54,13 @@ class AnswerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AnswerStoreRequest $request)
+    public function store(
+        AnswerStoreRequest $request,
+        AnswerService $answer_service
+    )
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->id();
-
-        $answer = (new Answer())->create($data);
+        $answer = $answer_service->create($data);
 
         if ($answer) {
             return redirect()
@@ -96,7 +94,6 @@ class AnswerController extends Controller
     public function update(AnswerUpdateRequest $request, Answer $answer)
     {
         $data = $request->validated();
-
         $updated = $answer->update($data);
         
         if ($updated) {

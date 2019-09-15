@@ -14,7 +14,7 @@
 				@auth
 					@user_liked($comment->likes)
 						@slot('like_btn')
-							<a href="{{ route('comments.remove_like', $comment->id) }}">
+							<a href="{{ route('comments.remove_like', $comment->id) }}" class="text-success">
 									You like it
 								{{ $comment->likes_count ?
 									'(' . $comment->likes_count . ')' : '' 
@@ -23,7 +23,7 @@
 						@endslot
 					@else
 						@slot('like_btn')
-							<a href="{{ route('comments.add_like', $comment->id) }}">
+							<a href="{{ route('comments.add_like', $comment->id) }}"  class="text-success">
 									Like
 								{{ $comment->likes_count ?
 									'(' . $comment->likes_count . ')' : '' 

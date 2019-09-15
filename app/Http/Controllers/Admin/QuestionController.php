@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\BaseController as Controller;
+use App\Services\QuestionService;
 
 class QuestionController extends Controller
 {
@@ -41,13 +42,13 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(QuestionStoreRequest $request)
+    public function store(
+        QuestionStoreRequest $request,
+        QuestionService $question_service
+    )
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->user()->id;
-        
-        $item = (new Question())->create($data);
-        $tags_sync = $item->tags()->sync($data['tags']);
+        $item = $question_service->create($data, self::MODERATOR_ID);
 
         if ($item && $tags_sync) {
             return redirect()
@@ -96,15 +97,16 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(QuestionUpdateRequest $request, Question $question)
+    public function update(
+        QuestionUpdateRequest $request,
+        Question $question,
+        QuestionService $question_service
+    )
     {
         $data = $request->validated();
+        $updated = $question_service->update($question, $data);
 
-        $updated = $question->update($data);
-        $tags_sync = $question->tags()->sync($data['tags']);
-
-        if ($updated && $tags_sync) {
-
+        if ($updated) {
             return redirect()
                 ->route('admin.questions.show', $question->id)
                 ->with(['success' => 'Question successfuly updated']);  

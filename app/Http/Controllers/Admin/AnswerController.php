@@ -7,6 +7,7 @@ use App\Http\Requests\AnswerStoreRequest;
 use App\Http\Requests\AnswerUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\BaseController as Controller;
+use App\Services\AnswerService;
 
 class AnswerController extends Controller
 {
@@ -28,12 +29,13 @@ class AnswerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AnswerStoreRequest $request)
+    public function store(
+        AnswerStoreRequest $request,
+        AnswerService $answer_service
+    )
     {
         $data = $request->validated();
-        $data['user_id'] = self::MODERATOR_ID;
-
-        $answer = (new Answer())->create($data);
+        $answer = $answer_service->create($data, self::MODERATOR_ID);
 
         if ($answer) {
             return redirect()

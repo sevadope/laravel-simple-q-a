@@ -14,9 +14,7 @@
 				@slot('comment', $comment)
 				
 				@slot('like_btn')
-					<button class="btn btn-success" disabled>
-						Likes: {{ $comment->likes_count }}						
-					</button>
+					Likes: {{ $comment->likes_count }}						
 				@endslot
 			@endcomponent
 
@@ -25,7 +23,7 @@
 
 		<li class="list-group-item">
 			<h5 for="body">Moderator</h5>
-			<form action="{{ route('comments.storeForAnswer', $answer->id) }}"
+			<form action="{{ route('admin.comments.storeForAnswer', $answer->id) }}"
 			method="POST">
 				@csrf
 					

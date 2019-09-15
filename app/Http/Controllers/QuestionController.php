@@ -9,21 +9,51 @@ use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\Controller;
+use App\Services\QuestionService;
 
 class QuestionController extends Controller
 {
+    /******** Subscriptions ********/
+    
+    public function subscribe(Question $question)
+    {
+        $sub_attached = $question->subscribers()
+            ->syncWithoutDetaching(auth()->id());
+
+        if ($sub_attached) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => $sub_attached.'Subscribe error. Please try again.']);
+        }
+    }
+
+    public function unsubscribe(Question $question)
+    {
+        $sub_detached = $question->subscribers()->detach(auth()->id());
+
+        if ($sub_detached) {
+            return back();
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Subscribe error. Please try again.']);
+        }
+    }
+
+    /******** CRUD ********/
+
     /**
      * Display a listing of the resource.
-     *
+     * 
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $sorting_tabs = $this->getListSortingTabs();
-        $sorting_param = request()->query('tab') ?? 'newest';
+        $sorting_param = request()->query('tab');
 
         $query = Question::list();
-        $questions = $this->setQueryIndexSorting($query, $sorting_param)
+        $questions = $this->setQuerySorting($query, $sorting_param)
             ->paginate(20);
 
         return view(
@@ -50,16 +80,15 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(QuestionStoreRequest $request)
+    public function store(
+        QuestionStoreRequest $request,
+        QuestionService $question_service
+    )
     {   
         $data = $request->validated();
-        $data['user_id'] = auth()->user()->id;
-        
-        $item = (new Question())->create($data);
-        $tags_sync = $item->tags()->sync($data['tags']);
-        $item->subscribers()->attach($data['user_id']);
+        $item = $question_service->create($data);
 
-        if ($item && $tags_sync) {
+        if ($item) {
             return redirect()
                 ->route('questions.show', $item->id)
                 ->with(['success' => 'Question successfuly created']);
@@ -84,36 +113,8 @@ class QuestionController extends Controller
         $question->comments->merge($question->answers)
             ->load('user:id,name,first_name,last_name');
 
-        #dd($question->answers_comments);
-
         return view('public.questions.show', compact('question'));
     }
-
-    public function subscribe(Question $question)
-    {
-        $sub_attached = $question->subscribers()
-            ->syncWithoutDetaching(auth()->id());
-
-        if ($sub_attached) {
-            return back();
-        } else {
-            return back()
-                ->withErrors(['msg' => $sub_attached.'Subscribe error. Please try again.']);
-        }
-    }
-
-    public function unsubscribe(Question $question)
-    {
-        $sub_detached = $question->subscribers()->detach(auth()->id());
-
-        if ($sub_detached) {
-            return back();
-        } else {
-            return back()
-                ->withErrors(['msg' => 'Subscribe error. Please try again.']);
-        }
-    }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -135,14 +136,16 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(QuestionUpdateRequest $request, Question $question)
+    public function update(
+        QuestionUpdateRequest $request,
+        Question $question,
+        QuestionService $question_service
+    )
     {
         $data = $request->validated();
+        $updated = $question_service->update($question, $data);
 
-        $updated = $question->update($data);
-        $tags_sync = $question->tags()->sync($data['tags']);
-
-        if ($updated && $tags_sync) {
+        if ($updated) {
 
             return redirect()
                 ->route('questions.show', $question->id)
@@ -179,9 +182,9 @@ class QuestionController extends Controller
 
     /**** Sorting ****/
 
-    private function setQueryIndexSorting($query, string $sorting_param)
+    private function setQuerySorting($query, $sorting_param)
     {
-        if ($sorting_param == '') {
+        if (is_null($sorting_param)) {
             return $query;
         }
         elseif ($sorting_param == 'newest') {

@@ -10,6 +10,7 @@ use App\Http\Requests\CommentStoreForAnswerRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\BaseController as Controller;
+use App\Services\CommentService;
 
 class CommentController extends Controller
 {
@@ -32,14 +33,13 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeForQuestion(CommentStoreForQuestionRequest $request)
+    public function storeForQuestion(
+        CommentStoreForQuestionRequest $request,
+        CommentService $comment_service
+    )
     {
         $data = $request->validated();
-
-        $data['user_id'] = self::MODERATOR_ID;
-        $data['commentable_type'] = Question::class;
-
-        $comment = (new Comment())->create($data);
+        $comment = $comment_service->createForQuestion($data, self::MODERATOR_ID);
 
         if ($comment) {
             return redirect()
@@ -59,14 +59,13 @@ class CommentController extends Controller
      * @param $request
      * @return void
      */
-    public function storeForAnswer(CommentStoreForAnswerRequest $request)
+    public function storeForAnswer(
+        CommentStoreForAnswerRequest $request,
+        CommentService $comment_service
+    )
     {
         $data = $request->validated();
-
-        $data['user_id'] = self::MODERATOR_ID;
-        $data['commentable_type'] = Answer::class;
-
-        $comment = (new Comment())->create($data);
+        $comment = $comment_service->createForAnswer($data, self::MODERATOR_ID);
 
         if ($comment) {
             return redirect()
@@ -101,7 +100,6 @@ class CommentController extends Controller
     public function update(CommentUpdateRequest $request, Comment $comment)
     {
         $data = $request->validated();
-
         $updated = $comment->update($data);
 
         if ($updated) {
@@ -156,25 +154,6 @@ class CommentController extends Controller
             return back()
                 ->withErrors(['msg' => 'Delete error. Please try again.']);
         }
-    }
-    /******** Custom functions ********/
-
-    /**
-     * Eager load commentables for comments collections
-     * for getting guestions titles
-     * 
-     * @param void
-     * @return void
-     */
-    private function eagerLoadCommentables($comments)
-    {
-        $comments
-            ->where('commentable_type', Answer::class)
-            ->load('commentable.question:id,title');
-
-        $comments
-            ->where('commentable_type', Question::class)
-            ->load('commentable:id,title');        
     }
 
 }

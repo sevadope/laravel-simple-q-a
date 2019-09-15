@@ -13,6 +13,8 @@ use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
+    /******** CRUD ********/
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +27,8 @@ class UserController extends Controller
         return view('public.users.index', compact('users'));
     }
 
-    /******** User`s profile routes ********/
+    /**** User`s profile routes ****/ 
+
     public function info($name)
     {
         $user = User::getForShow($name);
@@ -53,7 +56,7 @@ class UserController extends Controller
         return view('public.users.show.answers', compact('user', 'answers'));
     }
 
-    public function comments($name)
+    public function comments($name, CommentService $comment_service)
     {
         $user = User::getForShow($name);
 
@@ -61,17 +64,12 @@ class UserController extends Controller
             ->forUser($user->id)
             ->paginate(20);
 
-        $comments
-            ->where('commentable_type', Answer::class)
-            ->load('commentable.question:id,title');
-
-        $comments
-            ->where('commentable_type', Question::class)
-            ->load('commentable:id,title');
+        $comment_service->loadQuestionTitles($comments);
 
         return view('public.users.show.comments', compact('user', 'comments'));
     }
 
+    /********/
 
     /**
      * Show the form for editing the specified resource.

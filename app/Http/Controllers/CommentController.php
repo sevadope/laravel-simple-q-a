@@ -11,6 +11,7 @@ use App\Http\Requests\CommentStoreForAnswerRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\CommentService;
 
 class CommentController extends Controller
 {
@@ -37,14 +38,10 @@ class CommentController extends Controller
 
     public function removeLike(Comment $comment)
     {
-        $like = Like::where(
-            [
-                ['likeable_id', $comment->id],
-                ['likeable_type', Comment::class],
-            ]
-        )->first();
-
-        $deleted = $like->delete();
+        $deleted = $comment->likes
+            ->where('user_id', auth()->id())
+            ->first()
+            ->delete();
 
         if ($deleted) {
             return back();
@@ -60,14 +57,13 @@ class CommentController extends Controller
      * @param $request
      * @return void
      */
-    public function storeForAnswer(CommentStoreForAnswerRequest $request)
+    public function storeForAnswer(
+        CommentStoreForAnswerRequest $request,
+        CommentService $comment_service
+    )
     {
         $data = $request->validated();
-
-        $data['user_id'] = auth()->id();
-        $data['commentable_type'] = Answer::class;
-
-        $comment = (new Comment())->create($data);
+        $comment = $comment_service->createForAnswer($data);
 
         if ($comment) {
             return redirect()
@@ -87,14 +83,13 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeForQuestion(CommentStoreForQuestionRequest $request)
+    public function storeForQuestion(
+        CommentStoreForQuestionRequest $request,
+        CommentService $comment_service
+    )
     {
         $data = $request->validated();
-
-        $data['user_id'] = auth()->id();
-        $data['commentable_type'] = Question::class;
-
-        $comment = (new Comment())->create($data);
+        $comment = $comment_service->createForQuestion($data);
 
         if ($comment) {
             return redirect()
@@ -129,7 +124,6 @@ class CommentController extends Controller
     public function update(CommentUpdateRequest $request, Comment $comment)
     {
         $data = $request->validated();
-
         $updated = $comment->update($data);
 
         if ($updated) {

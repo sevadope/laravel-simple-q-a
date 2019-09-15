@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\BaseController as Controller;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
+use App\Services\CommentService;
 
 class UserController extends Controller
 {
@@ -17,6 +18,8 @@ class UserController extends Controller
     {
         $this->authorizeResource(User::class, 'user');
     }
+
+    /******** CRUD ********/
 
     /**
      * Display a listing of the resource.
@@ -30,7 +33,7 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    /**** Profile ****/
+    /**** User`s profile routes ****/ 
 
     public function info($name)
     {
@@ -57,24 +60,19 @@ class UserController extends Controller
         return view('admin.users.show.answers', compact('user', 'answers'));
     }
 
-    public function comments($name)
+    public function comments($name, CommentService $comment_service)
     {
         $user = User::getForShow($name);
 
         $comments = Comment::list()->forUser($user->id)
             ->paginate(20);
 
-        $comments
-            ->where('commentable_type', Answer::class)
-            ->load('commentable.question:id,title');
-
-        $comments
-            ->where('commentable_type', Question::class)
-            ->load('commentable:id,title');
+        $comment_service->loadQuestionTitles($comments);
 
         return view('admin.users.show.comments', compact('user', 'comments'));
     }
-    /************/
+    
+    /********/
 
     /**
      * Show the form for editing the specified resource.
