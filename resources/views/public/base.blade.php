@@ -6,7 +6,7 @@
 
 	@auth
 		<a class="list-group-item list-group-item-action text-light bg-dark"
-		href="{{ route('questions.index') }}">
+		href="{{ route('questions.feed') }}">
 			My feed
 		</a>
 	@endauth

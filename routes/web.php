@@ -165,12 +165,17 @@ Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
 Route::resource('questions', 'QuestionController')
 	->except('destroy');
 
+Route::get('feed', 'QuestionController@feed')
+	->name('questions.feed')
+	->middleware('auth.basic');
+
 Route::group(
 	[
 		'prefix' => 'questions',
 		'middleware' => 'auth.basic'
 	],
 	function () {
+
 	/** Store comment for question **/
 	Route::post('{question}/question/comment',
 		'CommentController@storeForQuestion')

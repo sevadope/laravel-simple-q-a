@@ -17,6 +17,11 @@ class QuestionPolicy
         }
     }
 
+    public function feed(User $user)
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can view any questions.
      *

@@ -42,6 +42,32 @@ class QuestionController extends Controller
 
     /******** CRUD ********/
 
+    public function feed()
+    {
+        $this->authorize('feed', Question::class);
+
+        $sorting_tabs = $this->getListSortingTabs();
+        $sorting_param = request()->query('tab');
+
+        $user_tags = auth()->user()->subscribed_tags->modelKeys();
+
+        if (empty($user_tags)) {
+            return redirect()
+                ->route('tags.index')
+                ->with(['success' => 
+                    'Please subscribe to few tags for fill your feed']);
+        }
+
+        $query = Question::list()->forTags($user_tags);
+        $questions = $this->setQuerySorting($query, $sorting_param)
+            ->paginate(20);
+
+        return view(
+            'public.questions.feed', 
+            compact('questions', 'sorting_param', 'sorting_tabs')
+        );
+    }
+
     /**
      * Display a listing of the resource.
      * 
