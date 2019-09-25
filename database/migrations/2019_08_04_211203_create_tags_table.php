@@ -20,6 +20,8 @@ class CreateTagsTable extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
 
+            $table->index('slug');
+
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,73 +1,87 @@
-/*!
- * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
- * Copyright 2013-2019 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
- */
+nav {
+	top: 0;
+	background-color: #393f54;
+	height: 6vh;
+	text-align: center;
+}
+
+main {
+	min-height: 90vh;
+}
+
 body {
-  overflow-x: hidden;
+	display: flex;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}		
+		
+footer {
 }
 
-#sidebar-wrapper {
-
-  min-width: 15vw;
-  margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+.main {
+	background-color: #ffffff;
+	flex: 4 0;
 }
 
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
+.left-sidebar {
+	flex: 1;
+	min-height: 100vh;
+	background-color: #393f54;
 }
 
-#sidebar-wrapper .list-group {
-  width: 15vw;
+.left-sidebar .list-group-item {
+	background-color: transparent;
+	border: none;
+	color: #efefef;
 }
 
-#page-content-wrapper {
-  min-width: 100vw;
+.left-sidebar .list-group-item:hover {
+	text-decoration: underline;
+	color: #ffffff;
 }
 
-.hover-slide {
-  position: fixed;
-  min-height: 100vh;
+.right-sidebar {
+	flex: 1;
+	min-height: 100vh;
+	background-color: #f5f5f5;
 }
 
-.list-wrapper {
-  height: 100%;
+.left-sidebar .sidebar-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #efefef;
+	background-color: #2c3142;
+	height: 6vh;
 }
 
-.list-group-item {
-  border-top: 0;
-  background-color: transparent;
+.right-sidebar .sidebar-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #efefef;
+	background-color: #393f54;
+	height: 6vh;	
 }
 
-.comments-tab > .list-group-item {
-  background-color: #efefef;
-  margin-left: 1.5rem;
+.top-navbar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.answer {
-  background-color: transparent;
+#search {
+	background-color: #2c3142;
+	border-color: #2c3142;
+	color: #efefef;	
 }
 
-.comment-form {
-  background-color: #e5e5e5;
+main .list-group-item {
+	border-bottom: 2px solid #dedede;
+	border-top: none;
+	background-color: transparent;
 }
 
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
-
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
-
-  #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
-  }
+.comments-tab .list-group-item {
+	margin-left: 5vw;
+	background-color: #f5f5f5;
 }

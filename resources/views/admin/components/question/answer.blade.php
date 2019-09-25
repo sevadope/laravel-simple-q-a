@@ -41,7 +41,9 @@
 		</div>
 	</div>
 	
-	{{ $like_btn ?? '' }}
+	<div class="btn btn-success mb-2" disabled>
+		Likes: {{ $answer->likes_count }}
+	</div>
 
 	@component('admin.components.answer_comments_tab')
 		@slot('answer', $answer)

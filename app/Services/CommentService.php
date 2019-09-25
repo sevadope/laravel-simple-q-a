@@ -9,7 +9,7 @@ use App\Models\Comment;
 
 class CommentService 
 {
-	public function loadQuestionTitles(Collection $comments)
+	public function loadQuestionTitles($comments)
 	{
 		$comments->where('commentable_type', Question::class)
 			->load('commentable:id,title');

@@ -46,16 +46,10 @@
 
 					@slot('add_field')
 						<a class="btn btn-success mr-2" 
-						href="{{ route('admin.answers.change_status', $answer->id)}}">
+						href="{{ route('admin.answers.changeStatus', $answer->id)}}">
 							Remove from solutions
 						</a>
 					@endslot	
-					
-					@slot('like_btn')
-						<div class="btn btn-success mb-2" disabled>
-							Likes: {{ $answer->likes_count }}
-						</div>
-					@endslot
 
 				@endcomponent	
 			@endforeach
@@ -72,16 +66,10 @@
 					@slot('answer', $answer)
 
 					@slot('add_field')
-						<a href="{{ route('admin.answers.change_status', $answer->id)}}" class="btn btn-success mr-2">
+						<a href="{{ route('admin.answers.changeStatus', $answer->id)}}" class="btn btn-success mr-2">
 							Add to solutions
 						</a>
 					@endslot	
-					
-					@slot('like_btn')
-						<div class="btn btn-success mb-2" disabled>
-							Likes: {{ $answer->likes_count }}
-						</div>
-					@endslot
 
 				@endcomponent	
 			@endforeach

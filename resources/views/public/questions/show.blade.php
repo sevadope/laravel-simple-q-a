@@ -1,9 +1,13 @@
 @extends('public.base')
 
+@section('head')
+
+@endsection
+
 @section('content_header')
 	<h5 class="card-subtitle mb-2">
 		@foreach($question->tags as $tag)
-		|	<a class="d-inline text-info" href="{{ route('tags.questions', $tag->slug) }}">
+		-	<a class="d-inline text-info" href="{{ route('tags.questions', $tag->slug) }}">
 				{{ $tag->title }}
 			</a>
 		@endforeach
@@ -26,12 +30,12 @@
 		@auth
 			@user_subscribed($question->subscribers)
 				<a href="{{ route('questions.unsubscribe', $question->id) }}"
-				class="btn btn-outline-primary m-2">
+				class="btn btn-outline-primary m-2 question-subscribe">
 					Unsubscribe | {{ $question->subscribers_count }}
 				</a>
 			@else 
 				<a href="{{ route('questions.subscribe', $question->id) }}"
-				class="btn btn-primary m-2">
+				class="btn btn-primary m-2 question-unsubscribe">
 					Subscribe | {{ $question->subscribers_count }}
 				</a>
 			@enduser_subscribed
@@ -61,28 +65,6 @@
 							</a>
 						@endslot	
 					@endif
-					
-					@auth
-						@user_liked($answer->likes)
-							@slot('like_btn')
-								<a href="{{ route('answers.remove_like', $answer->id) }}"
-								class="btn btn-success mb-2">
-									You like it
-									{{ $answer->likes_count
-										? '| ' . $answer->likes_count : ''}}
-								</a>
-							@endslot
-						@else
-							@slot('like_btn')
-								<a href="{{ route('answers.add_like', $answer->id) }}"
-								class="btn btn-outline-success mb-2">
-									Like
-									{{ $answer->likes_count
-										? '| ' . $answer->likes_count : ''}}
-								</a>
-							@endslot
-						@enduser_liked
-					@endauth
 
 				@endcomponent	
 			@endforeach
@@ -105,27 +87,6 @@
 						@endslot	
 					@endif
 					
-					@auth
-						@user_liked($answer->likes)
-							@slot('like_btn')
-								<a href="{{ route('answers.remove_like', $answer->id) }}"
-								class="btn btn-success mb-2">
-									You like it
-									{{ $answer->likes_count
-										? '| ' . $answer->likes_count : ''}}
-								</a>
-							@endslot
-						@else
-							@slot('like_btn')
-								<a href="{{ route('answers.add_like', $answer->id) }}"
-								class="btn btn-outline-success mb-2">
-									Like
-									{{ $answer->likes_count
-										? '| ' . $answer->likes_count : ''}}
-								</a>
-							@endslot
-						@enduser_liked
-					@endauth
 				@endcomponent	
 			@endforeach
 		@endif
@@ -157,5 +118,5 @@
 		  <a class="btn btn-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
 		</li>
 	@endif
-
+<script src="{{ asset('js/q_show_ajax_test.js') }}" defer></script>
 @endsection

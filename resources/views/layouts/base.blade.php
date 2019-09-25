@@ -1,128 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+	<meta charset="UTF-8">
+  	<title>Toaster</title>
 
-  <title>Toaster</title>
+  	<!-- Scripts -->
+  	<script src="{{ asset('js/app.js') }}" defer></script>
+  	<script src="{{ asset('js/custom.js') }}" defer></script>
 
-  <!-- Bootstrap core CSS -->
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  	<!-- CSS -->
+  	<link href="{{ asset('css/base.css') }}" rel="stylesheet">
+  	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Scripts -->
-
-  <script src="{{ asset('js/app.js') }}" defer></script>
-  <script src="{{ asset('js/custom.js') }}" defer></script>
-  <!-- Custom styles for this template -->
-  <link href="{{ asset('css/base.css') }}" rel="stylesheet">
+  	@yield('head')
 </head>
-
 <body>
-  
-<div id="" class="d-flex">
+	<section class="left-sidebar">
 
-  <div class="" id="sidebar-wrapper">
+		<div class="left-menu">
+			<div class="sidebar-header">
+				<h2>@yield('brand_title', 'Toaster')</h2>
+			</div>
+			<div class="left-user-block">
+				@auth
+					<a href="{{ route('users.info', auth()->user()->name) }}" 
+					class="list-group-item">{{ auth()->user()->name }}</a>
+					<div class="list-group ml-3">
+						<a href="{{ route('users.edit', auth()->user()->name) }}" class="list-group-item">Settings</a>
+						<form method="POST" action="{{ route('logout') }}">
+							@csrf
 
-    <!-- Sidebar -->
-      <div class="bg-dark border-right text-light hover-slide">
+							<button class="list-group-item" type="submit">Logout</button>
+						</form>
+					</div>
+				@else
+					<a class="list-group-item" href="{{ route('login') }}">Login</a>
+				@endauth
+			</div>
+			<hr>
+			<div class="list-group">
+				@yield('left_sidebar')
+			</div>
+		</div>
+	</section>
+	<div class="main">
+		<nav class="top-navbar">
+			<form action="" class="form-inline">
+				<div class="form-group">
+					<input class="form-control search-field"
+					type="text" name="search" id="search">
+					<button type="submit" class="ml-2 btn btn-primary">Search</button>
+				</div>
+			</form>
+		</nav>
+		<main>
+			<div class="m-3">
+				<h3>@yield('content_header', 'There is no content!')</h3>
+				@yield('base_content')
+			</div>
+		</main>
+		<footer>
+			<hr>
+			footer
+			<hr>
+		</footer>	
+	</div>
+	
+	<section class="right-sidebar">
+		<div class="sidebar-header">
+			<a href="
+			@auth {{ route('questions.create') }}
+			@else {{ route('login') }}
+			@endauth" class="btn btn-success">Ask a question</a>
+		</div>
+		@yield('right_sidebar')
+	</section>
 
-        <div class="sidebar-heading">
-          @yield('brand_title', 'Toster')
-        </div>
-
-        <div class="list-group list-group-flush">
-          @auth
-            <a href="{{ route('users.info', auth()->user()->name) }}" 
-            class="list-group-item list-group-item-action text-light bg-dark">  {{ auth()->user()->name }}
-            </a>
-
-            <a href="{{ route('users.edit', auth()->user()->name) }}" 
-            class="list-group-item list-group-item-action text-light bg-dark">
-              -> Settings
-            </a>
-
-            <form action="{{ route('logout') }}" method="POST">
-              @csrf
-              
-              <button type="submit" 
-              class="list-group-item list-group-item-action
-              text-light bg-dark">
-                -> Logout
-              </button>
-            </form>
-
-          @else
-            <a href="{{ route('login') }}" class="list-group-item
-            list-group-item-action text-light bg-dark mb-3">
-              ->Login
-            </a>
-          @endauth
-
-          <hr>
-
-          @yield('left_sidebar')
-
-        </div>
-      </div>
-  </div>
-  <div class="flex-grow-1">
-
-    <!-- Page Content -->
-      <nav class="navbar navbar-light text-light bg-dark border-bottom">
-
-        <form action="">
-          
-          <div class="form-row">     
-              <div class="col-auto my-1">
-                <input type="text" name="search" class="form-control" id="search" placeholder="Jane Doe">
-              </div>
-                
-              <div class="col-auto my-1">
-                <button type="submit" class="btn btn-outline-success">Submit</button>
-              </div>
-          </div>
-        </form>        
-      </nav>
-
-      <div class="container">
-        <h3 class="mt-3">@yield('content_header', 'There is no content!')</h3>  
-        @section('base_content')
-        
-        @show
-      </div>
-  </div>
-
-  <div class="" id="wrapper">
-
-    <!-- Sidebar -->
-      <div class="bg-light border-left text-light list-wrapper" id="sidebar-wrapper">
-
-        <div class="bg-dark sidebar-heading">
-          <a class="btn btn-success"
-          href="
-          @auth{{ route('questions.create') }}
-          @else{{ route('login') }}
-          @endauth">
-            Ask a Question
-          </a>
-        </div>
-
-        <div class="sidebar-heading text-dark">
-          @yield('right_sidebar_header')
-        </div>
-
-        <ul class="list-group list-group-flush text-dark">
-          @yield('right_sidebar')
-        </ul>
-
-      </div>
-  </div>
-
-</div>
 
 </body>
 </html>

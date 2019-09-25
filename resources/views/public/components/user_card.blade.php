@@ -1,4 +1,4 @@
-<div class="card m-2"  style="width: 20vw;">
+<div class="card m-2"  style="width: 17vw;">
   <div class="card-body">
         <h5 class="card-title">
         	<a href="{{ route('users.info', $user->name) }}">

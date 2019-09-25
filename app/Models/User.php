@@ -84,7 +84,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tag::class, 'tag_subscriber');
     }
-
+    
     /**** Scopes ****/
 
     public function scopelist($query)

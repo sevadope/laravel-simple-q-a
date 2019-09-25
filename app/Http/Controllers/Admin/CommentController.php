@@ -19,10 +19,10 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CommentService $comment_service)
     {
         $comments = Comment::list()->paginate(20);
-        $this->eagerLoadCommentables($comments);
+        $comment_service->loadQuestionTitles($comments);
 
         return view('admin.comments.index', compact('comments'));
     }

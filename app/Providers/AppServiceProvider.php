@@ -32,12 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        User::observe(UserObserver::class);
-        Tag::observe(TagObserver::class);
-        Question::observe(QuestionObserver::class);
-        Answer::observe(AnswerObserver::class);
-
-        Blade::if('admin', function() {
+        Blade::if('admin', function () {
             return auth()->user()->isAdmin();
         });
 
@@ -54,5 +49,10 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('user_liked', function ($likes) {
             return $likes->where('user_id', auth()->id())->isnotEmpty();
         });
+        
+        User::observe(UserObserver::class);
+        Tag::observe(TagObserver::class);
+        Question::observe(QuestionObserver::class);
+        Answer::observe(AnswerObserver::class);
     }
 }

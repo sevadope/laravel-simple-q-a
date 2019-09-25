@@ -93,7 +93,7 @@ Route::group(
 
 		Route::get('answers/{answer}/change_status',
 			'AnswerController@changeStatus')
-			->name('answers.change_status');
+			->name('answers.changeStatus');
 
 		/**** Comments ****/
 		Route::resource('comments', 'CommentController')
@@ -207,10 +207,10 @@ Route::get('answers/{answer}/change_status',
 	->name('answers.changeStatus');
 
 Route::get('answers/{answer}/add_like', 'AnswerController@addLike')
-	->name('answers.add_like');
+	->name('answers.addLike');
 
 Route::get('answers/{answer}/remove_like', 'AnswerController@removeLike')
-	->name('answers.remove_like');
+	->name('answers.removeLike');
 
 /**** Comments ****/
 Route::resource('comments', 'CommentController')
@@ -219,9 +219,9 @@ Route::resource('comments', 'CommentController')
 
 Route::group(['middleware' => 'auth.basic'], function () {
 	Route::get('comments/{comment}/add_like', 'CommentController@addLike')
-		->name('comments.add_like');
+		->name('comments.addLike');
 
 	Route::get('comments/{comment}/remove_like', 'CommentController@removeLike')
-		->name('comments.remove_like');	
+		->name('comments.removeLike');	
 });
 

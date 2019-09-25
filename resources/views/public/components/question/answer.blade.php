@@ -41,7 +41,27 @@
 		</div>
 	</div>
 
-	{{ $like_btn ?? '' }}
+	@auth
+		@user_liked($answer->likes)
+			@slot('like_btn')
+				<a href="{{ route('answers.removeLike', $answer->id) }}"
+				class="btn btn-success mb-2">
+					You like it
+					{{ $answer->likes_count
+						? '| ' . $answer->likes_count : ''}}
+				</a>
+			@endslot
+		@else
+			@slot('like_btn')
+				<a href="{{ route('answers.addLike', $answer->id) }}"
+				class="btn btn-outline-success mb-2">
+					Like
+					{{ $answer->likes_count
+						? '| ' . $answer->likes_count : ''}}
+				</a>
+			@endslot
+		@enduser_liked		
+	@endauth
 
 	@component('public.components.answer_comments_tab')
 		@slot('answer', $answer)
