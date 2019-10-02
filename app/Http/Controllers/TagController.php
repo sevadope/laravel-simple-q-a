@@ -19,10 +19,14 @@ class TagController extends Controller
             ->syncWithoutDetaching(auth()->id());
 
         if ($sub_attached) {
-            return back();
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'unsubscribe'], $tag->slug),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => $sub_attached.'Subscribe error. Please try again.']);
+            return json_encode([
+                'result' => 'Bad',
+            ]);
         }
     }
 
@@ -31,10 +35,14 @@ class TagController extends Controller
         $sub_detached = $tag->subscribers()->detach(auth()->id());
 
         if ($sub_detached) {
-            return back();
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'subscribe'], $tag->slug),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => 'Subscribe error. Please try again.']);
+            return json_encode([
+                'result' => 'Bad',
+            ]);
         }
     }
 
@@ -56,11 +64,13 @@ class TagController extends Controller
 
     public function info(Tag $tag)
     {
+        $tag = $tag->withCount('subscribers')->first();
         return view('public.tags.show.info', compact('tag'));
     }
 
     public function questions(Tag $tag)
     {
+        $tag = $tag->withCount('subscribers')->first();
         $questions = Question::list()
             ->forTags($tag->id)
             ->paginate(20);

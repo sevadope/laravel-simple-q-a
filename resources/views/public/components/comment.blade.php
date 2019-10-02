@@ -15,7 +15,27 @@
 			<div>{{ $comment->body }}</div>
 			<small class="text-muted">{{ $comment->created_at }}</small>
 			<br>
-			{{ $like_btn ?? ''}}
+
+			@auth
+				@user_liked($comment->likes)
+					<a href="{{ route('comments.removeLike', $comment->id) }}"
+					class="comment-like like-btn text-success active">
+							You like it
+						<span @if($comment->likes_count == 0) hidden @endif 
+						class="likes-count" data-likes-count="{{ $comment->likes_count }}">
+						</span>
+					</a>
+				@else
+					<a href="{{ route('comments.addLike', $comment->id) }}"
+					class="comment-like like-btn text-success">
+							Like
+						<span @if($comment->likes_count == 0) hidden @endif 
+						class="likes-count" data-likes-count="{{ $comment->likes_count }}">
+						</span>
+					</a>
+				@enduser_liked
+			@endauth
+			
 		</div>
 
 		@if(auth()->id() === $comment->user_id)

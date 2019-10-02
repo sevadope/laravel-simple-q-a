@@ -1,5 +1,9 @@
 @extends('public.users.show.base')
 
+@section('head')
+	<script src="{{ asset('js/like.js') }}" defer></script>
+@endsection
+
 @section('comments', 'active')
 
 @section('tab_content')

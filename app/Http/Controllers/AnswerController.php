@@ -19,6 +19,10 @@ class AnswerController extends Controller
 
     public function addLike(Answer $answer)
     {
+        if ($answer->likes->contains('user_id', auth()->id())) {
+            return json_encode(['result' => 'Bad']);
+        }
+
         $like = $answer->likes()->create([
             'user_id' => auth()->id(),
             'likeable_type' => Answer::class,
@@ -26,25 +30,32 @@ class AnswerController extends Controller
         ]);
 
         if ($like && $like->exists) {
-            return back();
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'removeLike'], $answer->id),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => 'Error']);
+            return json_encode(['result' => 'Bad']);
         }
     }
 
     public function removeLike(Answer $answer)
     {
-        $deleted = $answer->likes
+        $like = $answer->likes
             ->where('user_id', auth()->id())
-            ->first()
-            ->delete();
+            ->first();
 
-        if ($deleted) {
-            return back();
+        if ($like) {
+            $deleted = $like->delete();
+        }
+
+        if (isset($deleted)) {
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'addLike'], $answer->id),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => 'Delete error']);
+            return json_encode(['result' => 'Bad']);
         }
     }
 
@@ -98,7 +109,7 @@ class AnswerController extends Controller
         
         if ($updated) {
             return redirect()
-                ->route('admin.questions.show', $answer->question_id)
+                ->route('questions.show', $answer->question_id)
                 ->with(['success' => 'Answer successfully updated']);
         } else {
             return back()

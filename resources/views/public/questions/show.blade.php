@@ -1,7 +1,8 @@
 @extends('public.base')
 
 @section('head')
-
+	<script src="{{ asset('js/like.js') }}" defer></script>
+	<script src="{{ asset('js/subscribe.js') }}" defer></script>
 @endsection
 
 @section('content_header')
@@ -28,17 +29,13 @@
 		</p>
 
 		@auth
-			@user_subscribed($question->subscribers)
-				<a href="{{ route('questions.unsubscribe', $question->id) }}"
-				class="btn btn-outline-primary m-2 question-subscribe">
-					Unsubscribe | {{ $question->subscribers_count }}
-				</a>
-			@else 
-				<a href="{{ route('questions.subscribe', $question->id) }}"
-				class="btn btn-primary m-2 question-unsubscribe">
-					Subscribe | {{ $question->subscribers_count }}
-				</a>
-			@enduser_subscribed
+			@component('public.components.subscribe_btn')
+				@slot('item', $question)
+				@slot('subscribe_uri',
+					route('questions.subscribe', $question->id))
+				@slot('unsubscribe_uri', 
+					route('questions.unsubscribe', $question->id))
+			@endcomponent
 		@endauth
 
 		@component('public.components.question_comments_tab')
@@ -118,5 +115,5 @@
 		  <a class="btn btn-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
 		</li>
 	@endif
-<script src="{{ asset('js/q_show_ajax_test.js') }}" defer></script>
+	
 @endsection

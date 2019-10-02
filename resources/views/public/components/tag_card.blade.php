@@ -8,17 +8,11 @@
         </h5>
     
         @auth
-            @user_subscribed($tag->subscribers)
-                <a href="{{ route('tags.unsubscribe', $tag->slug) }}"
-                class="btn btn-outline-primary">
-                    Unsubscribe
-                </a>
-            @else
-                <a href="{{ route('tags.subscribe', $tag->slug) }}"
-                class="btn btn-primary">
-                    Subscribe
-                </a>
-            @enduser_subscribed
+            @component('public.components.subscribe_btn')
+                @slot('item', $tag)
+                @slot('subscribe_uri', route('tags.subscribe', $tag->slug))
+                @slot('unsubscribe_uri', route('tags.unsubscribe', $tag->slug))
+            @endcomponent
         @endauth
 
         <p class="card-text"> 

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\Controller;
 use App\Services\QuestionService;
+use Illuminate\Routing\Route;
 
 class QuestionController extends Controller
 {
@@ -21,10 +22,14 @@ class QuestionController extends Controller
             ->syncWithoutDetaching(auth()->id());
 
         if ($sub_attached) {
-            return back();
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'unsubscribe'], $question->id),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => $sub_attached.'Subscribe error. Please try again.']);
+            return json_encode([
+                'result' => 'Bad',
+            ]);
         }
     }
 
@@ -33,10 +38,14 @@ class QuestionController extends Controller
         $sub_detached = $question->subscribers()->detach(auth()->id());
 
         if ($sub_detached) {
-            return back();
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'subscribe'], $question->id),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => 'Subscribe error. Please try again.']);
+            return json_encode([
+                'result' => 'Bad',
+            ]);
         }
     }
 

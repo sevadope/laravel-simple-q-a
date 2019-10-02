@@ -1,5 +1,9 @@
 @extends('public.base')
 
+@section('head')
+	<script src="{{ asset('js/subscribe.js') }}" defer></script>
+@endsection
+
 @section('content_header', 'Tags')
 
 @section('content')

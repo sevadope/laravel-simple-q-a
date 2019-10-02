@@ -85,3 +85,21 @@ main .list-group-item {
 	margin-left: 5vw;
 	background-color: #f5f5f5;
 }
+
+.like-btn + .btn > .likes-count::before {
+	content: "| " attr(data-likes-count);
+}
+
+.comment-like > .likes-count::before {
+	content: "(" attr(data-likes-count);
+} 
+.comment-like > .likes-count::after {
+	content: ")";
+} 
+
+.subscribe-btn > .subscribers-count::before {
+	content: "| " attr(data-subscribers-count);
+}
+
+
+

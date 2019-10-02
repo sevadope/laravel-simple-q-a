@@ -22,6 +22,10 @@ class CommentController extends Controller
 
     public function addLike(Comment $comment)
     {
+        if ($comment->likes->contains('user_id', auth()->id())) {
+            return json_encode(['result' => 'Bad']);
+        }
+        
         $like = $comment->likes()->create([
             'user_id' => auth()->id(),
             'likeable_type' => Comment::class,
@@ -29,25 +33,31 @@ class CommentController extends Controller
         ]);
 
         if ($like && $like->exists) {
-            return back();
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'removeLike'], $comment->id),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => 'Error']);
+            return json_encode(['result' => 'Bad']);
         }
     }
 
     public function removeLike(Comment $comment)
     {
-        $deleted = $comment->likes
+        $like = $comment->likes
             ->where('user_id', auth()->id())
-            ->first()
-            ->delete();
+            ->first();
 
-        if ($deleted) {
-            return back();
+        if ($like) {
+            $deleted = $like->delete();
+        }
+        if (isset($deleted)) {
+            return json_encode([
+                'result' => 'Ok',
+                'next_uri' => action([self::class, 'addLike'], $comment->id),
+            ]);
         } else {
-            return back()
-                ->withErrors(['msg' => 'Delete error']);
+            return json_encode(['result' => 'Bad']);
         }
     }
 

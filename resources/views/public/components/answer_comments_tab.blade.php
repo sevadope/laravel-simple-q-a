@@ -10,29 +10,6 @@
 
 			@component('public.components.comment')
 				@slot('comment', $comment)
-
-				@auth
-					@user_liked($comment->likes)
-						@slot('like_btn')
-							<a href="{{ route('comments.removeLike', $comment->id) }}" class="text-success">
-									You like it
-								{{ $comment->likes_count ?
-									'(' . $comment->likes_count . ')' : '' 
-								}}
-							</a>
-						@endslot
-					@else
-						@slot('like_btn')
-							<a href="{{ route('comments.addLike', $comment->id) }}" class="text-success">
-									Like
-								{{ $comment->likes_count ?
-									'(' . $comment->likes_count . ')' : '' 
-								}}
-							</a>
-						@endslot
-					@enduser_liked
-				@endauth
-				
 			@endcomponent
 
 		@endforeach

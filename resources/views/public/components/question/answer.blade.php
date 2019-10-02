@@ -42,25 +42,11 @@
 	</div>
 
 	@auth
-		@user_liked($answer->likes)
-			@slot('like_btn')
-				<a href="{{ route('answers.removeLike', $answer->id) }}"
-				class="btn btn-success mb-2">
-					You like it
-					{{ $answer->likes_count
-						? '| ' . $answer->likes_count : ''}}
-				</a>
-			@endslot
-		@else
-			@slot('like_btn')
-				<a href="{{ route('answers.addLike', $answer->id) }}"
-				class="btn btn-outline-success mb-2">
-					Like
-					{{ $answer->likes_count
-						? '| ' . $answer->likes_count : ''}}
-				</a>
-			@endslot
-		@enduser_liked		
+		@component('public.components.like_btn')
+			@slot('item', $answer)
+			@slot('add_like_uri', route('answers.addLike', $answer->id))
+			@slot('remove_like_uri', route('answers.removeLike', $answer->id))
+		@endcomponent	
 	@endauth
 
 	@component('public.components.answer_comments_tab')

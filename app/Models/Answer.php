@@ -56,6 +56,7 @@ class Answer extends Model
     {
         return $query
             ->where('user_id', $user_id)
+            ->withCount('likes')
             ->with('question:id,title');
     }
 }

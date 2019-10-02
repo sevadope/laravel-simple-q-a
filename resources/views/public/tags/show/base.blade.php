@@ -1,5 +1,9 @@
 @extends('public.base')
 
+@section('head')
+	<script src="{{ asset('js/subscribe.js') }}" defer></script>
+@endsection
+
 @section('content_header')
 	<div class="text-center">{{ $tag->title }}</div>
 @endsection
@@ -10,22 +14,15 @@
 		<h5 class="text-muted text-center">{{ $tag->slug }}</h6>
 		
 		<h5>
-			Subscriptions: {{ $tag->subscribers->count() }}
-			| Questions: {{ $tag->questions->count() }}
+			Questions: {{ $tag->questions->count() }}
 		</h5>
 
 		@auth
-		    @user_subscribed($tag->subscribers)
-		      <a href="{{ route('tags.unsubscribe', $tag->slug) }}"
-		      class="btn btn-outline-primary m-2">
-		        Unsubscribe
-		      </a>    
-		    @else
-		      <a href="{{ route('tags.subscribe', $tag->slug) }}"
-		      class="btn btn-primary m-2">
-		        Subscribe
-		      </a>
-		    @enduser_subscribed
+			@component('public.components.subscribe_btn')
+				@slot('item', $tag)
+				@slot('subscribe_uri', route('tags.subscribe', $tag->slug))
+				@slot('unsubscribe_uri', route('tags.unsubscribe', $tag->slug))
+			@endcomponent
 	    @endauth
 	</div>
 
