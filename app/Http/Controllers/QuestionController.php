@@ -148,6 +148,8 @@ class QuestionController extends Controller
         $question->comments->merge($question->answers)
             ->load('user:id,name,first_name,last_name');
 
+        $question->increment('views_count');
+        
         return view('public.questions.show', compact('question'));
     }
 

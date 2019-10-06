@@ -25,7 +25,7 @@
 		</div>
 
 		<p class="card-subtitle mt-2 ml-2 text-muted">
-			{{ $question->created_at }}
+			{{ $question->created_at }} | {{ $question->views_count }} views
 		</p>
 
 		@auth

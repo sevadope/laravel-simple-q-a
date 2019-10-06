@@ -69,10 +69,7 @@
 	
 	<section class="right-sidebar">
 		<div class="sidebar-header">
-			<a href="
-			@auth {{ route('questions.create') }}
-			@else {{ route('login') }}
-			@endauth" class="btn btn-success">Ask a question</a>
+			@yield('sidebar_header')
 		</div>
 		@yield('right_sidebar')
 	</section>

@@ -20,6 +20,7 @@ class CreateQuestionsTable extends Migration
             
             $table->string('title');
             $table->text('description');
+            $table->integer('views_count')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

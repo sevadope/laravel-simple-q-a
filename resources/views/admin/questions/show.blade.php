@@ -3,7 +3,8 @@
 @section('content_header')
 	<h5 class="card-subtitle mb-2">
 		@foreach($question->tags as $tag)
-		|	<a class="d-inline text-info" href="{{ route('tags.questions', $tag->slug) }}">
+		|	<a class="d-inline text-info" 
+			href="{{ route('admin.tags.questions', $tag->slug) }}">
 				{{ $tag->title }}
 			</a>
 		@endforeach
@@ -20,9 +21,11 @@
 		</div>
 
 		<p class="card-subtitle mt-2 ml-2 text-muted">
-			{{ $question->created_at }}
+			Asked: {{ $question->created_at }}
 		</p>
-		
+		<p class="card-subtitle mt-2 ml-2 text-muted">
+			Views: {{ $question->views_count }}
+		</p>		
 		<div class="btn btn-primary m-2" disabled>
 			Subscribers: {{ $question->subscribers_count }}
 		</div>

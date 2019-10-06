@@ -36,3 +36,10 @@
 	@include('public.components.messages.base')
 	@yield('content')
 @endsection
+
+@section('sidebar_header')
+	<a href="
+	@auth {{ route('questions.create') }}
+	@else {{ route('login') }}
+	endauth" class="btn btn-success">Ask a question</a>
+@endsection

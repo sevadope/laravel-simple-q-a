@@ -9,7 +9,11 @@
 					 {{ $question->title }}
 				</a>
 			</h3>
-			<h6 class="text-muted">{{ $question->subscribers_count }} subscribers | {{ $question->created_at }}</h6>			
+			<h6 class="text-muted">
+				{{ $question->subscribers_count }} subscribers |
+				answered {{ $question->created_at }} |
+				 {{ $question->views_count }} views
+			</h6>			
 		</div>
 
 		<div>

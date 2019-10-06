@@ -23,6 +23,8 @@ $factory->define(Question::class, function (Faker $faker) {
         'description' => $description,
         'created_at' => $created_at,
         'updated_at' => $created_at,
+        'views_count' => random_int(0, 5) > 1 ?
+            random_int(10, 80) : random_int(80, 400),
 
     ];
 });

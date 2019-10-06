@@ -6,6 +6,7 @@
               <th scope="col">Title</th>
               <th scope="col">Subscribers</th>
               <th scope="col">Answers</th>
+              <th scope="col">Views</th>
               <th scope="col">Asked</th>
               <th scope="col">Actions</th>
             </tr>
@@ -18,6 +19,7 @@
                     <td>{{ $question->title }}</td>
                     <td>{{ $question->subscribers_count }}</td>
                     <td>{{ $question->answers_count }}</td>
+                    <th>{{ $question->views_count }}</th>
                     <td>{{ $question->created_at }}</td>
                     <td class="d-flex align-items-start">
                         <a class="btn btn-primary"
