@@ -4,7 +4,7 @@
 
 @section('content')
 
-	@include('admin.components.answers_table')
+	@include('admin.components.tables.answers_table')
 	{{ $answers->links() }}
 	
 @endsection

@@ -11,7 +11,7 @@
 	@if($answers->isNotEmpty())
 		<h3>Answers:</h3>
 
-		<ul class="list-group list-group-flush">
+		<ul class="cards-list">
 			@foreach($answers as $answer)
 
 				<h3 class="mt-3">

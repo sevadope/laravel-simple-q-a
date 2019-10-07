@@ -1,4 +1,4 @@
-<li class="list-group-item">
+<li class="cards-list-item">
 			
 	{{ $title ?? '' }}
 
@@ -13,10 +13,12 @@
 	<div class="d-flex justify-content-between">
 
 		<div class="">
-			<p>{{ $comment->body }}</p>
+			<div>{{ $comment->body }}</div>
 			<small class="text-muted">{{ $comment->created_at }}</small>
 			<br>
-			{{ $like_btn ?? ''}}
+			<div class="text-success">
+				Likes: {{ $comment->likes_count }}
+			</div>
 		</div>
 
 		@if(auth()->id() === $comment->user_id)

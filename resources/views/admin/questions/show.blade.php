@@ -30,50 +30,33 @@
 			Subscribers: {{ $question->subscribers_count }}
 		</div>
 
-		@component('admin.components.question_comments_tab')
-			@slot('question', $question)
+		@component('admin.components.comments_tab')
+			@slot('item', $question)
+			@slot('send_comment_url', route('admin.comments.storeForQuestion', $question->id))
 		@endcomponent
 	
 	</div>
 
-	<ul class="answers-tab list-group list-group-flush">
+	<ul class="answers-tab cards-list">
 
 		@if($question->solutions)
-
 			<h3>Solutions</h3>
-
 			@foreach($question->solutions as $answer)	
-				@component('admin.components.question.answer')
-
+				@component('admin.components.answer')
 					@slot('answer', $answer)
-
-					@slot('add_field')
-						<a class="btn btn-success mr-2" 
-						href="{{ route('admin.answers.changeStatus', $answer->id)}}">
-							Remove from solutions
-						</a>
-					@endslot	
-
 				@endcomponent	
 			@endforeach
 		@endif
+
 	</ul>
 
-	<ul class="answers-tab list-group list-group-flush">
+	<ul class="answers-tab cards-list">
 		
 		@if($question->notSolutions)
 			<h3>Answers</h3>
 			@foreach($question->notSolutions as $answer)
-				@component('admin.components.question.answer')
-
+				@component('admin.components.answer')
 					@slot('answer', $answer)
-
-					@slot('add_field')
-						<a href="{{ route('admin.answers.changeStatus', $answer->id)}}" class="btn btn-success mr-2">
-							Add to solutions
-						</a>
-					@endslot	
-
 				@endcomponent	
 			@endforeach
 		@endif
@@ -101,13 +84,13 @@
 
 @section('right_sidebar')
 
-	<li class="list-group-item">
+	<li class="cards-list-item">
 	 	<a class="btn btn-info" 
 	 	href="{{ route('admin.questions.edit', $question->id) }}">
 	 		Edit
 	 	</a>
 	</li>
-	<li class="list-group-item">
+	<li class="cards-list-item">
 		<form method="POST"
 		action="{{ route('admin.questions.destroy', $question->id) }}">
 			@method('DELETE')

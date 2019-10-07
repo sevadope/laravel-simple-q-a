@@ -6,9 +6,9 @@
 
 	@if($questions->isNotEmpty())
 		<h3>Questions:</h3>
-		<ul class="list-group list-group-flush">
+		<ul class="cards-list">
 			@foreach($questions as $question)
-				@include('public.components.question')
+				@include('public.components.question_card')
 			@endforeach
 		</ul>
 		{{ $questions->links() }}

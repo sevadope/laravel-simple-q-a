@@ -5,7 +5,7 @@
 		<button class="btn btn-link">Comment this</button>
 	@endif
 
-	<ul class="comments-tab list-group list-group-flush">
+	<ul class="comments-tab cards-list">
 		@foreach($answer->comments as $comment)
 
 			@component('public.components.comment')
@@ -15,7 +15,7 @@
 		@endforeach
 
 		@auth
-			<li class="list-group-item">
+			<li class="cards-list-item">
 				<h5 for="body">{{ auth()->user()->profileName }}</h5>
 				<form action="{{ route('comments.storeForAnswer', $answer->id) }}" method="POST">
 					@csrf

@@ -5,6 +5,6 @@
 @section('content')
 
 
-    @include('admin.components.users_table')
+    @include('admin.components.tables.users_table')
     {{ $users->links() }}
 @endsection

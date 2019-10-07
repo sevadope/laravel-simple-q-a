@@ -11,7 +11,7 @@
 	@if($comments->isNotEmpty())
 		<h3>Comments:</h3>
 
-		<ul class="list-group list-group-flush">
+		<ul class="cards-list">
 			@foreach($comments as $comment)
 				<h3 class="mt-3">
 					<a href="{{ route('questions.show', $comment->question->id) }}">

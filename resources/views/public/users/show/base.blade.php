@@ -43,7 +43,7 @@
 
 @section('right_sidebar')
 	@if(auth()->id() === $user->id)
-		<li class="list-group-item">
+		<li class="cards-list-item">
 		  <a class="btn btn-info" href="{{ route('users.edit', $user->name) }}">Edit</a>
 		</li>
 	@endif

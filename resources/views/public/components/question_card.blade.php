@@ -1,4 +1,4 @@
-<li class="list-group-item">
+<li class="cards-list-item">
 
 	<div class="d-flex justify-content-between">
 		<div class="">

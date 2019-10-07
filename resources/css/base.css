@@ -28,13 +28,12 @@ footer {
 	background-color: #393f54;
 }
 
-.left-sidebar .list-group-item {
-	background-color: transparent;
+.left-sidebar .cards-list-item {
 	border: none;
 	color: #efefef;
 }
 
-.left-sidebar .list-group-item:hover {
+.left-sidebar .cards-list-item:hover {
 	text-decoration: underline;
 	color: #ffffff;
 }
@@ -75,21 +74,29 @@ footer {
 	color: #efefef;	
 }
 
-main .list-group-item {
-	border-bottom: 2px solid #dedede;
+main .list-group-item,
+.right-sidebar .list-group-item {
+	border-bottom: 1px solid #dedede;
+
+	border-right: none;
+	border-left: none;
 	border-top: none;
 	background-color: transparent;
 }
 
-.comments-tab .list-group-item {
+.comments-tab li {
 	margin-left: 5vw;
 	background-color: #f5f5f5;
+	border-bottom: 2px solid #e0e0e0;
 }
 
-.like-btn + .btn > .likes-count::before {
+.answer-like > .likes-count::before {
 	content: "| " attr(data-likes-count);
 }
-
+.answer-like > .likes-count::after {
+	content: "";
+}
+ 
 .comment-like > .likes-count::before {
 	content: "(" attr(data-likes-count);
 } 
@@ -101,5 +108,23 @@ main .list-group-item {
 	content: "| " attr(data-subscribers-count);
 }
 
+.cards-list {
+	display: flex;
+	flex-direction: column;
+	padding-left: 0;
+	margin-bottom: 0;
+}
 
+.cards-list-item {
+	background-color: transparent;
+	position: relative;
+	display: block;
+	padding: 0.4rem;
+	border-bottom: 1px solid #e5e5e5;
+	margin-bottom: -1px;
+}
+
+.cards-list-header {
+	text-align: center;
+}
 

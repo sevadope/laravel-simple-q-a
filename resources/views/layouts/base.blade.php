@@ -25,21 +25,22 @@
 			<div class="left-user-block">
 				@auth
 					<a href="{{ route('users.info', auth()->user()->name) }}" 
-					class="list-group-item">{{ auth()->user()->name }}</a>
-					<div class="list-group ml-3">
-						<a href="{{ route('users.edit', auth()->user()->name) }}" class="list-group-item">Settings</a>
+					class="cards-list-item">{{ auth()->user()->name }}</a>
+					<div class="cards-list ml-3">
+						<a href="{{ route('users.edit', auth()->user()->name) }}"
+						class="cards-list-item">Settings</a>
 						<form method="POST" action="{{ route('logout') }}">
 							@csrf
 
-							<button class="list-group-item" type="submit">Logout</button>
+							<button class="cards-list-item" type="submit">Logout</button>
 						</form>
 					</div>
 				@else
-					<a class="list-group-item" href="{{ route('login') }}">Login</a>
+					<a class="cards-list-item" href="{{ route('login') }}">Login</a>
 				@endauth
 			</div>
 			<hr>
-			<div class="list-group">
+			<div class="cards-list">
 				@yield('left_sidebar')
 			</div>
 		</div>

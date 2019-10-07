@@ -34,7 +34,7 @@
 	<form action="{{ route('admin.comments.destroy', $comment->id) }}" method="POST">
 		@method('DELETE')
 		@csrf
-		<li class="list-group-item">
+		<li class="cards-list-item">
 		  <button type="submit" class="btn btn-danger">Delete</button>
 		</li>  	  
 	</form>

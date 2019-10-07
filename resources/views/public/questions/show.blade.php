@@ -28,6 +28,11 @@
 			{{ $question->created_at }} | {{ $question->views_count }} views
 		</p>
 
+		@if(auth()->id() === $question->user_id)
+			<div class="mr-1 d-inline">
+			  <a class="btn btn-info" href="{{ route('questions.edit', $question->id) }}">Edit question</a>
+			</div>
+		@endif	
 		@auth
 			@component('public.components.subscribe_btn')
 				@slot('item', $question)
@@ -37,9 +42,10 @@
 					route('questions.unsubscribe', $question->id))
 			@endcomponent
 		@endauth
-
-		@component('public.components.question_comments_tab')
-			@slot('question', $question)
+	
+		@component('public.components.comments_tab')
+			@slot('item', $question)
+			@slot('send_comment_url', route('comments.storeForQuestion', $question->id))
 		@endcomponent		
 
 	</div>
@@ -105,15 +111,5 @@
 			<button class="btn btn-primary" type="submit">Send</button>
 		</form>
 	@endauth
-	
-@endsection
-
-@section('right_sidebar')
-
-	@if(auth()->id() === $question->user_id)
-		<li class="list-group-item">
-		  <a class="btn btn-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
-		</li>
-	@endif
 	
 @endsection

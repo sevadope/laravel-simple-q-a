@@ -1,6 +1,4 @@
-<li class="list-group-item">
-			
-	{{ $title ?? '' }}
+<li class="cards-list-item">
 	
 	<h6 class="">
 		<a class="d-inline" href="{{ route('users.info', $comment->user->name) }}">

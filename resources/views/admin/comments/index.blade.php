@@ -4,7 +4,7 @@
 
 @section('content')
 
-	@include('admin.components.comments_table')
+	@include('admin.components.tables.comments_table')
 	{{ $comments->links() }}
 
 @endsection

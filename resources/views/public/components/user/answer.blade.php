@@ -1,4 +1,4 @@
-<li class="list-group-item">
+<li class="cards-list-item">
 
 	<div class="d-flex justify-content-between">
 		<div class="">
@@ -42,8 +42,8 @@
 	@auth
 		@component('public.components.like_btn')
 			@slot('item', $answer)
-			@slot('add_like_uri', route('answers.addLike', $answer->id))
-			@slot('remove_like_uri', route('answers.removeLike', $answer->id))
+			@slot('add_like_url', route('answers.addLike', $answer->id))
+			@slot('remove_like_url', route('answers.removeLike', $answer->id))
 		@endcomponent
 	@endauth
 </li>

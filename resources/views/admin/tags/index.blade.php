@@ -19,7 +19,7 @@
 
 @section('content')
 
-    @include('admin.components.tags_table')
+    @include('admin.components.tables.tags_table')
     {{ $tags->links() }}
 
 @endsection

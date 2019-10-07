@@ -9,9 +9,9 @@
 		@slot('param', $sorting_param)
 	@endcomponent
 
-	<ul class="list-group list-group-flush">
+	<ul class="cards-list">
 		@foreach($questions as $question)
-			@include('public.components.question')
+			@include('public.components.question_card')
 		@endforeach		
 	</ul>
 
