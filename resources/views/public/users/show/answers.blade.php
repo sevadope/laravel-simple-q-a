@@ -20,7 +20,7 @@
 					</a>
 				</h3>
 
-				@component('public.components.user.answer')
+				@component('public.components.answer')
 					@slot('answer', $answer)
 					@slot('user', $user)		
 				@endcomponent

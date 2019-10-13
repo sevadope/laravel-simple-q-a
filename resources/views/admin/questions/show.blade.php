@@ -9,6 +9,13 @@
 			</a>
 		@endforeach
 	</h5>
+
+	<div class="">
+		<img class="small-icon" src="{{ asset('storage/'.$question->user->profile_image) }}" alt="Profile image">
+
+		<a href="{{ route('admin.users.info', $question->user->name) }}">{{ $question->user->profileName }}</a>
+	</div>
+
 	<h2>{{ $question->title }}</h2>
 @endsection
 

@@ -1,6 +1,9 @@
 <li class="cards-list-item">
 	
 	<h6 class="">
+		<img class="small-icon d-inline" src="{{ asset('storage/'.$comment->user->profile_image) }}" 
+		alt="Profile image">
+
 		<a class="d-inline" href="{{ route('users.info', $comment->user->name) }}">
 			{{ $comment->user->profileName }}
 		</a>

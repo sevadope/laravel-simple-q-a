@@ -13,6 +13,12 @@ class User extends Authenticatable
 {   
     use Notifiable;
     
+    /*| Profile image constants |*/
+    public const DEFAULT_PROFILE_IMAGE_PATH = 'default_user_icon.jpg';
+    public const PROFILE_IMAGES_PATH = 'profile_images';
+    public const PROFILE_IMAGE_WIDTH = 100;
+    public const PROFILE_IMAGE_HEIGHT = 100;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -58,7 +64,7 @@ class User extends Authenticatable
         return 'name';
     }
 
-    /**** Relationships ****/
+    /*|== Relationships ==|*/
 
     public function answers()
     {
@@ -85,7 +91,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Tag::class, 'tag_subscriber');
     }
     
-    /**** Scopes ****/
+    /*|== Scopes ==|*/
 
     public function scopelist($query)
     {
@@ -101,21 +107,15 @@ class User extends Authenticatable
             ->first();
     }
 
-    /**** Accessors ****/
+    /*|== Accessors ==|*/
 
-    /**
-     * summary
-     *
-     * @param void
-     * @return void
-     */
     public function getProfileNameAttribute()
     {
         return $this->first_name . $this->last_name ? 
             $this->first_name . " " . $this->last_name : $this->name;
     }
 
-    /******** Custom functions ********/
+    /*|========| Custom functions |=======|*/
 
     public function isAdmin()
     {

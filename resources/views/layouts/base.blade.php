@@ -24,8 +24,10 @@
 			</div>
 			<div class="left-user-block">
 				@auth
+					<img class="small-icon m-2 d-inline" 
+					src="{{ asset('storage/'.auth()->user()->profile_image) }}" alt="profile image">
 					<a href="{{ route('users.info', auth()->user()->name) }}" 
-					class="cards-list-item">{{ auth()->user()->name }}</a>
+					class="cards-list-item d-inline">{{ auth()->user()->name }}</a>
 					<div class="cards-list ml-3">
 						<a href="{{ route('users.edit', auth()->user()->name) }}"
 						class="cards-list-item">Settings</a>

@@ -51,7 +51,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage/public',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
 
@@ -59,7 +59,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public/admin'),
             'url' => env('APP_URL').'/storage/admin',
-            'visibility' => 'public',
+            'visibility' => 'admin',
         ],
 
         's3' => [

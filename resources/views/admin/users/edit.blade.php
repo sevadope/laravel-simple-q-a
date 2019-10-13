@@ -7,11 +7,24 @@
 @section('content')
 
 <form action="{{ route('admin.users.update', $user->name) }}"
-method="post">
+method="post" enctype="multipart/form-data">
 	@method('PATCH')
 	@csrf
-	<label for="name"></label>
-	<input class="form-control" type="text" id="name" value="{{ $user->name }}" readonly>
+
+	<div class="form-group">
+		<img class="large-icon mb-2" src="{{ asset('storage/'.$user->profile_image) }}" 
+		alt="Profile image">
+
+		<input class="form-control-file" type="file"
+		name="profile_image" id="profile_image">	
+	</div>		
+
+	<div class="form-group">
+		<label for="name"></label>
+		
+		<input class="form-control" type="text" id="name"
+		value="{{ $user->name }}" readonly>
+	</div>
 
 	<div class="form-row">
 		<div class="col">

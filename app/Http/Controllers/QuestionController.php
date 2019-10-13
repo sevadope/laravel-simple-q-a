@@ -146,7 +146,7 @@ class QuestionController extends Controller
         $question = Question::getForShow($id);
 
         $question->comments->merge($question->answers)
-            ->load('user:id,name,first_name,last_name');
+            ->load('user:id,name,first_name,last_name,profile_image');
 
         $question->increment('views_count');
         

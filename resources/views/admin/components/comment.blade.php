@@ -1,10 +1,10 @@
 <li class="cards-list-item">
-			
-	{{ $title ?? '' }}
 
 	<h6 class="">
-		<a class="d-inline" 
-		href="{{ route('admin.users.info', $comment->user->name) }}">
+		<img class="small-icon d-inline" src="{{ asset('storage/'.$comment->user->profile_image) }}" 
+		alt="Profile image">
+
+		<a class="d-inline" href="{{ route('admin.users.info', $comment->user->name) }}">
 			{{ $comment->user->profileName }}
 		</a>
 		<div class="d-inline text-muted">{{ '@' . $comment->user->id }}</div>
@@ -21,23 +21,19 @@
 			</div>
 		</div>
 
-		@if(auth()->id() === $comment->user_id)
-			<div class="d-flex flex-row-reverse">
-				
-				<form class="" method="POST" 
-				action="{{ route('admin.comments.destroy', $comment->id) }}">
-					@method('DELETE')
-					@csrf
-					<button class="btn btn-link" type="submit">Delete</button>
-				</form>	
+		<div class="d-flex flex-row-reverse">		
+			<form class="" method="POST" 
+			action="{{ route('admin.comments.destroy', $comment->id) }}">
+				@method('DELETE')
+				@csrf
+				<button class="btn btn-link" type="submit">Delete</button>
+			</form>	
 
-				<a href="{{ route('admin.comments.edit', $comment->id) }}"
-				class="btn btn-link">
-					Edit
-				</a>
-			
-			</div>
-		@endif
+			<a href="{{ route('admin.comments.edit', $comment->id) }}"
+			class="btn btn-link">
+				Edit
+			</a>
+		</div>
 
 	</div>
 </li>

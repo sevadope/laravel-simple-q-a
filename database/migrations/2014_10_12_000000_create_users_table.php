@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\User;
 
 class CreateUsersTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('role')->default('user');
 
-            $table->string('profile_image')->nullable();
+            $table->string('profile_image')->default(User::DEFAULT_PROFILE_IMAGE_PATH);
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('briefly_about_myself')->nullable();

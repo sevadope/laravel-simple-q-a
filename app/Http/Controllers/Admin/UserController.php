@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\BaseController as Controller;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
 use App\Services\CommentService;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
@@ -92,9 +93,22 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(
+        UserUpdateRequest $request,
+        UserService $user_service,
+        User $user
+    )
     {
         $data = $request->validated();
+        $image = $data['profile_image'] ?? false;
+
+        if ($image) {
+            $data['profile_image'] = $user_service->storeProfileImage(
+                $image,
+                $user->name . '_' . time() . '.' . $image->clientExtension()
+            );
+        }
+
         $updated = $user->update($data);
 
         if ($updated) {

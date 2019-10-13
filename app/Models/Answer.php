@@ -49,7 +49,7 @@ class Answer extends Model
     {       
         return $query
             ->orderBy('created_at', 'desc')
-            ->with('user:id,name,first_name,last_name');
+            ->with('user:id,name,first_name,last_name,profile_image');
     }
 
     public function scopeForUser($query, int $user_id)   

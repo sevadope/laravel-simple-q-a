@@ -11,10 +11,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
 use App\Services\CommentService;
+use Illuminate\Support\Facades\Storage;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
-    /******** CRUD ********/
+    /*|========| CRUD |=======|*/
 
     /**
      * Display a listing of the resource.
@@ -28,7 +30,7 @@ class UserController extends Controller
         return view('public.users.index', compact('users'));
     }
 
-    /**** User`s profile routes ****/ 
+    /*|=== User`s profile routes ===|*/
 
     public function info($name)
     {
@@ -69,8 +71,7 @@ class UserController extends Controller
 
         return view('public.users.show.comments', compact('user', 'comments'));
     }
-
-    /********/
+    /*|======|*/
 
     /**
      * Show the form for editing the specified resource.
@@ -92,11 +93,25 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(
+        UserUpdateRequest $request,
+        UserService $user_service,
+        User $user
+    )
     {   
         $this->authorize('update', $user);
 
         $data = $request->validated();
+        $image = $data['profile_image'] ?? false;
+
+        if ($image) {
+            $data['profile_image'] = $user_service->storeProfileImage(
+                $image,
+                $user->name . '_' . time() . '.' . $image->clientExtension()
+            );
+
+        }
+
         $updated = $user->update($data);
 
         if ($updated) {

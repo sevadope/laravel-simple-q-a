@@ -3,6 +3,10 @@
 	<div class="d-flex justify-content-between">
 		<div class="">
 			<h6>
+				<img class="small-icon d-inline" 
+				src="{{ asset('storage/'.$answer->user->profile_image) }}" 
+				alt="Profile image">
+				
 				<a class="d-inline" 
 				href="{{ route('users.info', $answer->user->name) }}">
 					{{ $answer->user->profileName }}

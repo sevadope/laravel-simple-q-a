@@ -28,6 +28,7 @@ class UserUpdateRequest extends FormRequest
             'last_name' => 'nullable|string|max:50',
             'briefly_about_myself' => 'nullable|string|max:50',
             'about_myself' => 'nullable|string|max:5000',
+            'profile_image' => 'nullable|image',
         ];
     }
 }

@@ -120,7 +120,8 @@ class Question extends Model
                     $query->withCount('likes');
                 },
                 'tags:id,slug,title',
-                'subscribers'
+                'subscribers',
+                'user:id,name,first_name,last_name,profile_image'
             ])
             ->find($id);
     }

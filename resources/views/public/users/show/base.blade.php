@@ -1,7 +1,8 @@
 @extends('public.base')
 
 @section('content_header')
-	<div class="d-inline">{{ $user->profileName }}</div>
+	<img class="large-icon" src="{{ asset('storage/'.$user->profile_image) }}" alt="Profile image">
+	<div class="">{{ $user->profileName }}</div>
 @endsection
 
 @section('content')
