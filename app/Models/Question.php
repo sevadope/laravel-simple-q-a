@@ -24,8 +24,6 @@ class Question extends Model
     	'is_completed',
     ];
 
-
-
     /******** Relationships ********/
 
     public function user()

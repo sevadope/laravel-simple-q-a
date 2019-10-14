@@ -48,6 +48,9 @@ Route::group(
 
 			Route::get('{user}/comments', 'UserController@comments')
 				->name('comments');
+
+			Route::get('{user}/remove_image', 'UserController@removeImage')
+				->name('removeImage');
 		});
 
 		/**** Tags ****/
@@ -128,6 +131,10 @@ Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
 	Route::get('{user}/comments', 
 		'UserController@comments')
 		->name('comments');
+
+	Route::get('{user}/remove_image',
+		'UserController@removeImage')
+		->name('removeImage');
 });
 
 /**** Tags ****/

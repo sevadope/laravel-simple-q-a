@@ -14,7 +14,7 @@ class User extends Authenticatable
     use Notifiable;
     
     /*| Profile image constants |*/
-    public const DEFAULT_PROFILE_IMAGE_PATH = 'default_user_icon.jpg';
+    public const DEFAULT_PROFILE_IMAGE_PATH = 'default_profile_image.jpg';
     public const PROFILE_IMAGES_PATH = 'profile_images';
     public const PROFILE_IMAGE_WIDTH = 100;
     public const PROFILE_IMAGE_HEIGHT = 100;

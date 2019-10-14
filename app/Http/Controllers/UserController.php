@@ -105,23 +105,39 @@ class UserController extends Controller
         $image = $data['profile_image'] ?? false;
 
         if ($image) {
-            $data['profile_image'] = $user_service->storeProfileImage(
-                $image,
-                $user->name . '_' . time() . '.' . $image->clientExtension()
-            );
-
+            $data['profile_image'] = $user_service
+                ->setProfileImage($image, $user);
         }
 
         $updated = $user->update($data);
 
         if ($updated) {
             return redirect()
-                ->route('users.index')
+                ->route('users.info', $user->name)
                 ->with(['success' => "User $user->name successfuly updated"]);
         } else {
             return back()
                 ->withErrors(['msg' => 'Update error. Please try again.'])
                 ->withInput();
         } 
+    }
+
+    /** 
+     * Remove current profile image and set default image
+     * 
+     * @param User $user
+     * @return \Illuminate\Http\Response
+    **/ 
+    public function removeImage(User $user, UserService $user_service)
+    {
+        $this->authorize('removeImage', $user);
+
+        $success = $user_service->setDefaultProfileImage($user);
+
+        if ($success) {
+            return back();
+        } else {
+            return back()->withErrors(['msg' => 'Error']);
+        }
     }
 }

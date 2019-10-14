@@ -16,6 +16,19 @@ class UserPolicy
         }
     }
 
+    /** 
+     * Determine  whether the user can remove model profile image
+     * 
+     * @param User $user
+     * @param User $model
+     * @return bool
+    **/ 
+    public function removeImage(User $user, User $model)
+    {
+        return $user->id === $model->id ||
+            $user->isModerator() || $user->isAdmin();
+    }
+
     /**
      * Determine whether the user can view any models.
      *

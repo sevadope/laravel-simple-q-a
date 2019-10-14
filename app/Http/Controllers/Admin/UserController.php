@@ -20,7 +20,7 @@ class UserController extends Controller
         $this->authorizeResource(User::class, 'user');
     }
 
-    /******** CRUD ********/
+    /*|========| CRUD |=======|*/
 
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    /**** User`s profile routes ****/ 
+    /*|=== User`s profile routes ===|*/
 
     public function info($name)
     {
@@ -72,8 +72,7 @@ class UserController extends Controller
 
         return view('admin.users.show.comments', compact('user', 'comments'));
     }
-    
-    /********/
+    /*|======|*/
 
     /**
      * Show the form for editing the specified resource.
@@ -103,17 +102,15 @@ class UserController extends Controller
         $image = $data['profile_image'] ?? false;
 
         if ($image) {
-            $data['profile_image'] = $user_service->storeProfileImage(
-                $image,
-                $user->name . '_' . time() . '.' . $image->clientExtension()
-            );
+            $data['profile_image'] = $user_service
+                ->setProfileImage($image, $user);
         }
 
         $updated = $user->update($data);
 
         if ($updated) {
             return redirect()
-                ->route('admin.users.index')
+                ->route('admin.users.info', $user->name)
                 ->with(['success' => "User $user->name successfuly updated"]);
         } else {
             return back()
@@ -140,6 +137,21 @@ class UserController extends Controller
             return back()
                 ->withErrors(['msg' => 'Delete error. Please try again.']);
         }
+    }
+
+    /** 
+     * Remove current profile image and set default image
+     * 
+     * @param User $user
+     * @return \Illuminate\Http\Response
+    **/ 
+    public function removeImage(User $user, UserService $user_service)
+    {
+        $this->authorize('removeImage', $user);
+
+        $user_service->setDefaultProfileImage($user);
+
+        return back();
     }
 
 }
