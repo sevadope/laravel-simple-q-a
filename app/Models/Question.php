@@ -107,19 +107,18 @@ class Question extends Model
             ->with([
                 'answers' => function ($query) {
                     $query->withCount('comments', 'likes');
-                    $query->with(['comments' => function ($query){
-                            $query->withCount('likes');
-                            $query->with('likes', 'user');
-                    }]);
-                    $query->with('likes');
+                    $query->with([
+                        'comments' => function ($query){
+                            $query->withCount('likes'); 
+                        },
+                        'likes',
+                    ]);
                 },
-                'comments' => function ($query) {
-                    $query->with('likes');
+                'comments' => function ($query) {  
                     $query->withCount('likes');
                 },
                 'tags:id,slug,title',
                 'subscribers',
-                'user:id,name,first_name,last_name,profile_image'
             ])
             ->find($id);
     }

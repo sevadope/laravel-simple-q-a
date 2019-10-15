@@ -29,4 +29,36 @@ class QuestionService
 		}
 		return false;
 	}
+
+	/** 
+	 * Eager load for:
+	 * -> Authors of:
+	 * 	  - Question
+	 *    - Question comments
+	 *    - Answers
+	 *    - Answers comments
+	 * -> Likes for:
+	 *    - Question comments
+	 *    - Answers comments
+	 * 
+	 * @param Question
+	 * @return void
+	**/ 
+	public function eagerLoadForShow($question)
+	{
+		$answers_comments = $question->answers->reduce(
+			function ($total, $answer) {
+				return $total->merge($answer->comments);
+			}, 
+			collect()
+		);		
+
+		$question->comments
+			->merge($answers_comments)
+			->load('likes')
+			->merge($question->answers)
+			->merge([$question])
+			->load('user:id,name,first_name,last_name,profile_image');
+	}
+
 }

@@ -141,13 +141,11 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, QuestionService $q_service)
     {
         $question = Question::getForShow($id);
-
-        $question->comments->merge($question->answers)
-            ->load('user:id,name,first_name,last_name,profile_image');
-
+        
+        $q_service->eagerLoadForShow($question);
         $question->increment('views_count');
         
         return view('public.questions.show', compact('question'));
