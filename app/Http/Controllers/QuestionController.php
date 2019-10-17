@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\Controller;
 use App\Services\QuestionService;
 use Illuminate\Routing\Route;
+use App\Services\TopList\Managers\QuestionsTopListManager;
 
 class QuestionController extends Controller
 {
@@ -51,8 +52,9 @@ class QuestionController extends Controller
 
     /******** CRUD ********/
 
-    public function feed()
+    public function feed(QuestionsTopListManager $list_manager)
     {
+        $questions_toplist = $list_manager->get();
         $this->authorize('feed', Question::class);
 
         $sorting_tabs = $this->getListSortingTabs();
@@ -73,7 +75,7 @@ class QuestionController extends Controller
 
         return view(
             'public.questions.feed', 
-            compact('questions', 'sorting_param', 'sorting_tabs')
+            compact('questions', 'sorting_param', 'sorting_tabs', 'questions_toplist')
         );
     }
 
@@ -82,8 +84,9 @@ class QuestionController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(QuestionsTopListManager $list_manager)
     {
+        $questions_toplist = $list_manager->get();
         $sorting_tabs = $this->getListSortingTabs();
         $sorting_param = request()->query('tab');
 
@@ -93,7 +96,12 @@ class QuestionController extends Controller
 
         return view(
             'public.questions.index',
-            compact('questions', 'sorting_param', 'sorting_tabs')
+            compact(
+                'questions',
+                'sorting_param',
+                'sorting_tabs',
+                'questions_toplist'
+            )
         );
     }
 
@@ -141,14 +149,16 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show($id, QuestionService $q_service)
+    public function show($id, QuestionService $q_service, QuestionsTopListManager $list_manager)
     {
+        $questions_toplist = $list_manager->get();
+
         $question = Question::getForShow($id);
         
         $q_service->eagerLoadForShow($question);
         $question->increment('views_count');
         
-        return view('public.questions.show', compact('question'));
+        return view('public.questions.show', compact('question', 'questions_toplist'));
     }
 
     /**

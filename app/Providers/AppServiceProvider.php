@@ -12,6 +12,8 @@ use App\Observers\QuestionObserver;
 use App\Observers\AnswerObserver;
 use App\Observers\TagObserver;
 use Illuminate\Support\Facades\Blade;
+use App\Services\TopList\TopListBuilder;
+use App\Services\TopList\Builders\RedisTopListBuilder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        /**
+        $this->app->extend(TopListManager::class, function () {
+            return new RedisTopListManager();
+        });
+        **/
+        $this->app->bind(TopListBuilder::class, function ($app, $manager) {
+            return new RedisTopListBuilder($manager[0]);
+        });
     }
 
     /**

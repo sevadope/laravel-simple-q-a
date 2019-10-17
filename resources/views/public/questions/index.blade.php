@@ -18,3 +18,14 @@
 	{{ $questions->links() }}
 
 @endsection
+
+@section('right_sidebar')
+	@isset($questions_toplist)
+		<h5 class="m-2">Interesting questions</h5>
+		@foreach($questions_toplist as $list_question)
+			@component('public.components.mini_question_card')
+				@slot('question', $list_question)
+			@endcomponent
+		@endforeach
+	@endisset
+@endsection

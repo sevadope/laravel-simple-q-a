@@ -14,10 +14,6 @@
 			</small>			
 
 		</div>
-
-		<div>
-			
-		</div>
 	</div>
 	
 </li>
