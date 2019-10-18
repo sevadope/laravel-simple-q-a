@@ -6,6 +6,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Concerns\BuildsQueries;
 
 /**
+ * Managers realizes Facade pattern.
+ *
  * Managers delegates calls to builder which uses some DBMS.
  *
  * Builder resolves by Laravel service container 
@@ -14,10 +16,11 @@ use Illuminate\Database\Concerns\BuildsQueries;
  */
 interface TopListManagerInterface {
 
-	public function get() : Collection;
+	public function push($value);
+	public function get() : ?Collection;
 	public function refresh();
 
-	public function getListSortingQuery();
+	public function getNewList() : Collection;
 	public function getListName();
 	public function getListLength();
 }

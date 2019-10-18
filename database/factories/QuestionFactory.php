@@ -15,7 +15,9 @@ $factory->define(Question::class, function (Faker $faker) {
 	$title = $faker->bs() . '?';
 	$description = $faker->realText(rand(20, 1000));
 
-	$created_at = $faker->dateTimeBetween('-1 year');
+	$created_at = random_int(1, 4) > 1 ? 
+        $faker->dateTimeBetween('-1 year')
+        : $faker->dateTimeBetween('-1 week');
 
     return [
     	'user_id' => $user_id,

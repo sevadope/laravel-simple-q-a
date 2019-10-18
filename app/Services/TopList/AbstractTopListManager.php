@@ -10,9 +10,9 @@ use Illuminate\Database\Concerns\BuildsQueries;
 abstract class AbstractTopListManager implements TopListManagerInterface 
 {
 	/**
-	 * Manager for this toplist
+	 * Builder for this toplist
 	 *
-	 * @var TopListManager
+	 * @var App\Contracts\TopList\TopListBuilderInterface
 	 */
 	protected $builder;
 
@@ -21,15 +21,25 @@ abstract class AbstractTopListManager implements TopListManagerInterface
 		$this->builder = app()->make(TopListBuilder::class, [$this]);
 	}
 
-	public function get() : Collection {
-		return $this->builder->getList();
+	public function get() : ?Collection
+	{
+		return $this->builder->getList($this->getListName());
 	}
 
-	public function refresh() {
-		return $this->builder->refreshList();
+	public function refresh()
+	{
+		return $this->builder->refreshList(
+			$this->getListName(),
+			$this->getNewList()
+		);
 	}
 
-	abstract public function getListSortingQuery();
+	public function push($value)
+	{
+		return $this->builder->push($value, $this->getListName());
+	}
+
+	abstract public function getNewList() : Collection;
 	abstract public function getListName();
 	abstract public function getListLength();
 }

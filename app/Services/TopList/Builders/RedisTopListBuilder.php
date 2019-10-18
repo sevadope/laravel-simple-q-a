@@ -3,56 +3,47 @@
 namespace App\Services\TopList\Builders;
 
 use App\Contracts\TopList\TopListBuilderInterface;
-use App\Services\TopList\TopListBuilder;
 use Illuminate\Support\Collection;
 use Redis;
 
-class RedisTopListBuilder extends TopListBuilder
+class RedisTopListBuilder implements TopListBuilderInterface
 {
-	/** 
-	 * summary
-	 * 
-	 * @param void
-	 * @return void
-	**/ 
-	public function getList() : Collection 
+
+	public function getList(string $list_name) : ?Collection 
 	{
 		$list = collect(
-			Redis::command('lrange', [$this->manager->getListName(), 0, -1])
+			Redis::command('lrange', [$list_name, 0, -1])
 		)->map(function ($item) {
 			return json_decode($item);
 		});
 
 		if (empty($list)) {
-			$this->refreshList();
-			return $this->{__FUNCTION__}();
+			return null;
 		}
 
 		return $list;
 	}
 
-	/** 
-	 * summary
-	 * 
-	 * @param void
-	 * @return void
-	**/ 
-	public function refreshList()
+	public function refreshList(string $list_name, Collection $new_list)
 	{
-		$new_list = $this->manager->getListSortingQuery()
-			->get();
-
 		$prepared_list = $new_list
 			->map(function ($item) {
 				return json_encode($item);
 			})
 			->toArray();
 		
-		Redis::command('del', [$this->manager->getListName()]);
+		Redis::command('del', [$list_name]);
 		$list_pushed = Redis::command('rpush',
-			[$this->manager->getListName(),$prepared_list]);
+			[$list_name, $prepared_list]);
 
-		return $list_pushed ? $new_list : false;
+		return $list_pushed ? true : false;
+	}
+
+	public function push(string $value, $key)
+	{
+		$value_pushed = Redis::command('rpush', [$key, $value]);
+		
+		return $value_pushed ? true : false;
 	}
 
 }
