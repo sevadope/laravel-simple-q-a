@@ -13,19 +13,42 @@ class UsersTopListManager extends AbstractTopListManager
 	private const TOPLIST_NAME = 'users_toplist';
 	private const TOPLIST_LENGTH = 5;
 
-	public function increment($user_id)
-	{
-
-	}
-
 	public function getNewList() : Collection
 	{
-		return User::join('answers', 'users.id', '=', 'answers.user_id')
-			->selectRaw('users.*, count(answers.user_id) as answers_count')
-			->whereRaw("date(answers.created_at) = curdate()")
-			->groupBy('answers.user_id')
-			->orderByDesc('answers_count')
-			->limit($this->getListLength())
+		$users_answers = DB::table('answers')
+			->select('user_id', DB::raw('ifnull(count(*),0) as answers_count'))
+			->whereRaw('date(created_at) = curdate()')
+			->groupBy('user_id')
+			->orderByDesc('answers_count');
+
+		$users_questions = DB::table('questions')
+			->select('user_id', DB::raw('ifnull(count(*),0) as questions_count'))
+			->whereRaw('date(created_at) = curdate()')
+			->groupBy('user_id')
+			->orderByDesc('questions_count');
+
+		return User::
+			leftJoinSub($users_answers, 'users_answers', function ($join) {
+				$join->on('users.id', '=', 'users_answers.user_id');
+			})
+			->leftJoinSub($users_questions, 'users_questions', function ($join) {
+				$join->on('users.id', '=', 'users_questions.user_id');
+			})
+			->selectRaw(
+				'users.*,
+				ifnull(users_answers.answers_count, 0) as answers_count,
+				ifnull(users_questions.questions_count, 0) as questions_count'
+			)
+			->groupBy(
+				'users.id'
+			)
+			->orderByRaw(
+				'(
+					ifnull(answers_count,0) + 
+					ifnull(questions_count,0)
+				) desc'
+			)
+			->limit($this->getListLength()	)
 			->get();
 	}
 

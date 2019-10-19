@@ -27,6 +27,7 @@ class UserController extends Controller
     public function index(UsersTopListManager $list_manager)
     {
         $users_toplist = $list_manager->get();
+
         $users = User::list()->paginate(18);
 
         return view('public.users.index', compact('users', 'users_toplist'));

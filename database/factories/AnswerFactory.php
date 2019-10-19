@@ -18,9 +18,9 @@ $factory->define(Answer::class, function (Faker $faker) {
         
 	$body = $faker->realText(rand(10, 300));
 
-    $created_at = random_int(1, 4) > 1 ? 
+    $created_at = random_int(1, 3) > 1 ? 
         $faker->dateTimeBetween('-1 year')
-        : $faker->dateTimeBetween('-1 week');
+        : $faker->dateTimeBetween('-3 days');
 
     return [
         'question_id' => $question_id,

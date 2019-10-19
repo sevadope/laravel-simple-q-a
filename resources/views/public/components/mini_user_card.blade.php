@@ -7,5 +7,6 @@
 		</a>
 		<br>
 		<small class="text-muted">Answers: {{ $item->answers_count }}</small>
+		<small class="text-muted">Questions: {{ $item->questions_count }}</small>
 	</div>
 </li>
