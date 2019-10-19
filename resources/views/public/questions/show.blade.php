@@ -121,11 +121,10 @@
 
 @section('right_sidebar')
 	@isset($questions_toplist)
-		<h5 class="m-2">Interesting questions</h5>
-		@foreach($questions_toplist as $list_question)
-			@component('public.components.mini_question_card')
-				@slot('question', $list_question)
-			@endcomponent
-		@endforeach
+		@component('public.components.toplist')
+			@slot('toplist', $questions_toplist)
+			@slot('title', 'Interesting questions')
+			@slot('component_path', 'public.components.mini_question_card')
+		@endcomponent
 	@endisset
 @endsection

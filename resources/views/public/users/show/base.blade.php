@@ -43,9 +43,11 @@
 @endsection
 
 @section('right_sidebar')
-	@if(auth()->id() === $user->id)
-		<li class="cards-list-item">
-		  <a class="btn btn-info" href="{{ route('users.edit', $user->name) }}">Edit</a>
-		</li>
-	@endif
+	@isset($users_toplist)
+		@component('public.components.toplist')
+			@slot('toplist', $users_toplist)
+			@slot('title', 'Most active users')
+			@slot('component_path', 'public.components.mini_user_card')
+		@endcomponent
+	@endisset
 @endsection

@@ -13,6 +13,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Services\CommentService;
 use Illuminate\Support\Facades\Storage;
 use App\Services\UserService;
+use App\Services\TopList\Managers\UsersTopListManager;
 
 class UserController extends Controller
 {
@@ -23,53 +24,74 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UsersTopListManager $list_manager)
     {
+        $users_toplist = $list_manager->get();
         $users = User::list()->paginate(18);
 
-        return view('public.users.index', compact('users'));
+        return view('public.users.index', compact('users', 'users_toplist'));
     }
 
     /*|=== User`s profile routes ===|*/
 
-    public function info($name)
+    public function info($name, UsersTopListManager $list_manager)
     {
+        $users_toplist = $list_manager->get();
+
         $user = User::getForShow($name);
 
-        return view('public.users.show.info', compact('user'));
+        return view('public.users.show.info', compact('user', 'users_toplist'));
     }
 
-    public function questions($name)
+    public function questions($name, UsersTopListManager $list_manager)
     {
+        $users_toplist = $list_manager->get();
+
         $user = User::getForShow($name);
         $questions = Question::list()
             ->forUser($user->id)
             ->paginate(20);
 
-        return view('public.users.show.questions', compact('user', 'questions'));
+        return view(
+            'public.users.show.questions',
+            compact('user', 'questions', 'users_toplist')
+        );
     }
 
-    public function answers($name)
+    public function answers($name, UsersTopListManager $list_manager)
     {
+        $users_toplist = $list_manager->get();
+
         $user = User::getForShow($name);
         $answers = Answer::list()
             ->forUser($user->id)
             ->paginate(20);
 
-        return view('public.users.show.answers', compact('user', 'answers'));
+        return view(
+            'public.users.show.answers',
+            compact('user', 'answers', 'users_toplist')
+        );
     }
 
-    public function comments($name, CommentService $comment_service)
+    public function comments(
+        $name,
+        CommentService $comment_service,
+        UsersTopListManager $list_manager
+    )
     {
-        $user = User::getForShow($name);
+        $users_toplist = $list_manager->get();
 
+        $user = User::getForShow($name);
         $comments = Comment::list()
             ->forUser($user->id)
             ->paginate(20);
 
         $comment_service->loadQuestionTitles($comments);
 
-        return view('public.users.show.comments', compact('user', 'comments'));
+        return view(
+            'public.users.show.comments', 
+            compact('user', 'comments', 'users_toplist')
+        );
     }
     /*|======|*/
 

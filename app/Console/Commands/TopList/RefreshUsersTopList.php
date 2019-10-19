@@ -3,23 +3,23 @@
 namespace App\Console\Commands\TopList;
 
 use Illuminate\Console\Command;
-use App\Services\TopList\Managers\QuestionsTopListManager;
+use App\Services\TopList\Managers\UsersTopListManager;
 
-class RefreshQuestionsTopList extends Command
+class RefreshUsersTopList extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'top_lists:refresh_questions';
+    protected $signature = 'top_lists:refresh_users';
 
     /**
      * The console command description.
      *
-     * @var stringTop lists Builders aren't dependent on Managers now
+     * @var string
      */
-    protected $description = 'Refresh top list for questions';
+    protected $description = 'Refresh top list for users';
 
     /**
      * Create a new command instance.
@@ -36,9 +36,9 @@ class RefreshQuestionsTopList extends Command
      *
      * @return mixed
      */
-    public function handle(QuestionsTopListManager $manager)
+    public function handle(UsersTopListManager $list_manager)
     {
-        $manager->refresh();
-        info("Questions top list refreshed in ". now());
+        $list_manager->refresh();
+        info('Users top list refreshed in ' . now());
     }
 }

@@ -17,7 +17,7 @@ class RedisTopListBuilder implements TopListBuilderInterface
 			return json_decode($item);
 		});
 
-		if (empty($list)) {
+		if ($list->isEmpty()) {
 			return null;
 		}
 
@@ -28,7 +28,7 @@ class RedisTopListBuilder implements TopListBuilderInterface
 	{
 		$prepared_list = $new_list
 			->map(function ($item) {
-				return json_encode($item);
+				return $item->toJson();
 			})
 			->toArray();
 		

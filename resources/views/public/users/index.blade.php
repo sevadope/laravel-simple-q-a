@@ -12,3 +12,11 @@
 
 	{{ $users->links() }}
 @endsection
+
+@section('right_sidebar')
+	@component('public.components.toplist')
+		@slot('toplist', $users_toplist)
+		@slot('title', 'Most active users')
+		@slot('component_path', 'public.components.mini_user_card')
+	@endcomponent
+@endsection
