@@ -16,3 +16,13 @@
 
 	{{ $tags->links() }}
 @endsection
+
+@section('right_sidebar')
+	@isset($tags_toplist)
+		@component('public.components.toplist')
+			@slot('toplist', $tags_toplist)
+			@slot('title', 'Popular tags of the day')
+			@slot('component_path', 'public.components.mini_tag_card')
+		@endcomponent
+	@endisset
+@endsection

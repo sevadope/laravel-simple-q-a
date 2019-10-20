@@ -42,6 +42,7 @@ class Tag extends Model
     public function scopeList($query)
     {
     	return $query
+            ->with('subscribers')
             ->withCount('questions', 'subscribers');
     }
 

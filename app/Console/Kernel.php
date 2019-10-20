@@ -4,8 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\Toplist\RefreshQuestionsTopList;
-use App\Console\Commands\Toplist\RefreshUsersTopList;
+use App\Console\Commands\TopList\RefreshQuestionsTopList;
+use App\Console\Commands\TopList\RefreshUsersTopList;
+use App\Console\Commands\TopList\RefreshTagsTopList;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         RefreshQuestionsTopList::class,
         RefreshUsersTopList::class,
+        RefreshTagsTopList::class,
     ];
 
     /**
@@ -32,6 +34,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('top_lists:refresh_users')
             ->everyFiveMinutes();
+
+        $schedule->command('top_lists:refresh_tags')
+            ->everyFifteenMinutes();
     }
 
     /**

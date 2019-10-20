@@ -8,6 +8,8 @@ use App\Models\Tag;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\TopList\Managers\TagsTopListManager;
+use  \DB;
 
 class TagController extends Controller
 {
@@ -53,11 +55,13 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(TagsTopListManager $toptist_manager)
     {
+        $tags_toplist = $toptist_manager->get();
+
         $tags = Tag::list()->paginate(18);
 
-        return view('public.tags.index', compact('tags'));
+        return view('public.tags.index', compact('tags', 'tags_toplist'));
     }
 
     /******** Tag`s profile routes ********/
