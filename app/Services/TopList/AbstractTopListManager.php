@@ -23,7 +23,15 @@ abstract class AbstractTopListManager implements TopListManagerInterface
 
 	public function get() : ?Collection
 	{
-		return $this->builder->getList($this->getListName());
+		$new_list = $this->builder->getList($this->getListName());
+
+		if (!$new_list || $new_list->isEmpty()) {
+
+			$this->refresh();
+			return $this->{__FUNCTION__}();
+		}
+
+		return $new_list;
 	}
 
 	public function refresh()

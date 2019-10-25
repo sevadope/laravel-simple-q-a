@@ -8,10 +8,11 @@ use App\Models\Question;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {   
-    use Notifiable;
+    use Notifiable, HasApiTokens;
     
     /*| Profile image constants |*/
     public const DEFAULT_PROFILE_IMAGE_PATH = 'default_profile_image.jpg';
