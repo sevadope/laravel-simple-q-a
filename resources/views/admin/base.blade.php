@@ -29,7 +29,3 @@
 	</a>	
 @endsection
 
-@section('base_content')
-	@include('admin.components.messages.base')
-	@yield('content')
-@endsection

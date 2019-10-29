@@ -149,6 +149,27 @@ Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
 	});
 });
 
+/*|=== API ===|*/
+
+Route::group(
+	[
+		'middleware' => 'auth.basic',
+		'prefix' => 'api',
+		'as' => 'api.',
+	],
+	function () {
+
+		Route::get('intro', 'Api\AppsController@intro')
+			->name('intro');
+
+		Route::get('register', 'Api\AppsController@register')
+			->name('register');
+
+		Route::post('clients', 'Api\ClientsController@store')
+			->name('clients.store');
+
+		Route::get('{user}/apps', 'Api\AppsController@apps')->name('apps');
+});
 
 /*|========| Admin panel |=======|*/
 

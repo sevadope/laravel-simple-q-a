@@ -17,11 +17,10 @@
 </head>
 <body>
 	<section class="left-sidebar">
-
+		<div class="sidebar-header">
+			<h2>@yield('brand_title', 'Toaster')</h2>
+		</div>
 		<div class="left-menu">
-			<div class="sidebar-header">
-				<h2>@yield('brand_title', 'Toaster')</h2>
-			</div>
 			<div class="left-user-block">
 				@auth
 					<img class="small-icon m-2 d-inline" 
@@ -42,7 +41,7 @@
 				@endauth
 			</div>
 			<hr>
-			<div class="cards-list">
+			<div class="d-flex left-sidebar-links flex-column cards-list">
 				@yield('left_sidebar')
 			</div>
 		</div>
@@ -60,12 +59,14 @@
 		<main>
 			<div class="m-3">
 				<h3>@yield('content_header', 'There is no content!')</h3>
-				@yield('base_content')
+				@yield('content')
 			</div>
 		</main>
 		<footer>
 			<hr>
-			footer
+				<div class="m-2">
+					<a href="{{ route('tags.index') }}">API</a>
+				</div>
 			<hr>
 		</footer>	
 	</div>

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('brand_title', 'Toaster')
+@section('brand_title', 'Site')
 
 @section('left_sidebar')
 
@@ -30,11 +30,10 @@
 		</a>		
 	@endmoderator
 
-@endsection
+	<a class="ml-2" href="{{ route('api.intro') }}">
+		API
+	</a>
 
-@section('base_content')
-	@include('public.components.messages.base')
-	@yield('content')
 @endsection
 
 @section('sidebar_header')
