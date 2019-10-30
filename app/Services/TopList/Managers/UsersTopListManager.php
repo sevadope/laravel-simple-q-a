@@ -42,6 +42,7 @@ class UsersTopListManager extends AbstractTopListManager
 			->groupBy(
 				'users.id'
 			)
+			->havingRaw('(answers_count + questions_count) > 0')
 			->orderByRaw(
 				'(
 					ifnull(answers_count,0) + 

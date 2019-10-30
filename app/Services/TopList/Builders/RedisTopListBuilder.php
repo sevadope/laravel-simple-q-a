@@ -17,21 +17,21 @@ class RedisTopListBuilder implements TopListBuilderInterface
 			return json_decode($item);
 		});
 
-		if ($list->isEmpty()) {
-			return null;
-		}
-
 		return $list;
 	}
 
 	public function refreshList(string $list_name, Collection $new_list)
 	{
+		if ($new_list->isEmpty()) {
+			return;
+		}
+
 		$prepared_list = $new_list
 			->map(function ($item) {
 				return $item->toJson();
 			})
 			->toArray();
-		
+
 		Redis::command('del', [$list_name]);
 		$list_pushed = Redis::command('rpush',
 			[$list_name, $prepared_list]);
