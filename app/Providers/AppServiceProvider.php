@@ -24,11 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /**
-        $this->app->extend(TopListManager::class, function () {
-            return new RedisTopListManager();
-        });
-        **/
         $this->app->bind(TopListBuilder::class, function ($app, $manager) {
             return new RedisTopListBuilder($manager[0]);
         });

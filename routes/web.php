@@ -158,17 +158,29 @@ Route::group(
 		'as' => 'api.',
 	],
 	function () {
-
-		Route::get('intro', 'Api\AppsController@intro')
+		Route::get('intro', 'Api\ClientController@intro')
 			->name('intro');
 
-		Route::get('register', 'Api\AppsController@register')
-			->name('register');
+		Route::group(['as' => 'clients.'], function () {
+			Route::get('register', 'Api\ClientController@register')
+				->name('register');
+			Route::post('clients', 'Api\ClientController@store')
+				->name('store');
 
-		Route::post('clients', 'Api\ClientsController@store')
-			->name('clients.store');
+			Route::get('{user}/apps', 'Api\ClientController@list')
+				->name('list');
 
-		Route::get('{user}/apps', 'Api\AppsController@apps')->name('apps');
+			Route::get('{client}', 'Api\ClientController@show')
+				->name('show');
+
+			Route::get('{client}/edit', 'Api\ClientController@edit')
+				->name('edit');
+
+			Route::patch('{client}', 'Api\ClientController@update')
+				->name('update');		
+		});
+
+
 });
 
 /*|========| Admin panel |=======|*/

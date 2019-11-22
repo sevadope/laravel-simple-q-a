@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Answer' => 'App\Policies\AnswerPolicy',
         'App\Models\Comment' => 'App\Policies\CommentPolicy',
     ];
-        #'App\Models\Question' => 'App\Policies\QuestionPolicy',
+    
     /**
      * Register any authentication / authorization services.
      *
@@ -29,5 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Passport::routes();
     }
 }

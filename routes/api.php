@@ -13,3 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
+/*|========| Users |=======|*/
+
+Route::group(
+	[
+		'prefix' => 'users',
+		'as' => 'users.'
+	],
+	function () {
+		Route::get('me', 'Api\UserController@me')
+			->middleware('auth:api')
+			->name('me');
+});
+

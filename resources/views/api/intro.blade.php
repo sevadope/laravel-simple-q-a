@@ -8,6 +8,6 @@
 		This API implements OAuth 2.0.
 	</p>
 	<p>
-		Firstly, you need to <a href="{{ route('api.register') }}">register your app</a>.
+		Firstly, you need to <a href="{{ route('api.clients.register') }}">register your app</a>.
 	</p>
 @endsection
