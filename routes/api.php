@@ -21,8 +21,36 @@ Route::group(
 		'as' => 'users.'
 	],
 	function () {
-		Route::get('me', 'Api\UserController@me')
-			->middleware('auth:api')
-			->name('me');
+
+		Route::group(
+			[
+				'prefix' => 'me',
+				'as' => 'me',
+				'middleware' => 'auth:api',
+			],
+			function () {
+
+			Route::get('', 'Api\MyUserController@show')
+				->name('show');
+
+			Route::get('answers', 'Api\MyUserController@answers')
+				->name('answers');
+
+			Route::get('questions', 'Api\MyUserController@questions')
+				->name('questions');
+		});
+
+
+		Route::get('', 'Api\UserController@list')
+			->name('list');
+
+		Route::get('{user}/answers', 'Api\UserController@answers')
+			->name('answers');
+
+		Route::get('{user}/questions', 'Api\UserController@questions')
+			->name('questions');
+
+		Route::get('{user}', 'Api\UserController@show')
+			->name('show');
 });
 

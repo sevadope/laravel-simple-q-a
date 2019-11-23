@@ -29,7 +29,7 @@
 		</ul>
 		{{ $answers->links() }}
 	@else
-		<h4>This user has no answers yet</h4>
+		<h4>The user has no answers yet</h4>
 	@endif
 	
 @endsection

@@ -27,6 +27,6 @@
 		</ul>
 		{{ $comments->links() }}
 	@else
-		<h3>This user has not yet commented on anything</h3>
+		<h3>The user has not yet commented on anything</h3>
 	@endif
 @endsection

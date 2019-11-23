@@ -103,10 +103,21 @@ class User extends Authenticatable
     
     /*|== Scopes ==|*/
 
+    public function scopeByName($query, $name)
+    {
+        return $query->where('name', $name);
+    }
+
     public function scopelist($query)
     {
         return $query
             ->withCount(['questions', 'answers']);
+    }
+
+    public function scopeForApi($query)
+    {
+        return $query
+            ->withCount(['questions', 'answers']);   
     }
 
     public function scopeGetForShow($query, string $name)    

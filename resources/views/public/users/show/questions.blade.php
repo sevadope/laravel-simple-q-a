@@ -14,7 +14,7 @@
 		</ul>
 		{{ $questions->links() }}
 	@else
-		<h3>There are no questions with this tag</h3>
+		<h3>The user does not have any questions</h3>
 	@endif
 
 @endsection
