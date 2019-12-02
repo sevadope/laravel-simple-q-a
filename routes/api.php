@@ -96,3 +96,22 @@ Route::group(
 			->name('comments');
 	}
 );
+
+/*|========| Tags |=======|*/
+
+Route::group(
+	[
+		'prefix' => 'tags',
+		'as' => 'tags.'
+	],
+	function () {
+		Route::get('', 'Api\TagController@list')
+			->name('list');
+
+		Route::get('{tag}', 'Api\TagController@show')
+			->name('show');
+
+		Route::get('{tag}/questions', 'Api\TagController@questions')
+			->name('questions');
+	}
+);
