@@ -13,6 +13,31 @@ use Illuminate\Http\Request;
 |
 */
 
+/*|========| Questions |=======|*/
+
+Route::group(
+	[
+		'prefix' => 'questions',
+		'as' => 'questions.',
+	],
+	function () {
+		Route::get('', 'Api\QuestionController@list')
+			->name('list');
+
+		Route::get('{question}', 'Api\QuestionController@show')
+			->name('show');
+
+		Route::get('{question}/answers', 'Api\QuestionController@answers')
+			->name('answers');
+
+		Route::get('{question}/comments', 'Api\QuestionController@comments')
+			->name('comments');
+
+		Route::get('{question}/author', 'Api\QuestionController@author')
+			->name('author');
+	}
+);
+
 /*|========| Users |=======|*/
 
 Route::group(
@@ -53,4 +78,3 @@ Route::group(
 		Route::get('{user}', 'Api\UserController@show')
 			->name('show');
 });
-

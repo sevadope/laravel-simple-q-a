@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    private const MAX_USERS_PAGE_SIZE = 100;
     private const ANSWERS_PAGE_SIZE = 10;
     private const QUESTIONS_PAGE_SIZE = 10;
     private const USERS_PAGE_SIZE = 10;
@@ -51,20 +52,23 @@ class UserController extends Controller
 
         $limit = (integer) ($query[self::QUERY_LIMIT_NAME] ?? 
             self::USERS_PAGE_SIZE);
-
-        $query_order = $query[self::QUERY_ORDER_NAME] ?? 'created_at';
-        $order_by = $options[$query_order] ?? $options['default'];
+       
+        $order_by = 
+            isset($query[self::QUERY_ORDER_NAME]) && 
+            array_key_exists($query[self::QUERY_ORDER_NAME], $options) ? 
+                $options[$query[self::QUERY_ORDER_NAME]] : $options['default'];
 
         return new UserCollection(
-            User::forApi()->orderByRaw($order_by)
-                ->simplePaginate($limit)
+            User::forApi()->orderByRaw($order_by)->simplePaginate(
+                    $limit <= self::MAX_USERS_PAGE_SIZE ? $limit : self::USERS_PAGE_SIZE
+            )
         );
     }
 
     private function sortingOptions()
     {
         return [
-            'created_at' => 'created_at desc',
+            'created_at' => 'created_at',
             'name' => 'name',
             'answers_count' => 'answers_count desc',
             'questions_count' => 'questions_count desc',
