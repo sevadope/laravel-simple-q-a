@@ -44,18 +44,16 @@ class QuestionController extends Controller
 		$query = $request->query();
 		$options = $this->sortingOptions();
 
-		$limit = (integer) ($query[self::QUERY_LIMIT_NAME] ??
-			self::LIST_PAGE_SIZE);
+    	$limit = (integer)(isset($query[self::QUERY_LIMIT_NAME]) && 
+    	    		$query[self::QUERY_LIMIT_NAME] <= self::MAX_LIST_PAGE_SIZE ? 
+    	    			$query[self::QUERY_LIMIT_NAME] : self::LIST_PAGE_SIZE);
 
-		$order_by = 
-			isset($query[self::QUERY_ORDER_NAME]) && 
+		$order_by = isset($query[self::QUERY_ORDER_NAME]) && 
 			array_key_exists($query[self::QUERY_ORDER_NAME], $options) ? 
 				$options[$query[self::QUERY_ORDER_NAME]] : $options['default'];
 
         return new QuestionCollection(
-        	Question::orderByRaw($order_by)->simplePaginate(
-        		$limit <= self::MAX_LIST_PAGE_SIZE ? $limit : self::LIST_PAGE_SIZE
-        	)
+        	Question::orderByRaw($order_by)->simplePaginate($limit)
         );
 	}
 

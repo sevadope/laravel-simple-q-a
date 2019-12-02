@@ -65,7 +65,6 @@ Route::group(
 				->name('questions');
 		});
 
-
 		Route::get('', 'Api\UserController@list')
 			->name('list');
 
@@ -78,3 +77,22 @@ Route::group(
 		Route::get('{user}', 'Api\UserController@show')
 			->name('show');
 });
+
+/*|========| Answers |=======|*/
+
+Route::group(
+	[
+		'prefix' => 'answers',
+		'as' => 'answers.',
+	],
+	function () {
+		Route::get('', 'Api\AnswerController@list')
+			->name('list');
+
+		Route::get('{answer}', 'Api\AnswerController@show')
+			->name('show');
+
+		Route::get('{answer}/comments', 'Api\AnswerController@comments')
+			->name('comments');
+	}
+);

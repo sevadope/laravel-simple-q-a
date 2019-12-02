@@ -13,10 +13,10 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    private const MAX_USERS_PAGE_SIZE = 100;
+    private const MAX_LIST_PAGE_SIZE = 100;
     private const ANSWERS_PAGE_SIZE = 10;
     private const QUESTIONS_PAGE_SIZE = 10;
-    private const USERS_PAGE_SIZE = 10;
+    private const LIST_PAGE_SIZE = 10;
     private const QUERY_LIMIT_NAME = 'limit';
     private const QUERY_ORDER_NAME = 'order_by';
 
@@ -50,18 +50,16 @@ class UserController extends Controller
         $query = $request->query();
         $options = $this->sortingOptions();
 
-        $limit = (integer) ($query[self::QUERY_LIMIT_NAME] ?? 
-            self::USERS_PAGE_SIZE);
+        $limit = (integer)(isset($query[self::QUERY_LIMIT_NAME]) && 
+                    $query[self::QUERY_LIMIT_NAME] <= self::MAX_LIST_PAGE_SIZE ? 
+                        $query[self::QUERY_LIMIT_NAME] : self::LIST_PAGE_SIZE);
        
-        $order_by = 
-            isset($query[self::QUERY_ORDER_NAME]) && 
+        $order_by = isset($query[self::QUERY_ORDER_NAME]) && 
             array_key_exists($query[self::QUERY_ORDER_NAME], $options) ? 
                 $options[$query[self::QUERY_ORDER_NAME]] : $options['default'];
 
         return new UserCollection(
-            User::forApi()->orderByRaw($order_by)->simplePaginate(
-                    $limit <= self::MAX_USERS_PAGE_SIZE ? $limit : self::USERS_PAGE_SIZE
-            )
+            User::forApi()->orderByRaw($order_by)->simplePaginate($limit)
         );
     }
 
