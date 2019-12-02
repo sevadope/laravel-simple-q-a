@@ -14,10 +14,7 @@ use App\Models\Question;
 
 class QuestionController extends Controller
 {
-	private const MAX_LIST_PAGE_SIZE = 100;
 	private const LIST_PAGE_SIZE = 10;
-    private const QUERY_LIMIT_NAME = 'limit';
-    private const QUERY_ORDER_NAME = 'order_by';
 
 	public function show(Question $question)
 	{
@@ -39,30 +36,10 @@ class QuestionController extends Controller
 		return new UserResource($question->user()->forApi()->first());
 	}
 
-	public function list(Request $request)
+	public function list()
 	{
-		$query = $request->query();
-		$options = $this->sortingOptions();
-
-    	$limit = (integer)(isset($query[self::QUERY_LIMIT_NAME]) && 
-    	    		$query[self::QUERY_LIMIT_NAME] <= self::MAX_LIST_PAGE_SIZE ? 
-    	    			$query[self::QUERY_LIMIT_NAME] : self::LIST_PAGE_SIZE);
-
-		$order_by = isset($query[self::QUERY_ORDER_NAME]) && 
-			array_key_exists($query[self::QUERY_ORDER_NAME], $options) ? 
-				$options[$query[self::QUERY_ORDER_NAME]] : $options['default'];
-
         return new QuestionCollection(
-        	Question::orderByRaw($order_by)->simplePaginate($limit)
+        	Question::orderByDesc('created_at')->simplePaginate(self::LIST_PAGE_SIZE)
         );
-	}
-
-	private function sortingOptions()
-	{
-		return [
- 			'default' => 'created_at desc',
- 			'created_at' => 'created_at',
- 			'views' => 'views_count desc'
-		];
 	}
 }

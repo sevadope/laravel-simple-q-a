@@ -13,8 +13,6 @@ class MyUserController extends Controller
 {
     private const ANSWERS_PAGE_SIZE = 10;
     private const QUESTIONS_PAGE_SIZE = 10;
-    private const USERS_PAGE_SIZE = 10;
-    private const LIMIT_NAME = 'limit';
 
     public function show(Request $request)
     {
@@ -23,25 +21,19 @@ class MyUserController extends Controller
 
     public function answers(Request $request)
     {
-        $limit = (integer) ($request->query(self::LIMIT_NAME) ?? 
-            self::ANSWERS_PAGE_SIZE);
-
         return new AnswerCollection(
             $request->user()->answers()
                 ->orderByDesc('created_at')
-                ->simplePaginate($limit)
+                ->simplePaginate(self::ANSWERS_PAGE_SIZE)
         );        
     }
 
     public function questions(Request $request)
     {
-       $limit = (integer) ($request->query(self::LIMIT_NAME) ?? 
-            self::QUESTIONS_PAGE_SIZE);
-
         return new QuestionCollection(
             auth()->user()->questions()
                 ->orderByDesc('created_at')
-                ->simplePaginate($limit)
+                ->simplePaginate(self::QUESTIONS_PAGE_SIZE)
         );            
     }
 
